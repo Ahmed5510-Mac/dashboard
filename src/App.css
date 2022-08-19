@@ -1,0 +1,38 @@
+.layaout {
+
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.layaout .left-side {
+ 
+  flex: 0 0 20%;
+  max-width: 20%;
+}
+
+.layaout .right-side {
+
+  flex: 0 0 80%;
+  max-width: 80%;
+  position: relative;
+  z-index: 33;
+}
+
+.layaout .right-side .topbarWrapper {
+  width: 100%;
+ 
+}
+
+.layaout .right-side .topbarWrapper .navbar {
+  width: 100%;
+  margin: 0;
+}
+
+.layaout .container {
+  display: flex;
+  height: 100vh;
+  overflow-y: auto !important;
+
+  padding-bottom: 30px;
+}

@@ -1,0 +1,50 @@
+.newUser
+{
+    flex: 4;
+}
+.newUserForm
+{
+    display: flex;
+    flex-wrap:wrap;
+}
+.nerUserItem
+{
+    width: 400px;
+    display: flex;
+    flex-direction: column;
+    margin-top: 10px;
+    margin-right:20px
+}
+.nerUserItem > lable
+{
+    margin-bottom: 10px;
+    font-size: 14px;
+    font-weight: 600;
+    color:#979696;
+}
+.nerUserItem > input
+{
+height:20px;
+padding: 10px;
+border: 1px solid gray;
+border-radius: 9px;
+}
+.newUserSelect{
+    height: 40px;
+    width: 200px;
+    margin-top: 20px;
+    border-radius: 5px;
+}
+.newuserButton
+{
+    width: 200px;
+    border: none;
+    background-color: darkblue;
+    color: #fff;
+    padding: 7px 10px;
+    font-weight: 600;
+    border-radius: 10px;
+    margin-top: 10px;
+    cursor:pointer;
+    margin-left: 50px;
+}

@@ -1,0 +1,52 @@
+@import '../../../varibels';
+.tableu
+{
+    width: 75%;
+    margin:auto;
+ 
+}
+.btncontainer
+{
+    width: fit-content;
+    margin: auto;
+    margin-top:0;
+    position: absolute;
+    top: 6.25rem;
+    left: 50%;
+}
+.buttonimage
+{
+    display: flex;
+    gap: 1.25rem;
+    height:6.25rem
+}
+.buttonimage h4
+{
+    margin:0;
+    padding:0;
+    color:var(--blue);
+    font-weight:bold;
+}
+.btn1
+{
+    height:4.375rem;
+    display: flex;
+    align-items:center;
+    flex-direction:column;
+    cursor: pointer;
+}
+.image
+{
+    margin: 0 !important;
+    padding: 0;
+    width: 4.375rem ;
+    border-radius: 50%;
+    box-shadow: -0.0625rem .375rem .6875rem 0rem #00000057;
+    margin-bottom: 3.125rem;
+}
+.tablewrapperscrolly
+{
+position: relative;
+height: 43.75rem;
+overflow-y: auto;
+}

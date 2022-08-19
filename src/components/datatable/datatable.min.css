@@ -1,0 +1,52 @@
+.datatable {
+    height: 600px;
+    padding: 20px;
+}
+.datatable .CellwidthImg {
+    display: flex;
+    align-items: center;
+}
+.datatable .CellwidthImg .cellImg {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-right: 20px;
+}
+.datatable .cellwidthStatus {
+    padding: 5px;
+    border-radius: 5px;
+}
+.datatable .cellwidthStatus.active {
+    color: green;
+    background-color: rgba(0, 128, 0, 0.151);
+}
+.datatable .cellwidthStatus.passive {
+    color: crimson;
+    background-color: rgba(255, 0, 0, 0.05);
+}
+.datatable .cellAction {
+    display: flex;
+    align-items: center;
+    gap: 0.9375rem;
+}
+.datatable .cellAction .viewButton {
+    padding: 2px 5px;
+    border-radius: 5px;
+    color: blue;
+    border: 1px dotted rgba(0, 0, 139, 0.616);
+}
+.datatable .cellAction .deleteButton {
+    padding: 2px 5px;
+    border-radius: 5px;
+    color: crimson;
+    border: 1px dotted rgba(220, 20, 60, 0.6);
+}
+.datatable .addresses {
+    border: 1px solid red;
+    overflow: auto;
+    height: 50px;
+}
+.datatable .addresses li {
+    display: flex;
+}

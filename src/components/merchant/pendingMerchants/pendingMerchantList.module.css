@@ -1,0 +1,14 @@
+.tableu
+{
+    width: 75%;
+    /* margin-top:100px; */
+    margin: auto;
+}
+.isloading
+{
+    color: #0077ff;
+    margin-top: 50px;
+    border: none;
+    outline: none;
+
+}

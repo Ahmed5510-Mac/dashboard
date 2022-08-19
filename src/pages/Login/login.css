@@ -1,0 +1,79 @@
+
+ .sign-in
+ {
+     background-color: rgba(255,255,255,0.3);
+     border-radius: 30px 30px 10px 10px;
+     box-shadow: 0 3px 10px rgb(0 0 0 / 0.2)
+
+ }
+
+ .password{
+     color: black !important;
+ }
+ .password:hover{
+    color: rgb(202, 71, 71) !important;
+}
+
+ button[type="submit"]
+ {
+    background-color: #19283f;
+    color: #fff;
+    font-size: 16px;
+     padding: 7px 27px;
+ }
+ button[type="submit"]:hover{
+     background-color: transparent !important;;
+     color:#19283f !important;
+     border:1px solid #19283f;
+ }
+/* .sign-in
+{
+    background-color: rgba(11, 11, 11, 0.346);
+    border-radius: 20px;
+    position: relative;
+    border: 2px solid #fff;
+    border-radius: 0 50px;
+}
+.sign-in::after
+{
+    content: "";
+    width:4px;
+    height:50px;
+    position:absolute;
+    background-color: rgb(252, 252, 252);
+    top:-50px;
+    left:60px;
+    border-radius:30px;
+}
+.sign-in::before
+{
+    content: "";
+    width:4px;
+    height:50px;
+    position:absolute;
+    background-color: rgb(252, 252, 252);
+    border-radius: 30px;
+    top:-50px;
+    right:60px
+}
+.btn-lgin
+{
+    position: absolute;
+    right:20px
+}
+.btn-lgin:hover
+{
+    background-color:  #fff;
+    border-radius: 30px;
+}
+.btn-lgin:active
+{
+    box-shadow: 20px 10px 15px gold;
+} */
+
+.error {
+    color: red;
+    text-align: left;
+    margin-left: 40px;
+  }
+  

@@ -1,0 +1,284 @@
+@import url("https://fonts.googleapis.com/css2?family=Lobster&display=swap");
+.sidebar {
+  height: 100vh;
+  background-color: #4686ed;
+  position: fixed;
+  width: 250px;
+}
+
+/* ------------------------logo------------------------- */
+.loogo {
+  width: 50px;
+  height: 50px;
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+}
+
+.loogo span {
+  color: #fff;
+  font-size: 40px;
+}
+
+.lodgname {
+  font-size: 30px;
+  font-family: 'Lobster', cursive;
+}
+
+/* ------------------------End logo------------------------- */
+.sidebarList {
+  padding: 0px;
+  list-style: none;
+  position: relative;
+}
+
+/* ------------------------ Sidebar Items  $submenue Items  ( links) ------------------------- */
+.sidebarListItem,
+.sidebarListItemsubMenue
+.active {
+  cursor: pointer;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+  color: var(--white);
+  padding: 10px;
+  border-top-left-radius: 30px;
+  border-bottom-left-radius: 30px;
+  position: relative;
+  margin-top: 10px;
+  gap: 5px;
+  height: 60px;
+  line-height: 60px;
+}
+
+/* ------------------------ submenue Items ( links) ------------------------- */
+.sidebarListItemsubMenue {
+  width: 225px;
+}
+
+.sidebarListItemsubMenue:last-child {
+  margin-bottom: 10px !important;
+}
+
+.sidebarListItemsubMenue:hover {
+  background-color: #fff;
+}
+
+/* ------------------------ Submenue ------------------------- */
+.itemcontainsubmenue,
+.itemcontainsubmenueEmployee {
+  padding: 10px;
+  cursor: pointer;
+  width: 260px;
+  text-decoration: none;
+  color: var(--white);
+  position: relative;
+  margin-block: 10px;
+}
+
+/* ------------------------ Arrow down toggle ------------------------- */
+.itemcontainsubmenue::after,
+.itemcontainsubmenueEmployee::after {
+  content: "\f0d7";
+  font-family: FontAwesome;
+  font-weight: normal;
+  font-style: normal;
+  position: absolute;
+  left: 210px;
+  width: 30px;
+  height: 30px;
+  color: #fff;
+  top: 10px;
+  visibility: hidden;
+}
+
+.itemcontainsubmenue:hover::after,
+.itemcontainsubmenueEmployee:hover::after {
+  visibility: visible;
+}
+
+.itemcontainsubmenue:hover::before,
+.itemcontainsubmenueEmployee:hover::before {
+  visibility: hidden;
+}
+
+/* ------------------------ Arrow right toggle ------------------------- */
+.itemcontainsubmenue::before,
+.itemcontainsubmenueEmployee::before {
+  content: "\f0da";
+  font-family: FontAwesome;
+  font-weight: normal;
+  font-style: normal;
+  position: absolute;
+  left: 210px;
+  width: 30px;
+  height: 30px;
+  color: #fff;
+  top: 10px;
+}
+
+/* ------------------------ curve Items sidebar hover ------------------------- */
+.sidebarListItem:hover::before,
+.sidebarListItem.hovered::before,
+.active::before {
+  content: "";
+  position: absolute;
+  right: 0px;
+  top: -50px;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  background: transparent;
+  pointer-events: none;
+  box-shadow: 35px 35px 0 10px #fff;
+}
+
+.sidebarListItem:hover::after,
+.sidebarListItem.hovered::after,
+.active::after {
+  content: "";
+  position: absolute;
+  right: 0px;
+  bottom: -50px;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  background-color: transparent;
+  box-shadow: 35px -35px 0px 10px #fff;
+  pointer-events: none;
+}
+
+/* ------------------------End  curve Items sidebar hover ------------------------- */
+/* ------------------------ Items sidebar hover ------------------------- */
+.sidebarListItem:hover,
+.sidebarListItem.hovered,
+.active {
+  background-color: var(--white);
+  color: #00BED6;
+}
+
+/* ------------------------ icone Sidebar item have submenue ------------------------- */
+.homeIconUser {
+  font-size: 1rem;
+  margin-right: 5px;
+}
+
+/* ------------------------  Sidebar items have submenue hover (user & Employee) ------------------------- */
+.itemcontainsubmenue:hover .SubmenuUsers,
+.itemcontainsubmenueEmployee:hover .SubmenuUsersEmployee,
+.itemcontainsubmenue:hover .legend,
+itemcontainsubmenueEmployee:hover .legend {
+  height: 420px;
+  background-color: rgba(255, 255, 255, 0.3);
+  border: solid;
+  border-left: none;
+  border-right: none;
+  border-top-left-radius: 30px;
+  border-bottom-left-radius: 30px;
+  padding-block: 5px;
+}
+
+.itemcontainsubmenue:hover .legend {
+  visibility: visible;
+}
+
+/*-----------------sub menu User----------------- */
+.SubmenuUsers,
+.SubmenuUsersEmployee {
+  background-color: rgba(255, 255, 255, 0.575);
+  overflow: hidden;
+  transition: all 0.5s !important;
+  width: 280px;
+  margin-left: -20px;
+  height: 0;
+  border-top-left-radius: 30px;
+  border-bottom-left-radius: 30px;
+}
+
+.SubmenuUsersEmployee {
+  height: 0px;
+}
+
+.itemcontainsubmenueEmployee:hover .SubmenuUsersEmployee {
+  height: 170px;
+  padding-block: 5px;
+}
+
+/*-----------------fieldsetEmployee----------------- */
+.fieldset,
+.fieldsetEmployee {
+  position: relative;
+  width: 220px;
+  margin-left: 20px;
+}
+
+.legend1,
+.legend2 {
+  font-size: 15px;
+  color: var(--white);
+}
+
+.fieldset::before,
+.fieldsetEmployee::before {
+  content: "\f0f0";
+  font-family: FontAwesome;
+  font-weight: normal;
+  font-style: normal;
+  font-size: 12px;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  position: absolute;
+  border: 2px solid #fff;
+  color: var(--white);
+  top: 0px;
+  left: -22px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/*-----------------lineSubmenueEmployee ----------------- */
+.lineSubmenue,
+.lineSubmenue2,
+.lineSubmenueEmployee {
+  width: 2px;
+  height: 180px;
+  position: absolute;
+  top: 20px;
+  left: -12.5px;
+  background-color: #fff;
+}
+
+.lineSubmenue2 {
+  top: 23px;
+  height: 150px;
+}
+
+.lineSubmenueEmployee {
+  height: 90px;
+}
+
+/*-----------------sub menu User----------------- */
+/* ==================================================== Media ================================================== */
+@media (max-width: 870px) {
+  .lodgname {
+    display: none;
+  }
+  .sidebar {
+    width: 90px !important;
+  }
+  .sidebarListItem span {
+    display: none !important;
+  }
+  .itemcontainsubmenue p {
+    display: none;
+  }
+  .sidebarListItem:hover span {
+    display: inline;
+  }
+  .active span {
+    display: none;
+  }
+}

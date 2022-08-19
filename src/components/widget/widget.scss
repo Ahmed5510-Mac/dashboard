@@ -1,0 +1,71 @@
+ .widget
+{
+    display: flex;
+    flex: 1;
+    justify-content: space-between;
+    padding: 10px;
+    -webkit-box-shadow: 2px 4px 10px 1px rgba($color: #000, $alpha: 0.47);
+    box-shadow: 2px 4px 10px 1px rgba(201,201,201,0.47);
+    border-radius: 10px;
+    height: 100px;
+    cursor: pointer;
+    user-select: none;
+        text-decoration: none;
+        border: red 1px solid;
+    &:hover
+    {
+        background-color: #4686ed;
+        color: #fff;
+        *{
+            color: #fff !important;           
+        }
+    }
+    .left ,
+    .right
+    {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        .title
+        {
+            font-weight: bold;
+            font-size: 14px;
+            color: rgb(160, 160, 160)
+        }
+        .counter
+        {
+            font-size: 23px;
+           font-weight: 300;
+           color: #4686ed;
+        }
+        .link
+        {
+            width: max-content;
+            font-size: 14px;
+            border-bottom: 1px solid rgba(154, 150, 150, 0.683);
+            
+        }
+        .percentage{
+            display: flex;
+            align-items: center;
+            font-size: 14px;
+            &.positive
+            {
+                color:green
+            }
+            &.negative
+            {
+                color:red
+            }
+        }
+        .icon
+        {
+            font-size: 18px;
+            padding: 5px;
+            border-radius: 5px;
+            background-color:#72a8ff8f ;
+            align-self: flex-end;
+        }
+    }
+   
+}

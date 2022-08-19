@@ -1,0 +1,37 @@
+.avatarBlacl
+{
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    object-fit:cover;
+    margin-right:10px ;
+    
+}
+.UserNameListUSer
+{
+    display: flex;
+    align-items: center;
+}
+.btnActiv
+
+{
+    border: none;
+    outline: none;
+    background-color: #53ec53c9;
+    width: fit-content;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    border-radius:25px ;
+    color:rgb(134, 131, 131);
+    padding-inline:15px;
+}
+.tableUsers
+{
+    border: 3px solid red;
+    color: red;
+}
+.textBlockes
+{
+    text-decoration: line-through;
+}
