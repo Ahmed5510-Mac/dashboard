@@ -1,11 +1,12 @@
-.datatable
-{
-    height:600px; 
+.datatable {
+    height: 95%;
     padding: 20px;
-    .CellwidthImg{
+
+    .CellwidthImg {
         display: flex;
         align-items: center;
-        .cellImg{
+
+        .cellImg {
             width: 30px;
             height: 30px;
             border-radius: 50%;
@@ -13,47 +14,49 @@
             margin-right: 20px;
         }
     }
-    .cellwidthStatus{
-        padding:5px;
-        border-radius: 5px;
-       
 
-        &.active{
+    .cellwidthStatus {
+        padding: 5px;
+        border-radius: 5px;
+
+
+        &.active {
             color: green;
-            background-color: rgba(0,128,0,0.151);
+            background-color: rgba(0, 128, 0, 0.151);
         }
-        &.passive{
+
+        &.passive {
             color: crimson;
-            background-color: rgba(255,0,0,0.05);
+            background-color: rgba(255, 0, 0, 0.05);
         }
     }
-    .cellAction{
+
+    .cellAction {
         display: flex;
         align-items: center;
         gap: .9375rem;
-        .viewButton
-        {
-           padding: 2px 5px;
-           border-radius: 5px; 
-           color:blue;
-        
-        }
-        .deleteButton
-        {
+
+        .viewButton {
             padding: 2px 5px;
-           border-radius: 5px;
-           color: crimson;
-          
+            border-radius: 5px;
+            color: blue;
+
+        }
+
+        .deleteButton {
+            padding: 2px 5px;
+            border-radius: 5px;
+            color: crimson;
+
 
         }
     }
-    .addresses
-    {
-        border: 1px solid red;
+
+    .addresses {
         overflow: auto;
         height: 50px;
-        li
-        {
+
+        li {
             display: flex;
         }
     }

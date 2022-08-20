@@ -1,53 +1,61 @@
-.layaout
-{   
-
-    display: flex;
-    justify-content:space-between;
-    gap: 10px;
-.left-side
-{
-
-    flex: 0 0 15%;
-    max-width: 20%;
-
-    .SidebarWrapper
-    {
-        width: 100%;
-    }
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
 }
-.right-side
-{
 
-     flex: 0 0 85%;
-     max-width: 85%;
-     position: relative;
-     z-index: 33;
-     .topbarWrapper
-     {
-        width: 100%;
-
-        .navbar
-        {
-            width: 100%;
-            margin: 0;
-        }
-     }
-
-}
-.container
-{
-    display: flex;
+html,
+body,
+.app {
     height: 100vh;
-    overflow-y: auto !important;
-
-    padding-bottom: 30px;
-    .mainSection
-    {
-        width: 90%;
-        margin: auto;
-    }
 }
 
+.layaout {
 
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+
+    .left-side {
+
+        flex: 0 0 15%;
+        max-width: 20%;
+
+        .SidebarWrapper {
+            width: 100%;
+        }
+    }
+
+    .right-side {
+
+        flex: 0 0 85%;
+        max-width: 85%;
+        position: relative;
+        z-index: 33;
+
+        .topbarWrapper {
+            width: 100%;
+
+            .navbar {
+                width: 100%;
+                margin: 0;
+            }
+        }
+
+    }
+
+    .container {
+        display: flex;
+        height: 100vh;
+        overflow-y: auto !important;
+
+        padding-bottom: 30px;
+
+        .mainSection {
+            width: 100%;
+            height: 100%;
+            margin: auto;
+        }
+    }
 
 }
