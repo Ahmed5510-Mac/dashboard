@@ -52,7 +52,6 @@
 }
 
 .datatable .addresses {
-  border: 1px solid red;
   overflow: auto;
   height: 50px;
 }

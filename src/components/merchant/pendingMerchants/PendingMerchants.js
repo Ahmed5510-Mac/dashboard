@@ -5,9 +5,8 @@ import { CircularProgress } from "@material-ui/core";
 import { useNavigate } from "react-router-dom";
 import { getPendingMerchant } from "./../../../store/merchant/merchantSlice";
 import { changeStatus } from "./../../../store/userShared/userSharedSlice";
-import '../../../globallayout.css'
-import Swal from 'sweetalert2'
-
+import "../../../globallayout.css";
+import Swal from "sweetalert2";
 
 function PendingMerchantsComponent() {
   const { pendingMerchantsList, isLoading } = useSelector(
@@ -31,7 +30,6 @@ function PendingMerchantsComponent() {
   };
   // ------------- chang status function ---------------------
   const handeRejectmerchant = (merchant) => {
-
     const newData = {
       id: merchant._id,
       status: "blocked",
@@ -39,28 +37,24 @@ function PendingMerchantsComponent() {
     };
 
     Swal.fire({
-      title: 'Are you sure?',
+      title: "Are you sure?",
       text: "You won't be able to revert this!",
-      icon: 'warning',
+      icon: "warning",
       showCancelButton: true,
-      confirmButtonColor: '#3085d6',
-      cancelButtonColor: '#d33',
-      confirmButtonText: 'Yes, reject it!'
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, reject it!",
     }).then((result) => {
       if (result.isConfirmed) {
-        Swal.fire(
-          'rejected!',
-          'Your file has been rejected.',
-          'success'
-        )
+        Swal.fire("rejected!", "Your file has been rejected.", "success");
         dispatch(changeStatus(newData));
-    dispatch(getPendingMerchant());
-    navigate("/pendingMerchants");
+        dispatch(getPendingMerchant());
+        navigate("/pendingMerchants");
       }
-    })    
+    });
   };
   const pendingMerchantList =
-    pendingMerchantsList.length > 0 &&
+    pendingMerchantsList.length &&
     pendingMerchantsList.map((item) => (
       <tr className="rowtable" key={item._id}>
         <td>{item.fullName}</td>
@@ -71,22 +65,23 @@ function PendingMerchantsComponent() {
             className=" acceptBtn"
             onClick={() => handelActivemerchant(item)}
           >
-           
             <i className="fa-solid fa-user-check"></i>
           </button>
           <button
             className="blockBtn"
             onClick={() => handeRejectmerchant(item)}
           >
-            
             <i className="fa-solid fa-user-slash"></i>
           </button>
         </td>
       </tr>
     ));
+
+  console.log(pendingMerchantList);
+
   return (
     <>
-        <h2 className="text-center text-primary my-2">Pending Merchants</h2>
+      <h2 className="text-center text-primary my-2">Pending Merchants</h2>
       <div className={styles.tableu}>
         {isLoading ? (
           <h1 className={styles.isloading}>
@@ -95,14 +90,14 @@ function PendingMerchantsComponent() {
           </h1>
         ) : pendingMerchantsList.length ? (
           <>
-           <table className="table tableUsers table-light table-striped mx-auto mt-5 col-7 text-center " >
-                <thead className=''>
-                  <tr>
-                    <th>user Name </th>
-                    <th>Mobile</th>
-                    <th>status</th>
-                    <th>Action</th>
-                  </tr>
+            <table className="table tableUsers table-light table-striped mx-auto mt-5 col-7 text-center ">
+              <thead className="">
+                <tr>
+                  <th>user Name </th>
+                  <th>Mobile</th>
+                  <th>status</th>
+                  <th>Action</th>
+                </tr>
               </thead>
               <tbody>{pendingMerchantList}</tbody>
             </table>
@@ -133,5 +128,3 @@ function PendingMerchantsComponent() {
 }
 
 export default PendingMerchantsComponent;
-
-

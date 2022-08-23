@@ -78,7 +78,8 @@
 }
 /* ------------------------ Submenue ------------------------- */
 .itemcontainsubmenue,
-.itemcontainsubmenueEmployee
+.itemcontainsubmenueEmployee,
+.itemcontainsubmenueProduct
 {
     padding:10px;
     cursor: pointer;
@@ -91,7 +92,8 @@
 }
 /* ------------------------ Arrow down toggle ------------------------- */
 .itemcontainsubmenue::after,
-.itemcontainsubmenueEmployee::after
+.itemcontainsubmenueEmployee::after,
+.itemcontainsubmenueProduct::after
 {
     content: "\f0d7";
     font-family: FontAwesome;
@@ -107,22 +109,25 @@
 }
 .itemcontainsubmenue:hover::after,
 .itemcontainsubmenueEmployee:hover::after
+.itemcontainsubmenueProduct:hover::after
 {
     visibility: visible;
 }
 .itemcontainsubmenue:hover::before,
 .itemcontainsubmenueEmployee:hover::before
+.itemcontainsubmenueProduct:hover::before
 {
     visibility: hidden;
 }
 /* ------------------------ Arrow right toggle ------------------------- */
 .itemcontainsubmenue::before,
-.itemcontainsubmenueEmployee::before
+.itemcontainsubmenueEmployee::before,
+.itemcontainsubmenueProduct::before
 {
     content: "\f0da";
     font-family: FontAwesome;
-   font-weight: normal;
-   font-style: normal;
+    font-weight: normal;
+    font-style: normal;
     position: absolute;
     left: 210px;
     width: 30px;
@@ -179,8 +184,9 @@
 /* ------------------------  Sidebar items have submenue hover (user & Employee) ------------------------- */
 .itemcontainsubmenue:hover .SubmenuUsers,
 .itemcontainsubmenueEmployee:hover .SubmenuUsersEmployee,
+.itemcontainsubmenueProduct:hover .SubmenuUsersProduct,
 .itemcontainsubmenue:hover .legend,
-itemcontainsubmenueEmployee:hover .legend
+.itemcontainsubmenueEmployee:hover .legend
 {
     height: 420px;
     background-color: rgba(255, 255, 255, 0.30);
@@ -197,7 +203,9 @@ itemcontainsubmenueEmployee:hover .legend
 }
 /*-----------------sub menu User----------------- */
 .SubmenuUsers,
-.SubmenuUsersEmployee
+.SubmenuUsersEmployee,
+.SubmenuUsersProduct,
+.SubmenuProduct
 {
     background-color: rgba(255, 255, 255, 0.575);
     overflow:hidden;
@@ -208,11 +216,13 @@ itemcontainsubmenueEmployee:hover .legend
     border-top-left-radius: 30px;
     border-bottom-left-radius: 30px;
 }
-.SubmenuUsersEmployee
+.SubmenuUsersEmployee,
+.SubmenuUsersProduct
 {
     height:0px;
 }
 .itemcontainsubmenueEmployee:hover .SubmenuUsersEmployee
+.itemcontainsubmenueProduct:hover .SubmenuUsersProduct
 {
     height: 170px;
     padding-block:5px ;

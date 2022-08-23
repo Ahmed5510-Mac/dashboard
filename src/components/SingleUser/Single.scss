@@ -1,27 +1,47 @@
 .singleuser {
   width: 100%;
+
   .top {
-      padding: 20px;
+    padding: 20px;
+    width: 100%;
+    gap: 20px;
+
+    .infodetails {
       width: 100%;
+      padding-inline: 10px;
+      display: flex;
+      justify-content: space-between;
       gap: 20px;
-      .infodetails
-      {
-        width:100%;
-        padding-inline:10px;
-        display: flex;
-        justify-content: space-between;
-        gap: 20px;
-        .infoleft
-        {
-          flex:1;
-        }
-        .inforight{
-          flex:1;
-        }
+
+      .infoleft {
+        flex: 1;
       }
-      
-      
-      .left {
+
+      .inforight {
+        flex: 1;
+      }
+
+      input {
+        box-shadow: rgba(50, 50, 93, 0.25) 0px 30px 60px -12px inset, rgba(0, 0, 0, 0.3) 0px 18px 36px -18px inset;
+        padding: 2px 6px;
+        color: green !important;
+        outline: none;
+
+        &:disabled {
+          box-shadow: none;
+          color: black !important;
+        }
+
+
+      }
+
+
+
+
+    }
+
+
+    .left {
       flex: 1;
       -webkit-box-shadow: 2px 4px 10px 1px rgba($color: #000, $alpha: 0.47);
       box-shadow: 2px 4px 10px 1px rgba(201, 201, 201, 0.47);
@@ -42,76 +62,86 @@
         border-radius: 0 0 0px 5px;
         padding: 3px;
       }
-      .title
-      {
+
+      .title {
         font-size: 18px;
         color: lightgray;
         margin-top: 20px;
         font-weight: 700;
 
       }
+
       .items {
         display: flex;
         gap: 20px;
-        width: 100%
-        // align-items: center;
-       ;
+        width: 100% // align-items: center;
+        ;
       }
+
       .itemImg {
         width: 100px;
         height: 100px;
         border-radius: 50%;
       }
-      .details
-      {
+
+      .details {
         width: 100%;
-        .itemTitle
-        {
+
+        .itemTitle {
           display: flex;
           align-items: center;
-          justify-content: space-between;
-            margin-top: 10px;
-            color: #555;
+          // justify-content: space-between;
+          margin-top: 10px;
+          color: #555;
+
+          h2 {
+            font-size: 16px;
+            margin-top: auto;
+          }
         }
-        .detailsItem
-        {
-            margin-bottom: 10px;
-            font-size: 14px;
-            display: flex;
-            border-bottom:  1px dotted gray;
-            width: 70%;
-            .itemKey
-            {
-                font-weight: bold;
-                color: gray;
-                margin-right: 5px;
-            }
-            .itemvalue
-            {
-                font-weight: 300;
-                color: gray;
-            }
-            .editeIcone
-            {
-              margin-left:10px ;
-              color: rgb(14, 117, 241);
-              cursor: pointer;
-            }
+
+        .detailsItem {
+          margin-bottom: 10px;
+          font-size: 14px;
+          display: flex;
+          justify-content: space-between;
+          border-bottom: 1px dotted gray;
+          width: 70%;
+
+          .itemKey {
+            font-weight: bold;
+            color: gray;
+            margin-right: 5px;
+          }
+
+          .itemvalue {
+            font-weight: 300;
+            color: gray;
+            background-color: transparent;
+            border: none;
+          }
+
+          .editeIcone {
+            margin-left: 10px;
+            color: rgb(14, 117, 241);
+            cursor: pointer;
+          }
         }
       }
     }
+
     .right {
-        flex: 2;
+      flex: 2;
     }
   }
-  .bottom
-  {
+
+  .bottom {
     -webkit-box-shadow: 2px 4px 10px 1px rgba($color: #000, $alpha: 0.47);
     box-shadow: 2px 4px 10px 1px rgba(201, 201, 201, 0.47);
     padding: 20px;
   }
-  legend
-  {
+
+  legend {
     color: rgba(128, 128, 128, 0.53);
     font-size: 16px;
     margin-left: -20px;

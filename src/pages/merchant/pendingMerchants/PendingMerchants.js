@@ -1,14 +1,9 @@
-import React from 'react'
+import React from "react";
 
-import PendingMerchantsComponent from './../../../components/merchant/pendingMerchants/PendingMerchants';
+import PendingMerchantsComponent from "./../../../components/merchant/pendingMerchants/PendingMerchants";
 
 function PendingMerchants() {
-  
-    return (
-      <>
-        <PendingMerchantsComponent/>
-      </>
-    )
+  return <PendingMerchantsComponent />;
 }
 
-export default PendingMerchants
+export default PendingMerchants;

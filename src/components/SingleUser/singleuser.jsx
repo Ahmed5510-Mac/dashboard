@@ -5,13 +5,22 @@ import EditIcon from "@mui/icons-material/Edit";
 import { useState } from "react";
 
 const Singleuser = () => {
+  const [isEditable, setIsEditable] = useState(false);
+
   return (
     <div className="singleuser">
       {/* ==============top =================   */}
       <div className="top">
         {/* ---left --- */}
         <div className="left">
-          <div className="Edite">Edite</div>
+          <div
+            className="Edite"
+            onClick={() => {
+              setIsEditable(!isEditable);
+            }}
+          >
+            {isEditable ? "save" : "Edite"}
+          </div>
           <h1 className="title">information</h1>
           <div className="items">
             <img
@@ -22,98 +31,104 @@ const Singleuser = () => {
             <div className="details">
               <div className="itemTitle">
                 <h1> Ahmed Darwish</h1>
-              <h2>Doctor</h2>
-               </div>
+                <h2>(Doctor)</h2>
+              </div>
               <div className="infodetails">
                 <div className="infoleft">
                   <fieldset>
                     <legend>personal</legend>
                     {/* ---------------- */}
                     <div className="detailsItem">
-
                       <span className="itemKey">Phone Number: </span>
-                      
-                        <span className="itemvalue">01011773739</span>
-                      <input type="number" placeholder="01011773739" />
-                      
-                      
-                      
-                        <EditIcon className="editeIcone"/>
-                      
+
+                      <input
+                        className="itemvalue"
+                        value="01011773739"
+                        disabled={!isEditable}
+                      />
                     </div>
                     {/* ---------------- */}
                     <div className="detailsItem">
                       <span className="itemKey">WhatsApp Number: </span>
-                      <span className="itemvalue">01011773739</span>
-                     
-                        <EditIcon className="editeIcone"/>
-                      
+                      <input
+                        className="itemvalue"
+                        value="01011773739"
+                        disabled={!isEditable}
+                      />
                     </div>
                     {/* ---------------- */}
                     <div className="detailsItem">
                       <span className="itemKey">Account Status: </span>
-                      <span className="itemvalue approved">approved</span>
-                    
-                        <EditIcon className="editeIcone"/>
-                     
+                      <input
+                        className="itemvalue approved"
+                        value="approved"
+                        disabled={!isEditable}
+                      />
                     </div>
-              {/* ---------------- */}
-              <div className="detailsItem">
-                <span className="itemKey">Clinic Name: </span>
-                <span className="itemvalue">Macbook clinic</span>
-               
-                  <EditIcon className="editeIcone"/>
-               
-              </div>
+                    {/* ---------------- */}
+                    <div className="detailsItem">
+                      <span className="itemKey">Clinic Name: </span>
+                      <input
+                        className="itemvalue approved"
+                        value="Macbook clinic"
+                        disabled={!isEditable}
+                      />
+                    </div>
                   </fieldset>
                 </div>
                 {/* ------------------------right info---------------------------- */}
                 <div className="inforight">
-                <fieldset>
+                  <fieldset>
                     <legend>place information</legend>
 
-              {/* ---------------- */}
-              <div className="detailsItem">
-                <span className="itemKey">Governorate: </span>
-                <span className="itemvalue">cairo</span>
-               
-                  <EditIcon className="editeIcone"/>
-                
-              </div>
-              {/* ---------------- */}
-              <div className="detailsItem">
-                <span className="itemKey">City: </span>
-                <span className="itemvalue">jizah</span>
-                             
-                  <EditIcon className="editeIcone"/>
-               
-              </div>
-              {/* ---------------- */}
-              <div className="detailsItem">
-                <span className="itemKey">Street: </span>
-                <span className="itemvalue">4 ahmed strret</span>
-                <EditIcon className="editeIcone"/>
-              </div>
-              {/* ---------------- */}
-              <div className="detailsItem">
-                <span className="itemKey">Building: </span>
-                <span className="itemvalue">12</span>
-                              
-                  <EditIcon  className="editeIcone"/>
-               
-              </div>
-              {/* ---------------- */}
-              <div className="detailsItem">
-                <span className="itemKey">Details: </span>
-                <span className="itemvalue">eng.ahmed.darwish6@gmail.com</span>
-                               
-                  <EditIcon  className="editeIcone"/>
-                
-              </div>
-                    </fieldset>
+                    {/* ---------------- */}
+                    <div className="detailsItem">
+                      <span className="itemKey">Governorate: </span>
+                      <input
+                        className="itemvalue"
+                        value="cairo"
+                        disabled={!isEditable}
+                      />
+                    </div>
+                    {/* ---------------- */}
+                    <div className="detailsItem">
+                      <span className="itemKey">City: </span>
+                      <input
+                        className="itemvalue"
+                        value="Giza"
+                        disabled={!isEditable}
+                      />
+                    </div>
+                    {/* ---------------- */}
+                    <div className="detailsItem">
+                      <span className="itemKey">Street: </span>
+                      <input
+                        className="itemvalue"
+                        value="4 ahmed street"
+                        disabled={!isEditable}
+                      />
+                    </div>
+                    {/* ---------------- */}
+                    <div className="detailsItem">
+                      <span className="itemKey">Building: </span>
+                      <input
+                        className="itemvalue"
+                        value="12"
+                        disabled={!isEditable}
+                      />
+                    </div>
+                    {/* ---------------- */}
+                    <div className="detailsItem">
+                      <span className="itemKey">Details: </span>
+                      <input
+                        className="itemvalue"
+                        value="eng.ahmed.darwish6@gmail.com"
+                        disabled={!isEditable}
+                      />
+                    </div>
+                  </fieldset>
                 </div>
               </div>
-
             </div>
           </div>
         </div>
