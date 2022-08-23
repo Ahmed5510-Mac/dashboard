@@ -24,16 +24,12 @@ import Casher from "./pages/Employees/casher/casher";
 import Navbar from "./components/Navbar/Navbar";
 import Datatable from "./components/datatable/Datatable";
 import Singleuser from "./components/SingleUser/singleuser";
-<<<<<<< HEAD
 import { useSelector } from "react-redux";
-import Categores from "./pages/categoryes/categores"
-import CubCategoryes from "./pages/subcategores/subCategoryes.page"
-import BrandsPage from "./pages/brands/Brands.page"
-import Product_page from './pages/products/Product_page';
-=======
+import Categores from "./pages/categoryes/categores";
+import CubCategoryes from "./pages/subcategores/subCategoryes.page";
+import BrandsPage from "./pages/brands/Brands.page";
+import Product_page from "./pages/products/Product_page";
 import { useState } from "react";
-import { useSelector } from "react-redux";
->>>>>>> 80af0ca39c0f1367b38f9ec790f38f6817dbfca1
 
 const App = () => {
   const { isLogedIn } = useSelector((state) => state.loginSlice);
@@ -68,10 +64,7 @@ const App = () => {
                       element={<Navigate to="/" replace />}
                     />
                     {/* <Route path="/home" element={<Home />} /> */}
-<<<<<<< HEAD
-=======
 
->>>>>>> 80af0ca39c0f1367b38f9ec790f38f6817dbfca1
                     {/* Doctor Routes */}
                     <Route
                       path="/pendingDoctors"
@@ -85,11 +78,8 @@ const App = () => {
                       path="/blockedDoctors"
                       element={<BlacklistDoctors />}
                     />
-<<<<<<< HEAD
                     {/* pharmasict Routes */}
-=======
                     {/* Merchant Routes */}
->>>>>>> 80af0ca39c0f1367b38f9ec790f38f6817dbfca1
                     <Route
                       path="/pendingMerchants"
                       element={<PendingMerchants />}
@@ -110,13 +100,10 @@ const App = () => {
                     <Route path="/flayBoyeList" element={<FlayBoy />} />
                     <Route path="/casherList" element={<Casher />} />
                     <Route path="/users" element={<Datatable />} />
-<<<<<<< HEAD
                     <Route path="/categorey" element={<Categores />} />
                     <Route path="/subcategorey" element={<CubCategoryes />} />
                     <Route path="/brand" element={<BrandsPage />} />
                     <Route path="/products" element={<Product_page />} />
-=======
->>>>>>> 80af0ca39c0f1367b38f9ec790f38f6817dbfca1
                     <Route path="*" element={<NotFound />} />
                   </Routes>
                 </div>

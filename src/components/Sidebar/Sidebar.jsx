@@ -26,20 +26,14 @@ const Sidebar = () => {
           <div className="sidebarWrapper">
             {/* =============================== Logo ================================ */}
             <div className="sidebarMenu">
-<<<<<<< HEAD
               {/* ----------logo---------- */}
-=======
->>>>>>> 80af0ca39c0f1367b38f9ec790f38f6817dbfca1
               <NavLink to="/home" className="loogo">
                 <img className="loogo" src={logo} alt="logo" />
                 <span className="lodgname"> Life</span>
               </NavLink>
               {/* =============================== Sidebar Links ================================ */}
               <ul className="sidebarList">
-<<<<<<< HEAD
-              {/* ----------home---------- */}
-=======
->>>>>>> 80af0ca39c0f1367b38f9ec790f38f6817dbfca1
+                {/* ----------home---------- */}
                 <NavLink
                   to="/"
                   className={({ isActive }) =>
@@ -58,11 +52,8 @@ const Sidebar = () => {
                   <ul className="SubmenuUsers">
                     {/*---- Doctor Links ----*/}
                     <fieldset className="fieldset">
-<<<<<<< HEAD
-                       <div className="lineSubmenue"></div>
-=======
                       <div className="lineSubmenue"></div>
->>>>>>> 80af0ca39c0f1367b38f9ec790f38f6817dbfca1
+                      <div className="lineSubmenue"></div>
                       <legend className="legend1">Doctor</legend>
                       <NavLink
                         to="/pendingDoctors"
@@ -152,13 +143,12 @@ const Sidebar = () => {
                   <span> analyses</span>
                 </NavLink>
                 <hr />
-<<<<<<< HEAD
                 {/* -------------- product--------------------- */}
                 <li className="itemcontainsubmenueProduct">
                   <span className="homeIconUser">
-                  <i className="fa-brands fa-product-hunt"></i>
+                    <i className="fa-brands fa-product-hunt"></i>
                   </span>
-                  Product 
+                  Product
                   {/* ----Submenu Users---- */}
                   <ul className="SubmenuUsersProduct">
                     {/*---- Flay Boy Links ----*/}
@@ -182,11 +172,8 @@ const Sidebar = () => {
                       </NavLink>
                     </fieldset>
                     {/*---- Emloyee links ----*/}
-                   
                   </ul>
                 </li>
-=======
->>>>>>> 80af0ca39c0f1367b38f9ec790f38f6817dbfca1
                 <NavLink to="/products" className="sidebarListItem">
                   <i className="fa-brands fa-product-hunt"></i>
                   <span>products</span>
