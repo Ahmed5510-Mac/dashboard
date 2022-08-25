@@ -9,39 +9,56 @@ import {
 import { LocalizationProvider } from "@mui/x-date-pickers";
 import { DesktopDatePicker } from "@mui/x-date-pickers/DesktopDatePicker";
 import { AdapterMoment } from "@mui/x-date-pickers/AdapterMoment";
-import React, { useState } from "react";
+import React from "react";
 import "./addproduct.scss";
+import { useFormik } from "formik";
 
 function AddProduct() {
-  const [showinput, setshowinput] = useState(false);
-  function toggleinput() {
-    setshowinput(!showinput);
-    console.log("ahmed");
-  }
+  const formik = useFormik({
+    initialValues: {
+      name: "string",
+      subCategory: {
+        id: "string",
+        name: "string",
+      },
+      brand: {
+        id: "string",
+        name: "string",
+      },
+      description: "string",
+      offer: "string",
+      images: [
+        {
+          url: "string",
+        },
+      ],
+      unitPrice: 0,
+      basePrice: 0,
+      stockAmount: 0,
+      creditDiscount: 0,
+      cashDiscount: 0,
+      madeIn: "string",
+      productionDate: "string",
+      expireDate: "string",
+      reviews: {
+        userId: "string",
+        reviewText: "string",
+        reviewRate: 0,
+      },
+    },
+    // validationSchema: validationSchema,
+    onSubmit: (values) => {
+      console.log(values);
+    },
+  });
+
   return (
     <div className="Addcategory-container">
       <h2>Add New Product</h2>
-      <form>
-        <div
-          className="edite"
-          onClick={() => {
-            toggleinput();
-          }}
-        >
-          {showinput ? "save" : "Edite"}
-        </div>
+
+      <form onSubmit={formik.handleSubmit}>
+        <div className="edite">"save"</div>
         <div className="product-info">
-          {/* {showinput && (
-            <TextField
-              margin="normal"
-              required
-              fullWidth
-              id="id"
-              label="product id"
-              name="id"
-              autoFocus
-            />
-          )} */}
           {/* ----------------------- */}
           <TextField
             margin="normal"

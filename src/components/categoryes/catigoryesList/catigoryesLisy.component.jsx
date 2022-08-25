@@ -1,7 +1,20 @@
-import React from "react";
+import React, { useEffect } from "react";
+import { useDispatch } from "react-redux";
+import { useSelector } from "react-redux";
+import { getAllCategoriesByType } from "../../../store/category/categorySlice";
 import "./catigoryesLisy.component";
 
 function CatigoryesLisy() {
+  const { categories } = useSelector((state) => state.categorySlice);
+
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(getAllCategoriesByType("product"));
+  }, []);
+
+  console.log("categories", categories);
+
   return (
     <div>
       <>
@@ -12,27 +25,26 @@ function CatigoryesLisy() {
               <table className="table tableUsers table-light table-striped mx-auto mt-5 col-7 text-center ">
                 <thead className="">
                   <tr>
-                    <th>Category ID </th>
-                    <th> Category Name</th>
-                    <th>Category Type</th>
+                    <th>Category Name</th>
                     <th>Action</th>
                   </tr>
                 </thead>
                 {/* ------body------- */}
                 <tbody>
-                  <tr className="rowtable">
-                    <td>1</td>
-                    <td>malcone</td>
-                    <td>medcine</td>
-                    <td>
-                      <button className="acceptBtn mx-2">
-                        <i className="fa-solid fa-user-check"></i>
-                      </button>
-                      <button className="blockBtn ">
-                        <i className="fa-solid fa-user-slash"></i>
-                      </button>
-                    </td>
-                  </tr>
+                  {categories?.map((cat, index) => (
+                    <tr key={cat._id} className="rowtable">
+                      <td>{index + 1}</td>
+                      <td>{cat.name}</td>
+                      <td>
+                        <button className="acceptBtn mx-2">
+                          <i className="fa-solid fa-user-check"></i>
+                        </button>
+                        <button className="blockBtn ">
+                          <i className="fa-solid fa-user-slash"></i>
+                        </button>
+                      </td>
+                    </tr>
+                  ))}
                 </tbody>
               </table>
             </div>
