@@ -1,3 +1,14 @@
+import {
+  FormControl,
+  InputLabel,
+  MenuItem,
+  Select,
+  TextareaAutosize,
+  TextField,
+} from "@material-ui/core";
+import { LocalizationProvider } from "@mui/x-date-pickers";
+import { DesktopDatePicker } from "@mui/x-date-pickers/DesktopDatePicker";
+import { AdapterMoment } from "@mui/x-date-pickers/AdapterMoment";
 import React, { useState } from "react";
 import "./addproduct.scss";
 
@@ -17,50 +28,69 @@ function AddProduct() {
             toggleinput();
           }}
         >
-          {" "}
           {showinput ? "save" : "Edite"}
         </div>
         <div className="product-info">
-        <div className="form-group">
-          {showinput && (
-            <>
-              <span class="label">ID</span>
-              <input type="text" placeholder="Enter id" />
-            </>
-          )}
-        </div>
+          {/* {showinput && (
+            <TextField
+              margin="normal"
+              required
+              fullWidth
+              id="id"
+              label="product id"
+              name="id"
+              autoFocus
+            />
+          )} */}
           {/* ----------------------- */}
-          <div className="form-group">
-            <span class="label">Name</span>
-            <input type="text" placeholder="Enter name" />
-          </div>
+          <TextField
+            margin="normal"
+            required
+            fullWidth
+            id="name"
+            label="Name"
+            name="name"
+            autoFocus
+          />
           {/* ----------------------- */}
-          <div className="form-group">
-            <span class="label">subCategory</span>
-            <select name="" id="">
-              <option value="med">med</option>
-              <option value="hgi">hgi</option>
-            </select>
-          </div>
+          <FormControl fullWidth>
+            <InputLabel id="subCategory-label">Sub Category</InputLabel>
+            <Select
+              labelId="subCategory-label"
+              id="subCategory"
+              label="type"
+              name="subCategory"
+            >
+              <MenuItem value={"medicine"}>medicine</MenuItem>
+              <MenuItem value={"tools"}>tools</MenuItem>
+            </Select>
+          </FormControl>
           {/* ----------------------- */}
-          <div className="form-group">
-            <span class="label">brand</span>
-            <select name="" id="">
-              <option value="med">amagaum</option>
-              <option value="hgi">softin</option>
-            </select>
-          </div>
+          <FormControl fullWidth>
+            <InputLabel id="brand-label">Brand</InputLabel>
+            <Select labelId="brand-label" id="brand" label="type" name="brand">
+              <MenuItem value={"amaino"}>amaino</MenuItem>
+              <MenuItem value={"drugs"}>drugs</MenuItem>
+            </Select>
+          </FormControl>
           {/* ----------------------- */}
-          <div className="form-group">
-            <span class="label">description</span>
-            <input type="textarea" />
-          </div>
+          <TextareaAutosize
+            aria-label="description"
+            placeholder="description"
+            name="description"
+            style={{ width: "100%" }}
+          />
           {/* ----------------------- */}
-          <div className="form-group">
-            <span class="label">offer</span>
-            <input type="text" />
-          </div>
-          {/* ----------------------- */}
+          <TextField
+            margin="normal"
+            required
+            fullWidth
+            id="offer"
+            label="offer"
+            name="offer"
+            autoFocus
+          />
+          s {/* ----------------------- */}
           <div className="form-group">
             <span class="label">image</span>
             <input type="file" />
@@ -68,47 +98,87 @@ function AddProduct() {
         </div>
         <div className="prduct-price">
           {/* ----------------------- */}
-          <div className="form-group">
-            <span class="label">unit Price</span>
-            <input type="text" />
-          </div>
+          <TextField
+            margin="normal"
+            required
+            fullWidth
+            id="unitPrice"
+            label="unit price"
+            name="unitPrice"
+            autoFocus
+          />
 
           {/* ----------------------- */}
-          <div className="form-group">
-            <span class="label">base Price</span>
-            <input type="text" />
-          </div>
+          <TextField
+            margin="normal"
+            required
+            fullWidth
+            id="basePrice"
+            label="base price"
+            name="basePrice"
+            autoFocus
+          />
           {/* ----------------------- */}
-          <div className="form-group">
-            <span class="label">stock Amount</span>
-            <input type="text" />
-          </div>
+          <TextField
+            margin="normal"
+            required
+            fullWidth
+            id="stockAmount"
+            label="stock Amount"
+            name="stockAmount"
+            autoFocus
+          />
 
           {/* ----------------------- */}
-          <div className="form-group">
-            <span class="label">credit Discount</span>
-            <input type="text" />
-          </div>
+          <TextField
+            margin="normal"
+            required
+            fullWidth
+            id="creditDiscount"
+            label="credit Discount"
+            name="creditDiscount"
+            autoFocus
+          />
           {/* ----------------------- */}
-          <div className="form-group">
-            <span class="label">cash Discount</span>
-            <input type="text" />
-          </div>
+          <TextField
+            margin="normal"
+            required
+            fullWidth
+            id="cashDiscount"
+            label="cash Discount"
+            name="cashDiscount"
+            autoFocus
+          />
           {/* ----------------------- */}
-          <div className="form-group">
-            <span class="label">madeIn</span>
-            <input type="text" />
-          </div>
+          <TextField
+            margin="normal"
+            required
+            fullWidth
+            id="madeIn"
+            label="made In"
+            name="madeIn"
+            autoFocus
+          />
           {/* ----------------------- */}
-          <div className="form-group">
-            <span class="label">productionDate</span>
-            <input type="text" />
-          </div>
+          <TextField
+            margin="normal"
+            required
+            fullWidth
+            id="productionDate"
+            label="production Date"
+            name="productionDate"
+            autoFocus
+          />
           {/* ----------------------- */}
-          <div className="form-group">
-            <span class="label">expireDate</span>
-            <input type="date" />
-          </div>
+          <LocalizationProvider dateAdapter={AdapterMoment}>
+            <DesktopDatePicker
+              label="expire Date"
+              inputFormat="MM/dd/yyyy"
+              // value={value}
+              // onChange={handleChange}
+              renderInput={(params) => <TextField {...params} />}
+            />
+          </LocalizationProvider>
         </div>
       </form>
     </div>
