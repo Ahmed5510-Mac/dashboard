@@ -1,5 +1,5 @@
 import React from "react";
-import AddSubCategory from "../../components/subCategoryes/AddSubCategory";
+import AddSubCategory from "../../components/subCategoryes/SubCategoryForm";
 import SubCatigoryesList from "../../components/subCategoryes/catigoryesList/subCategoriesList";
 
 function SubCategories() {
