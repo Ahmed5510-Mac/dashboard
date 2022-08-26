@@ -21,10 +21,12 @@ function AddSubCategory() {
           {showinput ? "save" : "Edite"}
         </div>
         <div className="form-group">
-
-          {showinput && (<><span class="label">ID</span><input type="text" placeholder="Enter id" /></>)
-           }
-          
+          {showinput && (
+            <>
+              <span class="label">ID</span>
+              <input type="text" placeholder="Enter id" />
+            </>
+          )}
         </div>
         <div className="form-group">
           <span class="label">Name</span>

@@ -174,10 +174,7 @@ const Sidebar = () => {
                     {/*---- Emloyee links ----*/}
                   </ul>
                 </li>
-                <NavLink to="/products" className="sidebarListItem">
-                  <i className="fa-brands fa-product-hunt"></i>
-                  <span>products</span>
-                </NavLink>
+
                 <NavLink to="/ordered" className="sidebarListItem">
                   <i className="fa-solid fa-arrow-down-short-wide"></i>
                   <span>ordered</span>

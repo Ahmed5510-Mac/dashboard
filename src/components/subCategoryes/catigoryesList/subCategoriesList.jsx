@@ -1,7 +1,7 @@
 import React from "react";
-import "./subCatigoryesLisy.component";
+import "./subCategoriesList";
 
-function SubCatigoryesLisy() {
+function SubCategoriesList() {
   return (
     <div>
       <>
@@ -44,4 +44,4 @@ function SubCatigoryesLisy() {
   );
 }
 
-export default SubCatigoryesLisy;
+export default SubCategoriesList;

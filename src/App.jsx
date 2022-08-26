@@ -26,10 +26,9 @@ import Datatable from "./components/datatable/Datatable";
 import Singleuser from "./components/SingleUser/singleuser";
 import { useSelector } from "react-redux";
 import Categores from "./pages/categoryes/categores";
-import CubCategoryes from "./pages/subcategores/subCategoryes.page";
 import BrandsPage from "./pages/brands/Brands.page";
 import Product_page from "./pages/products/Product_page";
-import { useState } from "react";
+import SubCategories from "./pages/SubCategories/SubCategories.page";
 
 const App = () => {
   const { isLogedIn } = useSelector((state) => state.loginSlice);
@@ -101,7 +100,7 @@ const App = () => {
                     <Route path="/casherList" element={<Casher />} />
                     <Route path="/users" element={<Datatable />} />
                     <Route path="/categorey" element={<Categores />} />
-                    <Route path="/subcategorey" element={<CubCategoryes />} />
+                    <Route path="/subcategorey" element={<SubCategories />} />
                     <Route path="/brand" element={<BrandsPage />} />
                     <Route path="/products" element={<Product_page />} />
                     <Route path="*" element={<NotFound />} />

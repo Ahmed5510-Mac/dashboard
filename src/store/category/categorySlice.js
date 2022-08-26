@@ -39,16 +39,69 @@ export const getAllCategoriesByType = createAsyncThunk(
   }
 );
 
+export const editCategory = createAsyncThunk(
+  "categorySlice/editCategory",
+  async (data, thunkAPI) => {
+    const { rejectWithValue } = thunkAPI;
+    try {
+      const res = await axios.put(baseAPI + `/categories`, data, {
+        headers: {
+          Authorization: `Bearer ` + localStorage.getItem("token"),
+        },
+      });
+
+      console.log(res);
+      return res.data;
+    } catch (error) {
+      return rejectWithValue(error.message);
+    }
+  }
+);
+
+export const deleteCategory = createAsyncThunk(
+  "categorySlice/deleteCategory",
+  async (data, thunkAPI) => {
+    const { rejectWithValue } = thunkAPI;
+    try {
+      const res = await axios.delete(baseAPI + `/categories`, data, {
+        headers: {
+          Authorization: `Bearer ` + localStorage.getItem("token"),
+        },
+      });
+
+      console.log(res);
+      return res.data;
+    } catch (error) {
+      return rejectWithValue(error.message);
+    }
+  }
+);
+
 // initial state
 const initialState = {
   categories: [],
+  editableCategory: null,
+  categoryType: "product",
   error: false,
+  isLoading: false,
 };
 
 const categorySlice = createSlice({
   name: "categorySlice",
   initialState,
-  reducers: {},
+  reducers: {
+    setEditableCategory: (state, action) => {
+      state.editableCategory = action.payload;
+    },
+    resetEditableCategory: (state, action) => {
+      console.log("resetting --------------");
+      state.editableCategory = action.payload;
+    },
+    // -------------- setCategory Type ----------
+    setCategoryType: (state, action) => {
+      state.categoryType = action.payload;
+    },
+  },
   extraReducers: {
     // ---------------- add categories ---------------------
     [addCategory.pending]: (state, action) => {
@@ -56,7 +109,6 @@ const categorySlice = createSlice({
     },
     [addCategory.fulfilled]: (state, action) => {
       state.isLoading = false;
-      // state.pendingDoctorsList = action.payload.reverse();
     },
     [addCategory.rejected]: (state, action) => {
       state.isLoading = false;
@@ -75,7 +127,33 @@ const categorySlice = createSlice({
       state.isLoading = false;
       state.error = action.payload;
     },
+
+    // ---------------- edit categories ---------------------
+    [editCategory.pending]: (state, action) => {
+      state.isLoading = true;
+    },
+    [editCategory.fulfilled]: (state, action) => {
+      state.isLoading = false;
+    },
+    [editCategory.rejected]: (state, action) => {
+      state.isLoading = false;
+      state.error = action.payload;
+    },
+
+    // ---------------- delete category ---------------------
+    [deleteCategory.pending]: (state, action) => {
+      state.isLoading = true;
+    },
+    [deleteCategory.fulfilled]: (state, action) => {
+      state.isLoading = false;
+    },
+    [deleteCategory.rejected]: (state, action) => {
+      state.isLoading = false;
+      state.error = action.payload;
+    },
   },
 });
 
+export const { setEditableCategory, resetEditableCategory, setCategoryType } =
+  categorySlice.actions;
 export default categorySlice.reducer;
