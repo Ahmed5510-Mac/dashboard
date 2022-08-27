@@ -9,6 +9,7 @@ import {
   MenuItem,
   Select,
 } from "@material-ui/core";
+<<<<<<< HEAD
 import {
   addSubCategory,
   resetEditableSubCategory,
@@ -30,11 +31,25 @@ function SubCategoryForm() {
     initialValues: {
       name: "",
       category: id,
+=======
+import { useDispatch, useSelector } from "react-redux";
+import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
+
+function SubCategoryForm() {
+  const { editableCategory } = useSelector((state) => state.categorySlice);
+  const dispatch = useDispatch();
+
+  const formik = useFormik({
+    initialValues: {
+      name: "",
+      category: "",
+>>>>>>> 2f694424db741237e518183f2b402dd63e7590af
       products: [],
       medicines: [],
     },
     // validationSchema: validationSchema,
     onSubmit: (values) => {
+<<<<<<< HEAD
       (editableSubCategory
         ? dispatch(editSubCategory(values))
         : dispatch(addSubCategory(values))
@@ -44,10 +59,22 @@ function SubCategoryForm() {
         dispatch(setSubCategoryType(values.category));
         formik.handleReset();
       });
+=======
+      // (editableCategory
+      //   ? dispatch(editCategory(values))
+      //   : dispatch(addCategory(values))
+      // ).then(() => {
+      //   dispatch(getAllCategoriesByType(values.category_type));
+      //   dispatch(resetEditableCategory(null));
+      //   dispatch(setCategoryType(values.category_type));
+      //   // formik.handleReset();
+      // });
+>>>>>>> 2f694424db741237e518183f2b402dd63e7590af
     },
   });
 
   useEffect(() => {
+<<<<<<< HEAD
     if (!editableSubCategory) formik.handleReset();
     else {
       formik.setFieldValue("id", editableSubCategory?._id);
@@ -55,6 +82,15 @@ function SubCategoryForm() {
       formik.setFieldValue("category", editableSubCategory?.category);
     }
   }, [editableSubCategory]);
+=======
+    if (!editableCategory) formik.handleReset();
+    else {
+      formik.setFieldValue("id", editableCategory?._id);
+      formik.setFieldValue("name", editableCategory?.name);
+      formik.setFieldValue("category_type", editableCategory?.category_type);
+    }
+  }, [editableCategory]);
+>>>>>>> 2f694424db741237e518183f2b402dd63e7590af
 
   return (
     <div className="Addcategory-container">
@@ -65,8 +101,13 @@ function SubCategoryForm() {
           alignItems: "center",
         }}
       >
+<<<<<<< HEAD
         <span>{editableSubCategory ? "Edit" : "Add"} New subCategory </span>
         {editableSubCategory ? (
+=======
+        <span>{editableCategory ? "Edit" : "Add"} New Category </span>
+        {editableCategory ? (
+>>>>>>> 2f694424db741237e518183f2b402dd63e7590af
           <AddCircleOutlineIcon
             // onClick={() => dispatch(resetEditableCategory(null))}
             fontSize="large"
@@ -92,6 +133,7 @@ function SubCategoryForm() {
         />
 
         <FormControl fullWidth>
+<<<<<<< HEAD
           <InputLabel id="category-label">category</InputLabel>
           <Select
             labelId="category-label"
@@ -110,6 +152,28 @@ function SubCategoryForm() {
         </FormControl>
 
         <Button type="submit">{editableSubCategory ? "Edit" : "save"}</Button>
+=======
+          <InputLabel id="category_type-label">Category Type</InputLabel>
+          <Select
+            labelId="category_type-label"
+            id="category_type"
+            label="Category Type"
+            name="category_type"
+            value={formik.values.category_type}
+            onChange={formik.handleChange}
+            error={
+              formik.touched.category_type &&
+              Boolean(formik.errors.category_type)
+            }
+          >
+            <MenuItem value={"product"}>product</MenuItem>
+            <MenuItem value={"medicine"}>medicine</MenuItem>
+            <MenuItem value={"accessories"}>accessories</MenuItem>
+          </Select>
+        </FormControl>
+
+        <Button type="submit">{editableCategory ? "Edit" : "save"}</Button>
+>>>>>>> 2f694424db741237e518183f2b402dd63e7590af
       </form>
     </div>
   );

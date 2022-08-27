@@ -29,7 +29,10 @@ import Categores from "./pages/categoryes/categores";
 import BrandsPage from "./pages/brands/Brands.page";
 import Product_page from "./pages/products/Product_page";
 import SubCategories from "./pages/SubCategories/SubCategories.page";
+<<<<<<< HEAD
 import Suppliers from './pages/suppliers/suppliers';
+=======
+>>>>>>> 2f694424db741237e518183f2b402dd63e7590af
 
 const App = () => {
   const { isLogedIn } = useSelector((state) => state.loginSlice);
@@ -101,7 +104,11 @@ const App = () => {
                     <Route path="/casherList" element={<Casher />} />
                     <Route path="/users" element={<Datatable />} />
                     <Route path="/categorey" element={<Categores />} />
+<<<<<<< HEAD
                     <Route path="/subcategory/:id" element={<SubCategories />} />
+=======
+                    <Route path="/subcategorey" element={<SubCategories />} />
+>>>>>>> 2f694424db741237e518183f2b402dd63e7590af
                     <Route path="/brand" element={<BrandsPage />} />
                     <Route path="/products" element={<Product_page />} />
                     <Route path="/supliers" element={<Suppliers/>} />

@@ -1,7 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { useSelector } from "react-redux";
+<<<<<<< HEAD
 import { NavLink } from "react-router-dom";
+=======
+>>>>>>> 2f694424db741237e518183f2b402dd63e7590af
 import {
   deleteCategory,
   getAllCategoriesByType,
@@ -18,12 +21,20 @@ import {
   Radio,
   RadioGroup,
 } from "@mui/material";
+<<<<<<< HEAD
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import "./catigoryesLisy.component.scss";
+=======
+
+>>>>>>> 2f694424db741237e518183f2b402dd63e7590af
 function CatigoryesLisy() {
   const { categories, categoryType } = useSelector(
     (state) => state.categorySlice
   );
+<<<<<<< HEAD
+=======
+
+>>>>>>> 2f694424db741237e518183f2b402dd63e7590af
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -80,6 +91,7 @@ function CatigoryesLisy() {
                       <td>{index + 1}</td>
                       <td>{cat.name}</td>
                       <td>
+<<<<<<< HEAD
                         <span className="btn-edite">
                           <EditIcon
                             onClick={() =>
@@ -110,6 +122,29 @@ function CatigoryesLisy() {
                           <VisibilityIcon />
                           </NavLink>
                         </span>
+=======
+                        <EditIcon
+                          onClick={() =>
+                            dispatch(
+                              setEditableCategory({
+                                ...cat,
+                                category_type: categoryType,
+                              })
+                            )
+                          }
+                        />
+                        <DeleteForeverIcon
+                          onClick={() =>
+                            dispatch(
+                              deleteCategory({
+                                id: cat._id,
+                              })
+                            ).then(() =>
+                              dispatch(getAllCategoriesByType(categoryType))
+                            )
+                          }
+                        />
+>>>>>>> 2f694424db741237e518183f2b402dd63e7590af
                       </td>
                     </tr>
                   ))}
