@@ -63,18 +63,11 @@ export const deleteCategory = createAsyncThunk(
   async (data, thunkAPI) => {
     const { rejectWithValue } = thunkAPI;
     try {
-<<<<<<< HEAD
       const res = await axios.delete(baseAPI + `/categories`, {
         headers: {
           Authorization: `Bearer ` + localStorage.getItem("token"),
         },
         data:data
-=======
-      const res = await axios.delete(baseAPI + `/categories`, data, {
-        headers: {
-          Authorization: `Bearer ` + localStorage.getItem("token"),
-        },
->>>>>>> 2f694424db741237e518183f2b402dd63e7590af
       });
 
       console.log(res);

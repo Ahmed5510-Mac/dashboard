@@ -1,13 +1,7 @@
 import React from "react";
-<<<<<<< HEAD:src/components/Supliers/SuplierList/SupliersList.jsx
 import "./suplierLis.scss";
 
 function SuppliersList() {
-=======
-import "./subCategoriesList";
-
-function SubCategoriesList() {
->>>>>>> 2f694424db741237e518183f2b402dd63e7590af:src/components/Supliers/SuplierList/subCategoriesList.jsx
   return (
     <div>
       <>
@@ -50,8 +44,4 @@ function SubCategoriesList() {
   );
 }
 
-<<<<<<< HEAD:src/components/Supliers/SuplierList/SupliersList.jsx
 export default SuppliersList;
-=======
-export default SubCategoriesList;
->>>>>>> 2f694424db741237e518183f2b402dd63e7590af:src/components/Supliers/SuplierList/subCategoriesList.jsx
