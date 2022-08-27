@@ -1,44 +1,34 @@
 import "./addbarnd.scss";
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { useFormik } from "formik";
-import {
-  Button,
-  TextField,
-  FormControl,
-  InputLabel,
-  MenuItem,
-  Select,
-} from "@material-ui/core";
+import { Button, TextField } from "@material-ui/core";
 import { useDispatch, useSelector } from "react-redux";
+import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 import {
+  getAllBrand,
   addBrand,
   editBrand,
-  getAllBrandsByType,
   resetEditableBrand,
-  setBrandType,
-} from "../../../store/category/categorySlice";
-import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
+} from "../../../store/brand/brand.slice";
 
 function BrandForm() {
-  const { editablebrand } = useSelector((state) => state.categorySlice);
+  const { editableBrand } = useSelector((state) => state.brandSlice);
   const dispatch = useDispatch();
 
   const formik = useFormik({
     initialValues: {
       id: "",
       name: "",
-      category_type: "",
     },
     // validationSchema: validationSchema,
     onSubmit: (values) => {
-      (editablebrand
+      console.log(values);
+      (editableBrand
         ? dispatch(editBrand(values))
         : dispatch(addBrand(values))
       ).then(() => {
-        dispatch(getAllBrandsByType(values.category_type));
+        dispatch(getAllBrand());
         dispatch(resetEditableBrand(null));
-        dispatch(setBrandType(values.category_type));
-        // formik.handleReset();
       });
     },
   });
@@ -46,9 +36,10 @@ function BrandForm() {
   useEffect(() => {
     if (!editableBrand) formik.handleReset();
     else {
-      formik.setFieldValue("name", editablebrand?.name);
+      formik.setFieldValue("name", editableBrand?.name);
+      formik.setFieldValue("id", editableBrand?._id);
     }
-  }, [editablebrand]);
+  }, [editableBrand]);
 
   return (
     <div className="Addcategory-container">
@@ -59,8 +50,8 @@ function BrandForm() {
           alignItems: "center",
         }}
       >
-        <span>{editablebrand ? "Edit" : "Add"} New Brand </span>
-        {editablebrand ? (
+        <span>{editableBrand ? "Edit" : "Add"} New Brand </span>
+        {editableBrand ? (
           <AddCircleOutlineIcon
             onClick={() => dispatch(resetEditableBrand(null))}
             fontSize="large"
@@ -75,16 +66,16 @@ function BrandForm() {
           margin="normal"
           required
           fullWidth
-          id="brand"
+          id="name"
           label="Brand"
-          name="Brand"
+          name="name"
           autoFocus
           value={formik.values.name}
           onChange={formik.handleChange}
           error={formik.touched.name && Boolean(formik.errors.name)}
           helperText={formik.touched.name && formik.errors.name}
         />
-        <Button type="submit">{editablebrand ? "Edit" : "save"}</Button>
+        <Button type="submit">{editableBrand ? "Edit" : "save"}</Button>
       </form>
     </div>
   );

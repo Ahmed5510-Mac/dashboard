@@ -7,7 +7,7 @@ export const addBrand = createAsyncThunk(
   async (data, thunkAPI) => {
     const { rejectWithValue } = thunkAPI;
     try {
-      const res = await axios.post(baseAPI + `/brand`, data, {
+      const res = await axios.post(baseAPI + `/brands`, data, {
         headers: {
           Authorization: `Bearer ` + localStorage.getItem("token"),
         },
@@ -23,10 +23,10 @@ export const addBrand = createAsyncThunk(
 
 export const getAllBrand = createAsyncThunk(
   "brandSlice/getAllBrandsByType",
-  async (brandType, thunkAPI) => {
+  async (_, thunkAPI) => {
     const { rejectWithValue } = thunkAPI;
     try {
-      const res = await axios.get(baseAPI + `/brands/${brandType}`, {
+      const res = await axios.get(baseAPI + `/brands`, {
         headers: {
           Authorization: `Bearer ` + localStorage.getItem("token"),
         },
@@ -67,7 +67,7 @@ export const deleteBrand = createAsyncThunk(
         headers: {
           Authorization: `Bearer ` + localStorage.getItem("token"),
         },
-        data:data
+        data: data,
       });
 
       console.log(res);
@@ -81,8 +81,7 @@ export const deleteBrand = createAsyncThunk(
 // initial state
 const initialState = {
   barnds: [],
-  editablebrand: null,
-  brandType: "product",
+  editableBrand: null,
   error: false,
   isLoading: false,
 };
@@ -91,72 +90,64 @@ const brandSlice = createSlice({
   name: "brandSlice",
   initialState,
   reducers: {
-    setEditablebrand: (state, action) => {
-      state.editablebrand = action.payload;
+    setEditableBrand: (state, action) => {
+      state.editableBrand = action.payload;
     },
-    resetEditablebrand: (state, action) => {
-      console.log("resetting --------------");
-      state.editablebrand = action.payload;
-    },
-    // -------------- setbrand Type ----------
-    setbrandType: (state, action) => {
-      state.brandType = action.payload;
+    resetEditableBrand: (state, action) => {
+      state.editableBrand = action.payload;
     },
   },
   extraReducers: {
     // ---------------- add brands ---------------------
-    [addbrand.pending]: (state, action) => {
+    [addBrand.pending]: (state, action) => {
       state.isLoading = true;
     },
-    [addbrand.fulfilled]: (state, action) => {
+    [addBrand.fulfilled]: (state, action) => {
       state.isLoading = false;
     },
-    [addbrand.rejected]: (state, action) => {
+    [addBrand.rejected]: (state, action) => {
       state.isLoading = false;
       state.error = action.payload;
     },
 
     // ---------------- get brands ---------------------
-    [getAllBrandsByType.pending]: (state, action) => {
+    [getAllBrand.pending]: (state, action) => {
       state.isLoading = true;
     },
-    [getAllBrandsByType.fulfilled]: (state, action) => {
+    [getAllBrand.fulfilled]: (state, action) => {
       state.isLoading = false;
       state.brands = action.payload.reverse();
     },
-    [getAllBrandsByType.rejected]: (state, action) => {
+    [getAllBrand.rejected]: (state, action) => {
       state.isLoading = false;
       state.error = action.payload;
     },
 
     // ---------------- edit brands ---------------------
-    [editbrand.pending]: (state, action) => {
+    [editBrand.pending]: (state, action) => {
       state.isLoading = true;
     },
-    [editbrand.fulfilled]: (state, action) => {
+    [editBrand.fulfilled]: (state, action) => {
       state.isLoading = false;
     },
-    [editbrand.rejected]: (state, action) => {
+    [editBrand.rejected]: (state, action) => {
       state.isLoading = false;
       state.error = action.payload;
     },
 
     // ---------------- delete brand ---------------------
-    [deletebrand.pending]: (state, action) => {
+    [deleteBrand.pending]: (state, action) => {
       state.isLoading = true;
     },
-    [deletebrand.fulfilled]: (state, action) => {
+    [deleteBrand.fulfilled]: (state, action) => {
       state.isLoading = false;
     },
-    [deletebrand.rejected]: (state, action) => {
+    [deleteBrand.rejected]: (state, action) => {
       state.isLoading = false;
       state.error = action.payload;
     },
   },
 });
 
-export const { setEditablebrand, resetEditablebrand, setbrandType } =
-  brandSlice.actions;
+export const { setEditableBrand, resetEditableBrand } = brandSlice.actions;
 export default brandSlice.reducer;
-
-

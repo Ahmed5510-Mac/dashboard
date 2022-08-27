@@ -1,7 +1,23 @@
-import React from "react";
+import React, { useEffect } from "react";
+import EditIcon from "@mui/icons-material/Edit";
+import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  deleteBrand,
+  getAllBrand,
+  setEditableBrand,
+} from "../../../store/brand/brand.slice";
 import "./BrandList.component";
 
 function BrandList() {
+  const { brands } = useSelector((state) => state.brandSlice);
+
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(getAllBrand());
+  }, []);
+
   return (
     <div>
       <>
@@ -12,32 +28,41 @@ function BrandList() {
               <table className="table tableUsers table-light table-striped mx-auto mt-5 col-7 text-center ">
                 <thead className="">
                   <tr>
-                    <th>Category ID </th>
-                    <th> Category Name</th>
-                    <th>Category Type</th>
+                    <th>index</th>
+                    <th>Brand Name</th>
                     <th>Action</th>
                   </tr>
                 </thead>
                 {/* ------body------- */}
                 <tbody>
-                  <tr className="rowtable">
-                    <td>1</td>
-                    <td>malcone</td>
-                    <td>medcine</td>
-                    <td>
-                      <button className="acceptBtn mx-2">
-                        <i className="fa-solid fa-user-check"></i>
-                      </button>
-                      <button className="blockBtn ">
-                        <i className="fa-solid fa-user-slash"></i>
-                      </button>
-                    </td>
-                  </tr>
+                  {brands?.map((brand, index) => (
+                    <tr key={brand._id} className="rowtable">
+                      <td>{index + 1}</td>
+                      <td>{brand.name}</td>
+                      <td>
+                        <span className="btn-edite">
+                          <EditIcon
+                            onClick={() => dispatch(setEditableBrand(brand))}
+                          />
+                        </span>
+                        <span className="btn-delete">
+                          <DeleteForeverIcon
+                            onClick={() =>
+                              dispatch(
+                                deleteBrand({
+                                  id: brand._id,
+                                })
+                              ).then(() => dispatch(getAllBrand()))
+                            }
+                          />
+                        </span>
+                      </td>
+                    </tr>
+                  ))}
                 </tbody>
               </table>
             </div>
           </>
-          )
         </div>
       </>
     </div>
