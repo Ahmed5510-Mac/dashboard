@@ -1,11 +1,11 @@
 import React from "react";
-import "./subCatigoryesLisy.component";
+import "./suplierLis.scss";
 
-function SubCatigoryesLisy() {
+function SuppliersList() {
   return (
     <div>
       <>
-        <h2 className="text-center text-primary my-2">All SubCategoryes</h2>
+        <h2 className="text-center text-primary my-2">All Suppliers List</h2>
         <div className="">
           <>
             <div className="tableContainer">
@@ -44,4 +44,4 @@ function SubCatigoryesLisy() {
   );
 }
 
-export default SubCatigoryesLisy;
+export default SuppliersList;

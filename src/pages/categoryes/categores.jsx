@@ -1,18 +1,18 @@
-import React from 'react';
-import Addcategory from "../../components/categoryes/addCategory/Addcategory"
-import CatigoryesList from "../../components/categoryes/catigoryesList/catigoryesLisy.component"
+import React from "react";
+import CategoryFrom from "../../components/categoryes/categoryForm/CategoryForm";
+import CatigoryesList from "../../components/categoryes/catigoryesList/catigoryesLisy.component";
 
 function Categores() {
   return (
     <>
-    <div>
-      <Addcategory/>
-    </div>
-     <div>
-        <CatigoryesList/>
-    </div>
+      <div>
+        <CategoryFrom />
+      </div>
+      <div>
+        <CatigoryesList />
+      </div>
     </>
-  )
+  );
 }
 
-export default Categores
+export default Categores;

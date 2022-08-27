@@ -2,12 +2,12 @@ import axios from "axios";
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 const baseAPI = "https://fathomless-hollows-91408.herokuapp.com";
 
-export const addCategory = createAsyncThunk(
-  "categorySlice/addCategory",
+export const addBrand = createAsyncThunk(
+  "brandSlice/addbrand",
   async (data, thunkAPI) => {
     const { rejectWithValue } = thunkAPI;
     try {
-      const res = await axios.post(baseAPI + `/categories`, data, {
+      const res = await axios.post(baseAPI + `/brand`, data, {
         headers: {
           Authorization: `Bearer ` + localStorage.getItem("token"),
         },
@@ -21,12 +21,12 @@ export const addCategory = createAsyncThunk(
   }
 );
 
-export const getAllCategoriesByType = createAsyncThunk(
-  "categorySlice/getAllCategoriesByType",
-  async (categoryType, thunkAPI) => {
+export const getAllBrand = createAsyncThunk(
+  "brandSlice/getAllBrandsByType",
+  async (brandType, thunkAPI) => {
     const { rejectWithValue } = thunkAPI;
     try {
-      const res = await axios.get(baseAPI + `/categories/${categoryType}`, {
+      const res = await axios.get(baseAPI + `/brands/${brandType}`, {
         headers: {
           Authorization: `Bearer ` + localStorage.getItem("token"),
         },
@@ -39,12 +39,12 @@ export const getAllCategoriesByType = createAsyncThunk(
   }
 );
 
-export const editCategory = createAsyncThunk(
-  "categorySlice/editCategory",
+export const editBrand = createAsyncThunk(
+  "brandSlice/editBrand",
   async (data, thunkAPI) => {
     const { rejectWithValue } = thunkAPI;
     try {
-      const res = await axios.put(baseAPI + `/categories`, data, {
+      const res = await axios.put(baseAPI + `/brands`, data, {
         headers: {
           Authorization: `Bearer ` + localStorage.getItem("token"),
         },
@@ -58,12 +58,12 @@ export const editCategory = createAsyncThunk(
   }
 );
 
-export const deleteCategory = createAsyncThunk(
-  "categorySlice/deleteCategory",
+export const deleteBrand = createAsyncThunk(
+  "brandSlice/deletebrand",
   async (data, thunkAPI) => {
     const { rejectWithValue } = thunkAPI;
     try {
-      const res = await axios.delete(baseAPI + `/categories`, {
+      const res = await axios.delete(baseAPI + `/brands`, {
         headers: {
           Authorization: `Bearer ` + localStorage.getItem("token"),
         },
@@ -80,81 +80,83 @@ export const deleteCategory = createAsyncThunk(
 
 // initial state
 const initialState = {
-  categories: [],
-  editableCategory: null,
-  categoryType: "product",
+  barnds: [],
+  editablebrand: null,
+  brandType: "product",
   error: false,
   isLoading: false,
 };
 
-const categorySlice = createSlice({
-  name: "categorySlice",
+const brandSlice = createSlice({
+  name: "brandSlice",
   initialState,
   reducers: {
-    setEditableCategory: (state, action) => {
-      state.editableCategory = action.payload;
+    setEditablebrand: (state, action) => {
+      state.editablebrand = action.payload;
     },
-    resetEditableCategory: (state, action) => {
+    resetEditablebrand: (state, action) => {
       console.log("resetting --------------");
-      state.editableCategory = action.payload;
+      state.editablebrand = action.payload;
     },
-    // -------------- setCategory Type ----------
-    setCategoryType: (state, action) => {
-      state.categoryType = action.payload;
+    // -------------- setbrand Type ----------
+    setbrandType: (state, action) => {
+      state.brandType = action.payload;
     },
   },
   extraReducers: {
-    // ---------------- add categories ---------------------
-    [addCategory.pending]: (state, action) => {
+    // ---------------- add brands ---------------------
+    [addbrand.pending]: (state, action) => {
       state.isLoading = true;
     },
-    [addCategory.fulfilled]: (state, action) => {
+    [addbrand.fulfilled]: (state, action) => {
       state.isLoading = false;
     },
-    [addCategory.rejected]: (state, action) => {
+    [addbrand.rejected]: (state, action) => {
       state.isLoading = false;
       state.error = action.payload;
     },
 
-    // ---------------- get categories ---------------------
-    [getAllCategoriesByType.pending]: (state, action) => {
+    // ---------------- get brands ---------------------
+    [getAllBrandsByType.pending]: (state, action) => {
       state.isLoading = true;
     },
-    [getAllCategoriesByType.fulfilled]: (state, action) => {
+    [getAllBrandsByType.fulfilled]: (state, action) => {
       state.isLoading = false;
-      state.categories = action.payload.reverse();
+      state.brands = action.payload.reverse();
     },
-    [getAllCategoriesByType.rejected]: (state, action) => {
+    [getAllBrandsByType.rejected]: (state, action) => {
       state.isLoading = false;
       state.error = action.payload;
     },
 
-    // ---------------- edit categories ---------------------
-    [editCategory.pending]: (state, action) => {
+    // ---------------- edit brands ---------------------
+    [editbrand.pending]: (state, action) => {
       state.isLoading = true;
     },
-    [editCategory.fulfilled]: (state, action) => {
+    [editbrand.fulfilled]: (state, action) => {
       state.isLoading = false;
     },
-    [editCategory.rejected]: (state, action) => {
+    [editbrand.rejected]: (state, action) => {
       state.isLoading = false;
       state.error = action.payload;
     },
 
-    // ---------------- delete category ---------------------
-    [deleteCategory.pending]: (state, action) => {
+    // ---------------- delete brand ---------------------
+    [deletebrand.pending]: (state, action) => {
       state.isLoading = true;
     },
-    [deleteCategory.fulfilled]: (state, action) => {
+    [deletebrand.fulfilled]: (state, action) => {
       state.isLoading = false;
     },
-    [deleteCategory.rejected]: (state, action) => {
+    [deletebrand.rejected]: (state, action) => {
       state.isLoading = false;
       state.error = action.payload;
     },
   },
 });
 
-export const { setEditableCategory, resetEditableCategory, setCategoryType } =
-  categorySlice.actions;
-export default categorySlice.reducer;
+export const { setEditablebrand, resetEditablebrand, setbrandType } =
+  brandSlice.actions;
+export default brandSlice.reducer;
+
+

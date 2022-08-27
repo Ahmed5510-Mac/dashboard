@@ -162,10 +162,6 @@ const Sidebar = () => {
                         <i className="fa-solid fa-person-dolly"></i>
                         <span>catigores</span>
                       </NavLink>
-                      <NavLink to="/subcategorey" className="sidebarListItem">
-                        <i className="fa-solid fa-person-dolly"></i>
-                        <span>sup catigorys</span>
-                      </NavLink>
                       <NavLink to="/brand" className="sidebarListItem">
                         <i className="fa-solid fa-person-dolly"></i>
                         <span>brands</span>
@@ -174,13 +170,14 @@ const Sidebar = () => {
                     {/*---- Emloyee links ----*/}
                   </ul>
                 </li>
-                <NavLink to="/products" className="sidebarListItem">
-                  <i className="fa-brands fa-product-hunt"></i>
-                  <span>products</span>
-                </NavLink>
+
                 <NavLink to="/ordered" className="sidebarListItem">
                   <i className="fa-solid fa-arrow-down-short-wide"></i>
                   <span>ordered</span>
+                </NavLink>
+                <NavLink to="/supliers" className="sidebarListItem">
+                  <i className="fa-solid fa-arrow-down-short-wide"></i>
+                  <span>supliers</span>
                 </NavLink>
                 <NavLink to="/descount" className="sidebarListItem">
                   <i className="fa-solid fa-tags"></i>

@@ -2,12 +2,12 @@ import axios from "axios";
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 const baseAPI = "https://fathomless-hollows-91408.herokuapp.com";
 
-export const addCategory = createAsyncThunk(
-  "categorySlice/addCategory",
+export const addSubCategory = createAsyncThunk(
+  "subCategorySlice/addSubCategory",
   async (data, thunkAPI) => {
     const { rejectWithValue } = thunkAPI;
     try {
-      const res = await axios.post(baseAPI + `/categories`, data, {
+      const res = await axios.post(baseAPI + `/subcategories`, data, {
         headers: {
           Authorization: `Bearer ` + localStorage.getItem("token"),
         },
@@ -21,12 +21,12 @@ export const addCategory = createAsyncThunk(
   }
 );
 
-export const getAllCategoriesByType = createAsyncThunk(
-  "categorySlice/getAllCategoriesByType",
-  async (categoryType, thunkAPI) => {
+export const getAllSubCategories = createAsyncThunk(
+  "subCategorySlice/getAllCategoriesByType",
+  async (subCategoryType, thunkAPI) => {
     const { rejectWithValue } = thunkAPI;
     try {
-      const res = await axios.get(baseAPI + `/categories/${categoryType}`, {
+      const res = await axios.get(baseAPI + `/subcategories/${subCategoryType}`, {
         headers: {
           Authorization: `Bearer ` + localStorage.getItem("token"),
         },
@@ -39,12 +39,12 @@ export const getAllCategoriesByType = createAsyncThunk(
   }
 );
 
-export const editCategory = createAsyncThunk(
-  "categorySlice/editCategory",
+export const editSubCategory = createAsyncThunk(
+  "subCategorySlice/editSubCategory",
   async (data, thunkAPI) => {
     const { rejectWithValue } = thunkAPI;
     try {
-      const res = await axios.put(baseAPI + `/categories`, data, {
+      const res = await axios.put(baseAPI + `/subcategories`, data, {
         headers: {
           Authorization: `Bearer ` + localStorage.getItem("token"),
         },
@@ -58,12 +58,12 @@ export const editCategory = createAsyncThunk(
   }
 );
 
-export const deleteCategory = createAsyncThunk(
-  "categorySlice/deleteCategory",
+export const deleteSubCategory = createAsyncThunk(
+  "subCategorySlice/deleteSubCategory",
   async (data, thunkAPI) => {
     const { rejectWithValue } = thunkAPI;
     try {
-      const res = await axios.delete(baseAPI + `/categories`, {
+      const res = await axios.delete(baseAPI + `/subcategories`, {
         headers: {
           Authorization: `Bearer ` + localStorage.getItem("token"),
         },
@@ -80,81 +80,77 @@ export const deleteCategory = createAsyncThunk(
 
 // initial state
 const initialState = {
-  categories: [],
-  editableCategory: null,
-  categoryType: "product",
+  subCategories: [],
+  editableSubCategory: null,
+  subCategoryType: "product",
   error: false,
   isLoading: false,
 };
 
-const categorySlice = createSlice({
-  name: "categorySlice",
+const subCategorySlice = createSlice({
+  name: "subCategorySlice",
   initialState,
   reducers: {
-    setEditableCategory: (state, action) => {
-      state.editableCategory = action.payload;
+    setEditableSubCategory: (state, action) => {
+      state.editableSubCategory = action.payload;
     },
-    resetEditableCategory: (state, action) => {
+    resetEditableSubCategory: (state, action) => {
       console.log("resetting --------------");
-      state.editableCategory = action.payload;
-    },
-    // -------------- setCategory Type ----------
-    setCategoryType: (state, action) => {
-      state.categoryType = action.payload;
+      state.editableSubCategory = action.payload;
     },
   },
   extraReducers: {
     // ---------------- add categories ---------------------
-    [addCategory.pending]: (state, action) => {
+    [addSubCategory.pending]: (state, action) => {
       state.isLoading = true;
     },
-    [addCategory.fulfilled]: (state, action) => {
+    [addSubCategory.fulfilled]: (state, action) => {
       state.isLoading = false;
     },
-    [addCategory.rejected]: (state, action) => {
+    [addSubCategory.rejected]: (state, action) => {
       state.isLoading = false;
       state.error = action.payload;
     },
 
     // ---------------- get categories ---------------------
-    [getAllCategoriesByType.pending]: (state, action) => {
+    [getAllSubCategories.pending]: (state, action) => {
       state.isLoading = true;
     },
-    [getAllCategoriesByType.fulfilled]: (state, action) => {
+    [getAllSubCategories.fulfilled]: (state, action) => {
       state.isLoading = false;
-      state.categories = action.payload.reverse();
+      state.subCategories = action.payload.reverse();
     },
-    [getAllCategoriesByType.rejected]: (state, action) => {
+    [getAllSubCategories.rejected]: (state, action) => {
       state.isLoading = false;
       state.error = action.payload;
     },
 
     // ---------------- edit categories ---------------------
-    [editCategory.pending]: (state, action) => {
+    [editSubCategory.pending]: (state, action) => {
       state.isLoading = true;
     },
-    [editCategory.fulfilled]: (state, action) => {
+    [editSubCategory.fulfilled]: (state, action) => {
       state.isLoading = false;
     },
-    [editCategory.rejected]: (state, action) => {
+    [editSubCategory.rejected]: (state, action) => {
       state.isLoading = false;
       state.error = action.payload;
     },
 
-    // ---------------- delete category ---------------------
-    [deleteCategory.pending]: (state, action) => {
+    // ---------------- delete subCategory ---------------------
+    [deleteSubCategory.pending]: (state, action) => {
       state.isLoading = true;
     },
-    [deleteCategory.fulfilled]: (state, action) => {
+    [deleteSubCategory.fulfilled]: (state, action) => {
       state.isLoading = false;
     },
-    [deleteCategory.rejected]: (state, action) => {
+    [deleteSubCategory.rejected]: (state, action) => {
       state.isLoading = false;
       state.error = action.payload;
     },
   },
 });
 
-export const { setEditableCategory, resetEditableCategory, setCategoryType } =
-  categorySlice.actions;
-export default categorySlice.reducer;
+export const { setEditableSubCategory, resetEditableSubCategory, setSubCategoryType } =
+  subCategorySlice.actions;
+export default subCategorySlice.reducer;

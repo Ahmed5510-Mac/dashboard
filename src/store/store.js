@@ -6,6 +6,8 @@ import loginSlice from "./login/loginSlice";
 import auth from "./auth/authSlice";
 import getTaskSlice from "./task/taskSlice";
 import categorySlice from "./category/categorySlice";
+import subCategorySlice from './supCategories/supcategoriesSlice'
+import brandSlice from './brand/brand.slice'
 
 export const store = configureStore({
   middleware: (applyMiddleware) =>
@@ -20,5 +22,7 @@ export const store = configureStore({
     auth,
     getTaskSlice,
     categorySlice,
+    subCategorySlice,
+    brandSlice
   },
 });
