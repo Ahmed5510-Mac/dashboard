@@ -1,59 +1,54 @@
 import "./suplierform.scss";
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { useFormik } from "formik";
-import {
-  Button,
-  TextField,
-  FormControl,
-  InputLabel,
-  MenuItem,
-  Select,
-} from "@material-ui/core";
+import { Button, TextField } from "@material-ui/core";
 import { useDispatch, useSelector } from "react-redux";
 import {
-  addCategory,
-  editCategory,
-  getAllCategoriesByType,
-  resetEditableCategory,
-  setCategoryType,
-} from "../../../store/category/categorySlice";
+  addSupplier,
+  editSupplier,
+  getAllSupplier,
+  resetEditableSupplier,
+} from "../../../store/supplier/supplierSlice";
 import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 
 function SuplierForm() {
-  const { editableCategory } = useSelector((state) => state.categorySlice);
+  const { editableSupplier } = useSelector((state) => state.supplierSlice);
   const dispatch = useDispatch();
 
   const formik = useFormik({
     initialValues: {
       id: "",
       fullName: "",
-      category_type: "",
+      phoneNumber: "",
+      whatsAppNumber: "",
+      email: "",
     },
     // validationSchema: validationSchema,
     onSubmit: (values) => {
-      (editableCategory
-        ? dispatch(editCategory(values))
-        : dispatch(addCategory(values))
+      (editableSupplier
+        ? dispatch(editSupplier(values))
+        : dispatch(addSupplier(values))
       ).then(() => {
-        dispatch(getAllCategoriesByType(values.category_type));
-        dispatch(resetEditableCategory(null));
-        dispatch(setCategoryType(values.category_type));
+        dispatch(getAllSupplier());
+        dispatch(resetEditableSupplier(null));
         // formik.handleReset();
       });
     },
   });
 
   useEffect(() => {
-    if (!editableCategory) formik.handleReset();
+    if (!editableSupplier) formik.handleReset();
     else {
-      formik.setFieldValue("id", editableCategory?._id);
-      formik.setFieldValue("name", editableCategory?.name);
-      formik.setFieldValue("category_type", editableCategory?.category_type);
+      formik.setFieldValue("id", editableSupplier?._id);
+      formik.setFieldValue("fullName", editableSupplier?.fullName);
+      formik.setFieldValue("phoneNumber", editableSupplier?.phoneNumber);
+      formik.setFieldValue("whatsAppNumber", editableSupplier?.whatsAppNumber);
+      formik.setFieldValue("email", editableSupplier?.email);
     }
-  }, [editableCategory]);
+  }, [editableSupplier]);
 
   return (
-    <div className="Addcategory-container">
+    <div className="Addsupplier-container">
       <h2
         style={{
           display: "flex",
@@ -61,10 +56,10 @@ function SuplierForm() {
           alignItems: "center",
         }}
       >
-        <span>{editableCategory ? "Edit" : "Add"} New Suplier </span>
-        {editableCategory ? (
+        <span>{editableSupplier ? "Edit" : "Add"} New Suplier </span>
+        {editableSupplier ? (
           <AddCircleOutlineIcon
-            onClick={() => dispatch(resetEditableCategory(null))}
+            onClick={() => dispatch(resetEditableSupplier(null))}
             fontSize="large"
           />
         ) : (
@@ -96,7 +91,9 @@ function SuplierForm() {
           autoFocus
           value={formik.values.phoneNumber}
           onChange={formik.handleChange}
-          error={formik.touched.phoneNumber && Boolean(formik.errors.phoneNumber)}
+          error={
+            formik.touched.phoneNumber && Boolean(formik.errors.phoneNumber)
+          }
           helperText={formik.touched.phoneNumber && formik.errors.phoneNumber}
         />
         <TextField
@@ -109,8 +106,13 @@ function SuplierForm() {
           autoFocus
           value={formik.values.whatsAppNumber}
           onChange={formik.handleChange}
-          error={formik.touched.whatsAppNumber && Boolean(formik.errors.whatsAppNumber)}
-          helperText={formik.touched.whatsAppNumber && formik.errors.whatsAppNumber}
+          error={
+            formik.touched.whatsAppNumber &&
+            Boolean(formik.errors.whatsAppNumber)
+          }
+          helperText={
+            formik.touched.whatsAppNumber && formik.errors.whatsAppNumber
+          }
         />
         <TextField
           margin="normal"
@@ -126,9 +128,7 @@ function SuplierForm() {
           helperText={formik.touched.email && formik.errors.email}
         />
 
-        
-
-        <Button type="submit">{editableCategory ? "Edit" : "save"}</Button>
+        <Button type="submit">{editableSupplier ? "Edit" : "save"}</Button>
       </form>
     </div>
   );

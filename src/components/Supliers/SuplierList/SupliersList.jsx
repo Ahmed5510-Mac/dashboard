@@ -1,7 +1,28 @@
-import React from "react";
+import React, { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  deleteSupplier,
+  getAllSupplier,
+  setEditableSupplier,
+} from "../../../store/supplier/supplierSlice";
+import EditIcon from "@mui/icons-material/Edit";
+import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
 import "./suplierLis.scss";
+import {
+  deleteBrand,
+  getAllBrand,
+  setEditableBrand,
+} from "../../../store/brand/brand.slice";
 
 function SuppliersList() {
+  const { suppliers } = useSelector((state) => state.supplierSlice);
+
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(getAllSupplier());
+  }, []);
+
   return (
     <div>
       <>
@@ -12,32 +33,49 @@ function SuppliersList() {
               <table className="table tableUsers table-light table-striped mx-auto mt-5 col-7 text-center ">
                 <thead className="">
                   <tr>
-                    <th>Category ID </th>
-                    <th> Category Name</th>
-                    <th>Category Type</th>
-                    <th>Action</th>
+                    <th>Index</th>
+                    <th>Name</th>
+                    <th>Phone Number</th>
+                    <th>WhatsApp Number</th>
+                    <th>Email</th>
                   </tr>
                 </thead>
                 {/* ------body------- */}
                 <tbody>
-                  <tr className="rowtable">
-                    <td>1</td>
-                    <td>malcone</td>
-                    <td>medcine</td>
-                    <td>
-                      <button className="acceptBtn mx-2">
-                        <i className="fa-solid fa-user-check"></i>
-                      </button>
-                      <button className="blockBtn ">
-                        <i className="fa-solid fa-user-slash"></i>
-                      </button>
-                    </td>
-                  </tr>
+                  {suppliers?.map((supplier, index) => (
+                    <tr key={supplier._id} className="rowtable">
+                      <td>{index + 1}</td>
+                      <td>{supplier.fullName}</td>
+                      <td>{supplier.phoneNumber}</td>
+                      <td>{supplier.whatsAppNumber}</td>
+                      <td>{supplier.email}</td>
+
+                      <td>
+                        <span className="btn-edite">
+                          <EditIcon
+                            onClick={() =>
+                              dispatch(setEditableSupplier(supplier))
+                            }
+                          />
+                        </span>
+                        <span className="btn-delete">
+                          <DeleteForeverIcon
+                            onClick={() =>
+                              dispatch(
+                                deleteSupplier({
+                                  id: supplier._id,
+                                })
+                              ).then(() => dispatch(getAllSupplier()))
+                            }
+                          />
+                        </span>
+                      </td>
+                    </tr>
+                  ))}
                 </tbody>
               </table>
             </div>
           </>
-          )
         </div>
       </>
     </div>
