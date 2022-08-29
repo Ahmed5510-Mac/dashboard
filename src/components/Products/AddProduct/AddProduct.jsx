@@ -9,27 +9,39 @@ import {
 import { LocalizationProvider } from "@mui/x-date-pickers";
 import { DesktopDatePicker } from "@mui/x-date-pickers/DesktopDatePicker";
 import { AdapterMoment } from "@mui/x-date-pickers/AdapterMoment";
-import React from "react";
+import React, { useEffect } from "react";
 import "./addproduct.scss";
+import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 import { useFormik } from "formik";
+import { Button } from "@mui/material";
+import {
+  addProduct,
+  editProduct,
+  getAllProduct,
+  resetEditableProduct,
+} from "../../../store/product/productSlice";
+import { useDispatch, useSelector } from "react-redux";
 
 function AddProduct() {
+  const { editableProduct } = useSelector((state) => state.productSlice);
+  const dispatch = useDispatch();
+
   const formik = useFormik({
     initialValues: {
-      name: "string",
+      name: "",
       subCategory: {
-        id: "string",
-        name: "string",
+        id: "",
+        name: "",
       },
       brand: {
-        id: "string",
-        name: "string",
+        id: "",
+        name: "",
       },
-      description: "string",
-      offer: "string",
+      description: "",
+      offer: "",
       images: [
         {
-          url: "string",
+          url: "",
         },
       ],
       unitPrice: 0,
@@ -37,27 +49,51 @@ function AddProduct() {
       stockAmount: 0,
       creditDiscount: 0,
       cashDiscount: 0,
-      madeIn: "string",
-      productionDate: "string",
-      expireDate: "string",
+      madeIn: "",
+      productionDate: "",
+      expireDate: "",
       reviews: {
-        userId: "string",
-        reviewText: "string",
+        userId: "",
+        reviewText: "",
         reviewRate: 0,
       },
     },
     // validationSchema: validationSchema,
     onSubmit: (values) => {
       console.log(values);
+      (editableProduct
+        ? dispatch(editProduct(values))
+        : dispatch(addProduct(values))
+      ).then(() => {
+        dispatch(getAllProduct());
+        dispatch(resetEditableProduct(null));
+      });
     },
   });
 
+  useEffect(() => {
+    if (!editableProduct) formik.handleReset();
+    else {
+      formik.setFieldValue("name", editableProduct?.name);
+      formik.setFieldValue("id", editableProduct?._id);
+    }
+  }, [editableProduct]);
+
   return (
     <div className="Addcategory-container">
-      <h2>Add New Product</h2>
+      <h2>
+        <span>{editableProduct ? "Edit" : "Add"} New Product </span>
+        {editableProduct ? (
+          <AddCircleOutlineIcon
+            onClick={() => dispatch(resetEditableProduct(null))}
+            fontSize="large"
+          />
+        ) : (
+          ""
+        )}
+      </h2>
 
       <form onSubmit={formik.handleSubmit}>
-        <div className="edite">"save"</div>
         <div className="product-info">
           {/* ----------------------- */}
           <TextField
@@ -84,7 +120,7 @@ function AddProduct() {
           </FormControl>
           {/* ----------------------- */}
           <FormControl fullWidth>
-            <InputLabel id="brand-label">Brand</InputLabel>
+            <InputLabel id="brand-label">Product</InputLabel>
             <Select labelId="brand-label" id="brand" label="type" name="brand">
               <MenuItem value={"amaino"}>amaino</MenuItem>
               <MenuItem value={"drugs"}>drugs</MenuItem>
@@ -197,6 +233,8 @@ function AddProduct() {
             />
           </LocalizationProvider>
         </div>
+
+        <Button type="submit">save</Button>
       </form>
     </div>
   );
