@@ -18,6 +18,7 @@ function ProductList() {
     dispatch(getAllProduct());
   }, []);
 
+  console.log(products);
   return (
     <div className="wrapper">
       <>
