@@ -4,9 +4,7 @@ import styles from "./doctorList.module.css";
 import { CircularProgress } from "@material-ui/core";
 import { getPendingDoctor } from "../../../store/doctor/doctorSlice";
 import { changeStatus } from "./../../../store/userShared/userSharedSlice";
-import "../../../globallayout.css";
 import Swal from "sweetalert2";
-import "../../../globallayout.css";
 import { useNavigate } from "react-router-dom";
 function PendingDoctorsComponent() {
   const navigate = useNavigate();

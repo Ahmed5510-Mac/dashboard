@@ -11,7 +11,6 @@ import { changeStatus } from "./../../../store/userShared/userSharedSlice";
 import { useNavigate } from "react-router-dom";
 import Pagination from "../../Pagination/Pagination";
 import Swal from "sweetalert2";
-import "../../../globallayout.css";
 
 function ConfirmedDoctorsComponent() {
   const search=useRef();

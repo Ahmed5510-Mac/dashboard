@@ -4,7 +4,6 @@ import { getBlockedDoctor } from '../../../store/doctor/doctorSlice';
 import { CircularProgress } from '@material-ui/core';
 import { changeStatus } from '../../../store/userShared/userSharedSlice';
 import { useNavigate } from 'react-router-dom';
-import '../../../globallayout.css'
 import styles from '../blackListDoctors/blacklistDoctor.module.css'
 import Swal from'sweetalert2'
 

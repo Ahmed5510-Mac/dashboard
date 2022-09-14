@@ -7,7 +7,8 @@ import {
   getAllProduct,
   setEditableProduct,
 } from "../../../store/product/productSlice";
-import "./Product.component";
+import "./Product.component.scss";
+import { Avatar } from "@mui/material";
 
 function ProductList() {
   const { products } = useSelector((state) => state.productSlice);
@@ -32,7 +33,7 @@ function ProductList() {
                     <th>Index</th>
                     <th>Name</th>
                     <th>Category</th>
-                    {/* <th>Iamge</th> */}
+                    <th>Iamge</th>
                     <th>unit price</th>
                     <th>stock amount</th>
                     <th>Action</th>
@@ -45,7 +46,13 @@ function ProductList() {
                       <td>{index + 1}</td>
                       <td>{product.name}</td>
                       <td>{product?.subCategory?.name}</td>
-                      {/* <td>{product.images[0]}</td> */}
+                      <td>
+                        <Avatar
+                          alt="Remy Sharp"
+                          src={product?.images[0]?.url}
+                          sx={{ width: 56, height: 56 }}
+                        />
+                      </td>
                       <td>{product.unitPrice}</td>
                       <td>{product.stockAmount}</td>
 

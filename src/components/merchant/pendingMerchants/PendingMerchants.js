@@ -5,7 +5,6 @@ import { CircularProgress } from "@material-ui/core";
 import { useNavigate } from "react-router-dom";
 import { getPendingMerchant } from "./../../../store/merchant/merchantSlice";
 import { changeStatus } from "./../../../store/userShared/userSharedSlice";
-import "../../../globallayout.css";
 import Swal from "sweetalert2";
 
 function PendingMerchantsComponent() {

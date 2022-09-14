@@ -6,7 +6,6 @@ import { getConfirmedMerchant } from "../../../store/merchant/merchantSlice";
 import { changeStatus } from "./../../../store/userShared/userSharedSlice";
 import Pagination from '../../../components/Pagination/Pagination'
 import Swal from 'sweetalert2'
-import '../../../globallayout.css'
 
 
 

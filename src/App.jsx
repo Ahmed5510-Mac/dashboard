@@ -1,5 +1,7 @@
 import Topbar from "./components/Topbar/Topbar";
 import "./App.scss";
+import "./globallayout.scss";
+
 import Home from "./pages/Home/Home";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import Login from "./pages/Login/Login";

@@ -21,6 +21,25 @@ export const addProduct = createAsyncThunk(
   }
 );
 
+export const addImageToProduct = createAsyncThunk(
+  "productSlice/addImageToProduct",
+  async (data, thunkAPI) => {
+    const { rejectWithValue } = thunkAPI;
+    try {
+      const res = await axios.post(baseAPI + `/products/addimage/${data.id}`, data.data, {
+        headers: {
+          Authorization: `Bearer ` + localStorage.getItem("token"),
+        },
+      });
+
+      console.log(res);
+      return res.data;
+    } catch (error) {
+      return rejectWithValue(error.message);
+    }
+  }
+);
+
 export const getAllProduct = createAsyncThunk(
   "productSlice/getAllProductsByType",
   async (_, thunkAPI) => {

@@ -1,40 +1,43 @@
-.Addcategory-container {
+.AddProduct-container {
     border-bottom: 3px dashed gray;
     padding: 50px;
 
-    form {
+    .form-container{
         width: 90% !important;
         margin: 50px auto;
         border: 1px solid gray;
         padding: 50px;
         border-radius: 20px;
-        display: flex;
-        gap: 20px;
-
-        .edite {
-            border: 1px dashed blue;
-            width: fit-content;
-            padding: 5px;
-            border-radius: 10px;
-            background-color: lightblue;
-            color: blue;
-            cursor: pointer;
-            height: 50px;
-        }
-
-        .form-group {
+        form {
             display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 10px;
-
-            input {
-                width: 70%;
+            gap: 20px;
+    
+            .edite {
+                border: 1px dashed blue;
+                width: fit-content;
                 padding: 5px;
                 border-radius: 10px;
-                outline: none;
+                background-color: lightblue;
+                color: blue;
+                cursor: pointer;
+                height: 50px;
+            }
+    
+            .form-group {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                margin-bottom: 10px;
+    
+                input {
+                    width: 70%;
+                    padding: 5px;
+                    border-radius: 10px;
+                    outline: none;
+                }
             }
         }
     }
+
 
 }

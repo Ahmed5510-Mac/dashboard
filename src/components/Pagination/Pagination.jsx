@@ -1,6 +1,5 @@
 import React, { useEffect,useState ,useRef } from 'react'
 import './pagination.scss'
-import '../../globallayout.css'
 function Pagination( {page,setpage ,array}) {
 const button=useRef()
 

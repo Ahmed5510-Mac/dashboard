@@ -3,7 +3,6 @@ import { NavLink } from "react-router-dom";
 import logo from "../../assets/Logo1.png";
 import { Home } from "@material-ui/icons";
 import { useSelector } from "react-redux";
-import "../../globallayout.css";
 import "./Sidebar.scss";
 const Sidebar = () => {
   const sideBar = useRef();
