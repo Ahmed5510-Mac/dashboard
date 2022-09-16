@@ -4,7 +4,7 @@ const baseAPI = "https://fathomless-hollows-91408.herokuapp.com";
 
 // ---------------------get pending Doctor----------------------------------
 
-export const getPendingOrder = createAsyncThunk(
+export const getPendingDoctorOrder = createAsyncThunk(
   "orderSlice/getPendingDoctor",
   async (_, thunkAPI) => {
     const { rejectWithValue } = thunkAPI;
@@ -28,7 +28,7 @@ export const getPendingOrder = createAsyncThunk(
 
 // initial state
 const initialState = {
-  pendingDoctorsorderList: [],
+  pendingDoctorOrderList: [],
   isLoading: false,
   error: null,
   pageNumber: 1,
@@ -39,16 +39,16 @@ const doctorOrderSlice = createSlice({
   reducers: {},
   extraReducers: {
     // ----------------pending doctor order---------------------
-    [getPendingOrder.pending]: (state, action) => {
+    [getPendingDoctorOrder.pending]: (state, action) => {
       state.isLoading = true;
     },
-    [getPendingOrder.fulfilled]: (state, action) => {
+    [getPendingDoctorOrder.fulfilled]: (state, action) => {
       state.isLoading = false;
       state.pendingDoctorsorderList = action.payload.reverse();
     },
-    [getPendingOrder.rejected]: (state, action) => {
+    [getPendingDoctorOrder.rejected]: (state, action) => {
       state.isLoading = false;
-      state.error = action.payload; 
+      state.error = action.payload;
     },
   },
 });

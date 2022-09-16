@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 // import "./orderpeandingdoctor.css";
 import { CircularProgress } from "@material-ui/core";
-import { getPendingDoctor } from "../../../store/doctor/doctorSlice";
+import { getPendingDoctorOrder } from "../../../store/order/orderSlice";
 import { changeStatus } from "./../../../store/userShared/userSharedSlice";
 import Swal from "sweetalert2";
 import { useNavigate } from "react-router-dom";
@@ -10,9 +10,9 @@ function OrderPeandingPharmasesst() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   useEffect(() => {
-    dispatch(getPendingDoctor());
+    dispatch(getPendingDoctorOrder());
   }, [dispatch]);
-  const { pendingDoctorsList, isLoading, error } = useSelector(
+  const { pendingDoctorOrderList, isLoading, error } = useSelector(
     (state) => state.doctorOrderSlice
   );
   //let x=document.getElementByID()
@@ -25,8 +25,8 @@ function OrderPeandingPharmasesst() {
       type: "doctor",
     };
     dispatch(changeStatus(newData));
-    dispatch(getPendingDoctor());
-    dispatch(getPendingDoctor());
+    dispatch(getPendingDoctorOrder());
+    dispatch(getPendingDoctorOrder());
 
     Swal.fire({
       position: "center",
@@ -57,17 +57,17 @@ function OrderPeandingPharmasesst() {
       if (result.isConfirmed) {
         Swal.fire("rejected!", "Your file has been rejected.", "success");
         dispatch(changeStatus(newData));
-        dispatch(getPendingDoctor());
-        dispatch(getPendingDoctor());
+        dispatch(getPendingDoctorOrder());
+        dispatch(getPendingDoctorOrder());
         navigate("/blockedDoctors");
       }
     });
   };
 
   const pendingDoctorList =
-    pendingDoctorsList.length > 0 &&
-    pendingDoctorsList.map((item) => (
-      <tr className=""key={item._id}>
+    pendingDoctorOrderList.length > 0 &&
+    pendingDoctorOrderList.map((item) => (
+      <tr className="" key={item._id}>
         <td>{item.fullName}</td>
         <td>{item.phoneNumber}</td>
         <td>{item.accountStatus}</td>
@@ -92,7 +92,9 @@ function OrderPeandingPharmasesst() {
 
   return (
     <>
-      <h5 className="text-center text-primary my-2">Pending pharmasesst order</h5>
+      <h5 className="text-center text-primary my-2">
+        Pending pharmasesst order
+      </h5>
       <div className="">
         {error && (
           <div className="alert alert-danger mb-0" role="alert">
@@ -104,7 +106,7 @@ function OrderPeandingPharmasesst() {
             {" "}
             <CircularProgress /> Loadein ......
           </h1>
-        ) : pendingDoctorsList.length > 0 ? (
+        ) : pendingDoctorOrderList.length > 0 ? (
           <>
             <div className="tableContainer">
               <table className="table tableUsers table-light table-striped mx-auto mt-5 col-7 text-center ">
