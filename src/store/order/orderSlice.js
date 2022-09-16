@@ -48,7 +48,7 @@ const doctorOrderSlice = createSlice({
     },
     [getPendingOrder.rejected]: (state, action) => {
       state.isLoading = false;
-      state.error = action.payload;
+      state.error = action.payload; 
     },
   },
 });
