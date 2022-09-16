@@ -5,6 +5,8 @@ import Widget from "../../components/widget/Widget";
 import Featured from '../../components/Featured/Featured'
 import List from './../../components/table/Table';
 import style from './Home.module.css'
+import OrderPeandingDoctor from "../../components/order/orderpeanding-doctor/orderpeandingdoctor"
+import OrderPeandingPharmasesst from "../../components/order/orderpeanding-pharmasesst/Orderpeanding-pharmasesst"
 import { NavLink } from "react-router-dom";
 
 export default function Home() {
@@ -38,8 +40,15 @@ export default function Home() {
               <WidgetLg/> 
             </div>
       </div>
-            <div className={style.transitionTitle}> Latest Transaction</div>
-          <List/>
+            <div className={style.transitionTitle}> 
+            {/* <h1>order</h1> */}
+                <div className={style.pendingDoctorOrder}>
+                <OrderPeandingDoctor/>      
+                </div>
+                <div className={style.pendingPharmasesstOrder}>
+                  <OrderPeandingPharmasesst/>
+                </div>
+                </div>
           </div>
     </div>
   );

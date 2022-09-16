@@ -58,12 +58,23 @@ flex: 1;
 .transitionTitle
 {
     font-weight: 500;
-
     color: gray;
     margin-bottom: 15px;
+    display: flex;
+    border: 1px solid red;
+    justify-content: center;
 }
 .NavLink{
     width: 100%;
     text-decoration: none;
-   
+}
+.pendingDoctorOrder{
+    border: 1px solid blueviolet;
+    padding: 0 !important;
+    width: 50%;
+}
+.pendingPharmasesstOrder{
+    border: 1px solid yellow;
+    padding: 0 !important;
+    width: 50%;
 }
