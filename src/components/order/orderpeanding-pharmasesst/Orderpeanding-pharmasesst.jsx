@@ -13,7 +13,7 @@ function OrderPeandingPharmasesst() {
     dispatch(getPendingDoctor());
   }, [dispatch]);
   const { pendingDoctorsList, isLoading, error } = useSelector(
-    (state) => state.doctorSlice
+    (state) => state.doctorOrderSlice
   );
   //let x=document.getElementByID()
   // -------------chang status function---------------------
