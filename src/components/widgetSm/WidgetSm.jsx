@@ -2,17 +2,17 @@ import "./widgetSm.css";
 import React, {  useEffect } from 'react'
 import { CircularProgress } from '@material-ui/core';
 import { useSelector, useDispatch } from 'react-redux'
-import { getPendingMerchant } from '../../store/merchant/merchantSlice'
+import { getPendingPharmacist } from '../../store/pharmacist/pharmacistSlice'
 import { changeStatus } from "../../store/userShared/userSharedSlice";
 import img1 from "../../assets/profile.jpg"
 import Swal from 'sweetalert2'
   
 
 export default function WidgetSm() {
-  const {pendingMerchantsList ,isLoading } = useSelector(state => state.merchantSlice)
+  const {pendingPharmacistsList ,isLoading } = useSelector(state => state.pharmacistSlice)
   const dispatch = useDispatch()
   useEffect(() => {
-    dispatch(getPendingMerchant())
+    dispatch(getPendingPharmacist())
   },[dispatch])
 
 // --------------hander confirem----------------
@@ -63,7 +63,7 @@ Swal.fire({
 
 
 }
-  const pendingmerchant = pendingMerchantsList.length > 0?pendingMerchantsList.map((item)=>
+  const pendingpharmacist = pendingPharmacistsList.length > 0?pendingPharmacistsList.map((item)=>
   (
     <tr className="widgetSmTr" key={item._id}>
         <td className="widgetSmUser">
@@ -93,10 +93,10 @@ Swal.fire({
 
   return (
     <div className="widgetLg">
-      <h3 className="widgetLgTitle">Pending Merchant </h3>
+      <h3 className="widgetLgTitle">Pending Pharmacist </h3>
       {isLoading?<CircularProgress/>:
       <table className="widgetLgTable">
-         {pendingmerchant}
+         {pendingpharmacist}
       </table>
       }
     </div>

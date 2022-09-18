@@ -97,6 +97,26 @@ export const cancelDoctorOrder = createAsyncThunk(
 );
 
 
+
+export const deliverDoctorOrder = createAsyncThunk(
+  "orderSlice/deliverDoctorOrder",
+  async (orderId, thunkAPI) => {
+    const { rejectWithValue } = thunkAPI;
+    try {
+      const res = await axios.put(baseAPI + `/orders/doctor/deliverOrder`, {orderId} , {
+        headers: {
+          Authorization: `Bearer ` + localStorage.getItem("token"),
+        },
+      });
+
+      console.log(res);
+      return res.data;
+    } catch (error) {
+      return rejectWithValue(error.message);
+    }
+  }
+);
+
 export const deleteOrder = createAsyncThunk(
   "orderSlice/deleteOrder",
   async (data, thunkAPI) => {

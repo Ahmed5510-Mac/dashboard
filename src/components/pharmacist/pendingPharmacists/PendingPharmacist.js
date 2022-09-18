@@ -1,38 +1,38 @@
 import React, { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import styles from "./pendingMerchantList.module.css";
+import styles from "./pendingPharmacistList.module.css";
 import { CircularProgress } from "@material-ui/core";
 import { useNavigate } from "react-router-dom";
-import { getPendingMerchant } from "./../../../store/merchant/merchantSlice";
-import { changeStatus } from "./../../../store/userShared/userSharedSlice";
+import { getPendingPharmacist } from "./../../../store/pharmacist/pharmacistSlice";
+import { changeStatus } from "../../../store/userShared/userSharedSlice";
 import Swal from "sweetalert2";
 
-function PendingMerchantsComponent() {
-  const { pendingMerchantsList, isLoading } = useSelector(
-    (state) => state.merchantSlice
+function PendingPharmacist() {
+  const { pendingPharmacistsList, isLoading } = useSelector(
+    (state) => state.pharmacistSlice
   );
   const dispatch = useDispatch();
   const navigate = useNavigate();
   useEffect(() => {
-    dispatch(getPendingMerchant());
+    dispatch(getPendingPharmacist());
   }, [dispatch]);
   // ------------- chang status function ---------------------
-  const handelActivemerchant = (merchant) => {
+  const handelActivepharmacist = (pharmacist) => {
     const newData = {
-      id: merchant._id,
+      id: pharmacist._id,
       status: "active",
-      type: "merchant",
+      type: "pharmacist",
     };
     dispatch(changeStatus(newData));
-    dispatch(getPendingMerchant());
-    navigate("/pendingMerchants");
+    dispatch(getPendingPharmacist());
+    navigate("/pendingPharmacists");
   };
   // ------------- chang status function ---------------------
-  const handeRejectmerchant = (merchant) => {
+  const handeRejectpharmacist = (pharmacist) => {
     const newData = {
-      id: merchant._id,
+      id: pharmacist._id,
       status: "blocked",
-      type: "merchant",
+      type: "pharmacist",
     };
 
     Swal.fire({
@@ -47,14 +47,14 @@ function PendingMerchantsComponent() {
       if (result.isConfirmed) {
         Swal.fire("rejected!", "Your file has been rejected.", "success");
         dispatch(changeStatus(newData));
-        dispatch(getPendingMerchant());
-        navigate("/pendingMerchants");
+        dispatch(getPendingPharmacist());
+        navigate("/pendingPharmacists");
       }
     });
   };
-  const pendingMerchantList =
-    pendingMerchantsList.length &&
-    pendingMerchantsList.map((item) => (
+  const pendingPharmacistList =
+    pendingPharmacistsList.length &&
+    pendingPharmacistsList.map((item) => (
       <tr className="rowtable" key={item._id}>
         <td>{item.fullName}</td>
         <td> {item.phoneNumber}</td>
@@ -62,13 +62,13 @@ function PendingMerchantsComponent() {
         <td>
           <button
             className=" acceptBtn"
-            onClick={() => handelActivemerchant(item)}
+            onClick={() => handelActivepharmacist(item)}
           >
             <i className="fa-solid fa-user-check"></i>
           </button>
           <button
             className="blockBtn"
-            onClick={() => handeRejectmerchant(item)}
+            onClick={() => handeRejectpharmacist(item)}
           >
             <i className="fa-solid fa-user-slash"></i>
           </button>
@@ -76,18 +76,18 @@ function PendingMerchantsComponent() {
       </tr>
     ));
 
-  console.log(pendingMerchantList);
+  console.log(pendingPharmacistList);
 
   return (
     <>
-      <h2 className="text-center text-primary my-2">Pending Merchants</h2>
+      <h2 className="text-center text-primary my-2">Pending Pharmacists</h2>
       <div className={styles.tableu}>
         {isLoading ? (
           <h1 className={styles.isloading}>
             {" "}
             <CircularProgress /> Loadein ......
           </h1>
-        ) : pendingMerchantsList.length ? (
+        ) : pendingPharmacistsList.length ? (
           <>
             <table className="table tableUsers table-light table-striped mx-auto mt-5 col-7 text-center ">
               <thead className="">
@@ -98,7 +98,7 @@ function PendingMerchantsComponent() {
                   <th>Action</th>
                 </tr>
               </thead>
-              <tbody>{pendingMerchantList}</tbody>
+              <tbody>{pendingPharmacistList}</tbody>
             </table>
           </>
         ) : (
@@ -118,7 +118,7 @@ function PendingMerchantsComponent() {
             >
               <path d="M8.982 1.566a1.13 1.13 0 0 0-1.96 0L.165 13.233c-.457.778.091 1.767.98 1.767h13.713c.889 0 1.438-.99.98-1.767L8.982 1.566zM8 5c.535 0 .954.462.9.995l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 5.995A.905.905 0 0 1 8 5zm.002 6a1 1 0 1 1 0 2 1 1 0 0 1 0-2z" />
             </svg>
-            <div>There is no pending Merchants</div>
+            <div>There is no pending Pharmacists</div>
           </div>
         )}
       </div>
@@ -126,4 +126,4 @@ function PendingMerchantsComponent() {
   );
 }
 
-export default PendingMerchantsComponent;
+export default PendingPharmacist;

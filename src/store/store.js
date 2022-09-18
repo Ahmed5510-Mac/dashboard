@@ -1,6 +1,6 @@
 import { configureStore, applyMiddleware } from "@reduxjs/toolkit";
 import doctorSlice from "./doctor/doctorSlice";
-import merchantSlice from "./merchant/merchantSlice";
+import pharmacistSlice from "./pharmacist/pharmacistSlice";
 import userSharedSlice from "./userShared/userSharedSlice";
 import loginSlice from "./login/loginSlice";
 import auth from "./auth/authSlice";
@@ -19,7 +19,7 @@ export const store = configureStore({
     }),
   reducer:{
     doctorSlice,
-    merchantSlice,
+    pharmacistSlice,
     userSharedSlice,
     loginSlice,
     auth,

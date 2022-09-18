@@ -16,7 +16,7 @@ flex: 1;
 box-shadow: 2px 4px 10px 1px rgba(201,201,201,0.47);
 
 }
-.widgetmerchant
+.widgetpharmacist
 {
     flex: 1;
     box-shadow: 2px 4px 10px 1px rgba(201,201,201,0.47);
@@ -73,7 +73,7 @@ flex: 1;
     padding: 0 !important;
     width: 50%;
 }
-.pendingPharmasesstOrder{
+.pendingPharmacistOrder{
     border: 1px solid yellow;
     padding: 0 !important;
     width: 50%;

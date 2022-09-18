@@ -81,21 +81,21 @@ const Sidebar = () => {
                       <div className="lineSubmenue2"></div>
                       <legend className="legend2">pharmacist</legend>
                       <NavLink
-                        to="/pendingMerchants"
+                        to="/pendingPharmacists"
                         className="sidebarListItemsubMenue"
                       >
                         <i className="fa-solid fa-wheelchair p-1 me-1'"></i>
                         <span> Pending pharmacist</span>
                       </NavLink>
                       <NavLink
-                        to="/confirmedMerchants"
+                        to="/confirmedPharmacists"
                         className="sidebarListItemsubMenue"
                       >
                         <i className="fa-solid fa-user-check p-1 me-1'"></i>
                         <span>Confirmed pharmacist</span>
                       </NavLink>
                       <NavLink
-                        to="/blockedMerchants"
+                        to="/blockedPharmacists"
                         className="sidebarListItemsubMenue"
                       >
                         <i className="fa-solid fa-user-large-slash p-1 me-1"></i>

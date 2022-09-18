@@ -3,8 +3,8 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 const baseAPI = "https://fathomless-hollows-91408.herokuapp.com";
 
 // ---------------------get pending Mearchantr----------------------------------
-export const getPendingMerchant = createAsyncThunk(
-  "merchantSlice/getPendingMerchant",
+export const getPendingPharmacist = createAsyncThunk(
+  "pharmacistSlice/getPendingPharmacist",
   async (_, thunkAPI) => {
     const { rejectWithValue } = thunkAPI;
     try {
@@ -23,8 +23,8 @@ export const getPendingMerchant = createAsyncThunk(
 );
 
 // ---------------------get confirmed Mearchantr----------------------------------
-export const getConfirmedMerchant = createAsyncThunk(
-  "merchantSlice/getConfirmedMerchant",
+export const getConfirmedPharmacist = createAsyncThunk(
+  "pharmacistSlice/getConfirmedPharmacist",
   async (pageNumber, thunkAPI) => {
     console.log("mearchant" + pageNumber);
     const { rejectWithValue } = thunkAPI;
@@ -42,8 +42,8 @@ export const getConfirmedMerchant = createAsyncThunk(
 );
 
 // ---------------------get blocked Doctor----------------------------------
-export const getBlockedMerchant = createAsyncThunk(
-  "merchantSlice/getBlockedMerchant",
+export const getBlockedPharmacist = createAsyncThunk(
+  "pharmacistSlice/getBlockedPharmacist",
   async (_, thunkAPI) => {
     const { rejectWithValue } = thunkAPI;
     try {
@@ -61,54 +61,54 @@ export const getBlockedMerchant = createAsyncThunk(
 );
 
 const initialState = {
-  pendingMerchantsList: [],
-  confirmedMerchantsList: [],
-  blockedMerchantsList: [],
+  pendingPharmacistsList: [],
+  confirmedPharmacistsList: [],
+  blockedPharmacistsList: [],
   isLoading: false,
   error: null,
 };
-const merchantSlice = createSlice({
-  name: "merchantSlice",
+const pharmacistSlice = createSlice({
+  name: "pharmacistSlice",
   initialState,
   reducers: {},
   extraReducers: {
-    // ----------------pending merchant---------------------
-    [getPendingMerchant.pending]: (state, action) => {
+    // ----------------pending pharmacist---------------------
+    [getPendingPharmacist.pending]: (state, action) => {
       state.isLoading = true;
     },
-    [getPendingMerchant.fulfilled]: (state, action) => {
+    [getPendingPharmacist.fulfilled]: (state, action) => {
       state.isLoading = false;
-      state.pendingMerchantsList = action.payload.reverse();
+      state.pendingPharmacistsList = action.payload.reverse();
     },
-    [getPendingMerchant.rejected]: (state, action) => {
+    [getPendingPharmacist.rejected]: (state, action) => {
       state.isLoading = false;
       state.error = action.payload;
     },
-    // ----------------get confirmed Merchant---------------------
-    [getConfirmedMerchant.pending]: (state, action) => {
+    // ----------------get confirmed Pharmacist---------------------
+    [getConfirmedPharmacist.pending]: (state, action) => {
       state.isLoading = true;
     },
-    [getConfirmedMerchant.fulfilled]: (state, action) => {
+    [getConfirmedPharmacist.fulfilled]: (state, action) => {
       state.isLoading = false;
-      state.confirmedMerchantsList = action.payload.reverse();
+      state.confirmedPharmacistsList = action.payload.reverse();
     },
-    [getConfirmedMerchant.rejected]: (state, action) => {
+    [getConfirmedPharmacist.rejected]: (state, action) => {
       state.isLoading = false;
       state.error = action.payload;
     },
 
-    // ----------------get blocked Merchant---------------------
-    [getBlockedMerchant.pending]: (state, action) => {
+    // ----------------get blocked Pharmacist---------------------
+    [getBlockedPharmacist.pending]: (state, action) => {
       state.isLoading = false;
     },
-    [getBlockedMerchant.fulfilled]: (state, action) => {
+    [getBlockedPharmacist.fulfilled]: (state, action) => {
       state.isLoading = false;
-      state.blockedMerchantsList = action.payload.reverse();
+      state.blockedPharmacistsList = action.payload.reverse();
     },
-    [getBlockedMerchant.rejected]: (state, action) => {
+    [getBlockedPharmacist.rejected]: (state, action) => {
       state.isLoading = false;
     },
   },
 });
 
-export default merchantSlice.reducer;
+export default pharmacistSlice.reducer;

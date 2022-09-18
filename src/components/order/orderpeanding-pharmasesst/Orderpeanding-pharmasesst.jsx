@@ -6,7 +6,8 @@ import { getAllOrdersByStatus } from "../../../store/order/orderSlice";
 import { changeStatus } from "./../../../store/userShared/userSharedSlice";
 import Swal from "sweetalert2";
 import { useNavigate } from "react-router-dom";
-function OrderPeandingPharmasesst() {
+
+function OrderPeandingPharmacist() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   useEffect(() => {
@@ -148,4 +149,4 @@ function OrderPeandingPharmasesst() {
   );
 }
 
-export default OrderPeandingPharmasesst;
+export default OrderPeandingPharmacist;

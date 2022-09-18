@@ -1,16 +1,16 @@
 import React, {useEffect}  from 'react';
 import { DataGrid } from '@material-ui/data-grid';
 import { useDispatch, useSelector } from 'react-redux'
-import { getBlockedMerchant } from '../../../store/merchant/merchantSlice'
+import { getBlockedPharmacist } from '../../../store/pharmacist/pharmacistSlice'
 import { Check } from'@material-ui/icons'
 import img from '../../../assets/profile.jpg';
-import styles from './blacklistmerchant.module.css'
+import styles from './blacklistPharmacist.module.css'
 
 function BlackListtest() {
   const dispatch = useDispatch()
-  const { blockedMerchantsList, isLoading, error } = useSelector((state) => state.merchantSlice)
+  const { blockedPharmacistsList, isLoading, error } = useSelector((state) => state.pharmacistSlice)
   useEffect(() => {
-    dispatch(getBlockedMerchant())
+    dispatch(getBlockedPharmacist())
   }, [dispatch])
 
 
@@ -134,7 +134,7 @@ function BlackListtest() {
   
   return (
     <>
-      <h1 className='text-center'> Merchant blocked</h1>
+      <h1 className='text-center'> Pharmacist blocked</h1>
     <div style={{ height: 500, width: '80%' ,margin:'auto',marginTop:'50px' }}>
       <DataGrid
         rows={rows}

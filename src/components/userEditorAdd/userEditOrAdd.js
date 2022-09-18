@@ -65,7 +65,7 @@ function UserEditOrAdd() {
 
                     <div className={styles.userUpdateItem}>
                         <label> Type</label>
-                        <input type="text" placeholder="Doctor/Merchant" className={styles.userUpdateInput} />
+                        <input type="text" placeholder="Doctor/Pharmacist" className={styles.userUpdateInput} />
                     </div>
 
                     <div className={styles.userUpdateItem}>

@@ -20,6 +20,7 @@ import {
 import DoDisturbOnIcon from "@mui/icons-material/DoDisturbOn";
 import {
   cancelDoctorOrder,
+  deliverDoctorOrder,
   getAllOrdersByStatus,
   getOrdersByDate,
 } from "../../../store/order/orderSlice";
@@ -55,6 +56,12 @@ function OrderList() {
   useEffect(() => {
     dispatch(getAllOrdersByStatus({ orderStatus: orderStatus }));
   }, [orderStatus]);
+
+  const orderStatusColorMap = {
+    pending: 'info',
+    delivered: 'success',
+    cancelled: 'error'
+  }
 
 
   return (
@@ -176,8 +183,7 @@ function OrderList() {
                     <tr key={order._id} className="rowtable">
                       <td>{index + 1}</td>
                       <td>
-                        {" "}
-                        <Chip label={order.orderStatus} color="success" />{" "}
+                        <Chip label={order.orderStatus} color={orderStatusColorMap[order.orderStatus]} />
                       </td>
                       <td>{order.orderDate}</td>
                       <td> {order.payment.method}</td>
@@ -190,25 +196,42 @@ function OrderList() {
                             }
                           />
                         </span> */}
-                         <span style={{ cursor: "pointer" }}>
-
-                          <CheckCircleIcon />
-                         </span>
-                        <span style={{ cursor: "pointer" }}>
-                          <DoDisturbOnIcon
-                            onClick={() =>
-                              dispatch(cancelDoctorOrder(order._id)).then(
-                                () => {
-                                  dispatch(
-                                    getAllOrdersByStatus({
-                                      orderStatus: "pending",
-                                    })
-                                  );
+                        {orderStatus === 'delivered' || orderStatus === 'cancelled' || (
+                          <>
+                            <span style={{ cursor: "pointer" }}>
+                              {/* deliver btn */}
+                              <CheckCircleIcon color='success'
+                                onClick={() =>
+                                  dispatch(deliverDoctorOrder(order._id)).then(
+                                    () => {
+                                      dispatch(
+                                        getAllOrdersByStatus({
+                                          orderStatus,
+                                        })
+                                      );
+                                    }
+                                  )
                                 }
-                              )
-                            }
-                          />
-                        </span>
+                              />
+                            </span>
+                            <span style={{ cursor: "pointer" }}>
+                              {/* cancel btn */}
+                              <DoDisturbOnIcon
+                                onClick={() =>
+                                  dispatch(cancelDoctorOrder(order._id)).then(
+                                    () => {
+                                      dispatch(
+                                        getAllOrdersByStatus({
+                                          orderStatus,
+                                        })
+                                      );
+                                    }
+                                  )
+                                }
+                              />
+                            </span>
+                          </>
+                        )}
                         <span className="btn-delete">
                           <DeleteForeverIcon
                           // onClick={() =>

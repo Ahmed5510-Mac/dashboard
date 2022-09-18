@@ -1,20 +1,20 @@
 import React, { useEffect ,useState } from "react";
-import styles from "./confirmedMerchants.module.css";
+import styles from "./confirmedPharmacists.module.css";
 import { CircularProgress } from "@material-ui/core";
 import { useSelector, useDispatch} from "react-redux";
-import { getConfirmedMerchant } from "../../../store/merchant/merchantSlice";
-import { changeStatus } from "./../../../store/userShared/userSharedSlice";
-import Pagination from '../../../components/Pagination/Pagination'
+import { getConfirmedPharmacist } from "../../../store/pharmacist/pharmacistSlice";
+import { changeStatus } from "../../../store/userShared/userSharedSlice";
+import Pagination from '../../Pagination/Pagination'
 import Swal from 'sweetalert2'
 
 
 
-function ConfirmedMerchantsComponent() {
+function ConfirmedPharmacistsComponent() {
 
   const[page, setpage] = useState(1);
 
-  const { isLoading, error, confirmedMerchantsList } = useSelector(
-    (state) => state.merchantSlice
+  const { isLoading, error, confirmedPharmacistsList } = useSelector(
+    (state) => state.pharmacistSlice
 
 
   
@@ -22,16 +22,16 @@ function ConfirmedMerchantsComponent() {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(getConfirmedMerchant(page));
+    dispatch(getConfirmedPharmacist(page));
   }, [dispatch,page]);
 
-  // Add merchant to blacklist
+  // Add pharmacist to blacklist
 
   const handelReject = (doctor) => {
     const newData = {
                        id: doctor._id,
                        status: 'blocked',
-                       type: 'merchant'
+                       type: 'pharmacist'
                    }
            Swal.fire({
                title: 'Are you sure?',
@@ -56,9 +56,9 @@ function ConfirmedMerchantsComponent() {
 
       }
 
-  const confirmedMerchantList =
-    confirmedMerchantsList.length > 0 &&
-    confirmedMerchantsList.map((item) => (
+  const confirmedPharmacistList =
+    confirmedPharmacistsList.length > 0 &&
+    confirmedPharmacistsList.map((item) => (
       <tr className="rowtable" key={item._id}>
         <td >        
           {item.fullName}
@@ -82,9 +82,9 @@ function ConfirmedMerchantsComponent() {
   return (
     <>
               <h2 className="text-center text-primary my-2">
-                Confirmed Merchants
+                Confirmed Pharmacists
               </h2>
-              <Pagination  page={page} setpage={setpage} array={confirmedMerchantsList}/>
+              <Pagination  page={page} setpage={setpage} array={confirmedPharmacistsList}/>
       <div className={styles.tableu}>
         <>
           {error && (
@@ -99,7 +99,7 @@ function ConfirmedMerchantsComponent() {
               {" "}
               <CircularProgress /> Loading ......
             </h1>
-          ) : confirmedMerchantsList.length > 0 ? (
+          ) : confirmedPharmacistsList.length > 0 ? (
             <>
             <div className={styles.tablewrapperscrolly}>
               <table className="table tableUsers  table-hover table-light table-striped w-100 mx-auto mt-5 text-center ">
@@ -111,7 +111,7 @@ function ConfirmedMerchantsComponent() {
                     <th>Action</th>
                   </tr>
                 </thead>
-                <tbody>{confirmedMerchantList}</tbody>
+                <tbody>{confirmedPharmacistList}</tbody>
               </table>
             </div>
             </>
@@ -132,7 +132,7 @@ function ConfirmedMerchantsComponent() {
               >
                 <path d="M8.982 1.566a1.13 1.13 0 0 0-1.96 0L.165 13.233c-.457.778.091 1.767.98 1.767h13.713c.889 0 1.438-.99.98-1.767L8.982 1.566zM8 5c.535 0 .954.462.9.995l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 5.995A.905.905 0 0 1 8 5zm.002 6a1 1 0 1 1 0 2 1 1 0 0 1 0-2z" />
               </svg>
-              <div>There is no Confirmed Merchants</div>
+              <div>There is no Confirmed Pharmacists</div>
             </div>
           )}
         </>
@@ -141,4 +141,4 @@ function ConfirmedMerchantsComponent() {
   );
 }
 
-export default ConfirmedMerchantsComponent;
+export default ConfirmedPharmacistsComponent;

@@ -14,10 +14,7 @@ import PendingDoctors from "./pages/doctor/pendingDoctors/PendingDoctors";
 import ConfirmedDoctors from "./pages/doctor/confirmedDoctors/ConfirmedDoctors";
 import BlacklistDoctors from "./pages/doctor/blackListDoctors/BlacklistDoctors";
 
-//Merchant imports
-import PendingMerchants from "./pages/merchant/pendingMerchants/PendingMerchants";
-import ConfirmedMerchants from "./pages/merchant/confirmedMerchants/ConfirmedMerchants";
-import BlacklistMerchants from "./pages/merchant/blacklistMerchants/BlacklistMerchants";
+//Pharmacist imports
 import Sidebar from "./components/Sidebar/Sidebar";
 import UserEditOrAdd from "./components/userEditorAdd/userEditOrAdd";
 import NewUser from "./pages/Employees/newUser/newUser";
@@ -33,6 +30,9 @@ import Product_page from "./pages/products/Product_page";
 import SubCategories from "./pages/SubCategories/SubCategories.page";
 import Suppliers from './pages/suppliers/suppliers';
 import Order from "./pages/Order/Order";
+import PendingPharmacists from "./pages/pharmacist/pendingPharmacist/PendingPharmacists";
+import ConfirmedPharmacists from "./pages/pharmacist/confirmedPharmacist/ConfirmedPharmacists";
+import BlacklistPharmacists from "./pages/pharmacist/blacklistPharmacist/BlacklistPharmacists";
 
 const App = () => {
   const { isLogedIn } = useSelector((state) => state.loginSlice);
@@ -82,18 +82,18 @@ const App = () => {
                       element={<BlacklistDoctors />}
                     />
                     {/* pharmasict Routes */}
-                    {/* Merchant Routes */}
+                    {/* Pharmacist Routes */}
                     <Route
-                      path="/pendingMerchants"
-                      element={<PendingMerchants />}
+                      path="/pendingPharmacists"
+                      element={<PendingPharmacists />}
                     />
                     <Route
-                      path="/confirmedMerchants"
-                      element={<ConfirmedMerchants />}
+                      path="/confirmedPharmacists"
+                      element={<ConfirmedPharmacists />}
                     />
                     <Route
-                      path="/blockedMerchants"
-                      element={<BlacklistMerchants />}
+                      path="/blockedPharmacists"
+                      element={<BlacklistPharmacists />}
                     />
                     <Route path="/userView" element={<UserEditOrAdd />} />
                     <Route path="/userView" element={<task />} />
