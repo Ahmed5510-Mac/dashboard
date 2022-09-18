@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 // import "./orderpeandingdoctor.css";
 import { CircularProgress } from "@material-ui/core";
 import { getAllOrdersByStatus } from "../../../store/order/orderSlice";
-import { changeStatus } from "./../../../store/userShared/userSharedSlice";
+import { changeStatus } from "../../../store/userShared/userSharedSlice";
 import Swal from "sweetalert2";
 import { useNavigate } from "react-router-dom";
 
@@ -94,7 +94,7 @@ function OrderPeandingPharmacist() {
   return (
     <>
       <h5 className="text-center text-primary my-2">
-        Pending pharmasesst order
+        Pending pharmacist order
       </h5>
       <div className="">
         {error && (

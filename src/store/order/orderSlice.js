@@ -96,8 +96,6 @@ export const cancelDoctorOrder = createAsyncThunk(
   }
 );
 
-
-
 export const deliverDoctorOrder = createAsyncThunk(
   "orderSlice/deliverDoctorOrder",
   async (orderId, thunkAPI) => {
@@ -119,14 +117,14 @@ export const deliverDoctorOrder = createAsyncThunk(
 
 export const deleteOrder = createAsyncThunk(
   "orderSlice/deleteOrder",
-  async (data, thunkAPI) => {
+  async (orderId, thunkAPI) => {
     const { rejectWithValue } = thunkAPI;
     try {
-      const res = await axios.delete(baseAPI + `/subcategories`, {
+      const res = await axios.delete(baseAPI + `/orders/admin/remove`, {
         headers: {
           Authorization: `Bearer ` + localStorage.getItem("token"),
         },
-        data:data
+        data:{orderId}
       });
 
       console.log(res);

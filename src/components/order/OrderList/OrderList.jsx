@@ -12,14 +12,17 @@ import {
   FormControl,
   FormControlLabel,
   FormLabel,
+  IconButton,
   Radio,
   RadioGroup,
   Stack,
   TextField,
+  Tooltip,
 } from "@mui/material";
 import DoDisturbOnIcon from "@mui/icons-material/DoDisturbOn";
 import {
   cancelDoctorOrder,
+  deleteOrder,
   deliverDoctorOrder,
   getAllOrdersByStatus,
   getOrdersByDate,
@@ -30,7 +33,7 @@ import { useParams } from "react-router-dom";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
-import CheckCircleIcon from '@mui/icons-material/CheckCircle';
+import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 
 function OrderList() {
   const { orders } = useSelector((state) => state.orderSlice);
@@ -41,28 +44,28 @@ function OrderList() {
   const [endDate, setEndDate] = useState(null);
 
   const formateDate = (MaterialDate) => {
-    return `${MaterialDate.$M + 1}-${MaterialDate.$D}-${MaterialDate.$y}`
-  }
+    return `${MaterialDate.$M + 1}-${MaterialDate.$D}-${MaterialDate.$y}`;
+  };
 
   const onDateSearch = () => {
-    dispatch(getOrdersByDate({
-      from: formateDate(startDate),
-      to: formateDate(endDate),
-      page: 1
-    }))
-  }
-
+    dispatch(
+      getOrdersByDate({
+        from: formateDate(startDate),
+        to: formateDate(endDate),
+        page: 1,
+      })
+    );
+  };
 
   useEffect(() => {
     dispatch(getAllOrdersByStatus({ orderStatus: orderStatus }));
   }, [orderStatus]);
 
   const orderStatusColorMap = {
-    pending: 'info',
-    delivered: 'success',
-    cancelled: 'error'
-  }
-
+    pending: "info",
+    delivered: "success",
+    cancelled: "error",
+  };
 
   return (
     <div>
@@ -71,30 +74,42 @@ function OrderList() {
         <div className="">
           <>
             <Stack spacing={2}>
-              <div style={{display: 'flex', gap: '22px', justifyContent: 'center'}}>
-              <LocalizationProvider dateAdapter={AdapterDayjs}>
-                <DatePicker
-                  label="From"
-                  value={startDate}
-                  onChange={(newValue) => {
-                    setStartDate(newValue);
-                  }}
-                  renderInput={(params) => <TextField {...params} />}
-                />
-              </LocalizationProvider>
+              <div
+                style={{
+                  display: "flex",
+                  gap: "22px",
+                  justifyContent: "center",
+                }}
+              >
+                <LocalizationProvider dateAdapter={AdapterDayjs}>
+                  <DatePicker
+                    label="From"
+                    value={startDate}
+                    onChange={(newValue) => {
+                      setStartDate(newValue);
+                    }}
+                    renderInput={(params) => <TextField {...params} />}
+                  />
+                </LocalizationProvider>
 
-              <LocalizationProvider dateAdapter={AdapterDayjs}>
-                <DatePicker
-                  label="To"
-                  value={endDate}
-                  onChange={(newValue) => {
-                    setEndDate(newValue);
-                  }}
-                  renderInput={(params) => <TextField {...params} />}
-                />
-              </LocalizationProvider>
+                <LocalizationProvider dateAdapter={AdapterDayjs}>
+                  <DatePicker
+                    label="To"
+                    value={endDate}
+                    onChange={(newValue) => {
+                      setEndDate(newValue);
+                    }}
+                    renderInput={(params) => <TextField {...params} />}
+                  />
+                </LocalizationProvider>
 
-              <Button onClick={onDateSearch} variant="contained" color="success">Search</Button>
+                <Button
+                  onClick={onDateSearch}
+                  variant="contained"
+                  color="success"
+                >
+                  Search
+                </Button>
               </div>
 
               <FormControl>
@@ -115,16 +130,13 @@ function OrderList() {
                   />
                   <FormControlLabel
                     value="pharmacist"
+                    disabled
                     control={<Radio />}
                     label="Pharmacist"
                   />
-                  {/* <FormControlLabel
-                  value="shipped"
-                  control={<Radio />}
-                  label="shipped"
-                /> */}
                   <FormControlLabel
                     value="All"
+                    disabled
                     control={<Radio />}
                     label="All"
                   />
@@ -183,7 +195,10 @@ function OrderList() {
                     <tr key={order._id} className="rowtable">
                       <td>{index + 1}</td>
                       <td>
-                        <Chip label={order.orderStatus} color={orderStatusColorMap[order.orderStatus]} />
+                        <Chip
+                          label={order.orderStatus}
+                          color={orderStatusColorMap[order.orderStatus]}
+                        />
                       </td>
                       <td>{order.orderDate}</td>
                       <td> {order.payment.method}</td>
@@ -196,55 +211,66 @@ function OrderList() {
                             }
                           />
                         </span> */}
-                        {orderStatus === 'delivered' || orderStatus === 'cancelled' || (
-                          <>
-                            <span style={{ cursor: "pointer" }}>
-                              {/* deliver btn */}
-                              <CheckCircleIcon color='success'
-                                onClick={() =>
-                                  dispatch(deliverDoctorOrder(order._id)).then(
-                                    () => {
+                        {order.orderStatus === "delivered" ||
+                          order.orderStatus === "cancelled" || (
+                            <>
+                            <Tooltip title={<h5>Delivered</h5>}>
+                              <IconButton style={{ cursor: "pointer" }}>
+                                {/* deliver btn */}
+                                <CheckCircleIcon
+                                  color="success"
+                                  onClick={() =>
+                                    dispatch(
+                                      deliverDoctorOrder(order._id)
+                                    ).then(() => {
                                       dispatch(
                                         getAllOrdersByStatus({
                                           orderStatus,
                                         })
                                       );
-                                    }
-                                  )
-                                }
-                              />
-                            </span>
-                            <span style={{ cursor: "pointer" }}>
-                              {/* cancel btn */}
-                              <DoDisturbOnIcon
-                                onClick={() =>
-                                  dispatch(cancelDoctorOrder(order._id)).then(
-                                    () => {
-                                      dispatch(
-                                        getAllOrdersByStatus({
-                                          orderStatus,
-                                        })
-                                      );
-                                    }
-                                  )
-                                }
-                              />
-                            </span>
-                          </>
+                                    })
+                                  }
+                                />
+                              </IconButton>
+                              </Tooltip>
+                              <Tooltip title={<h5>Cancel</h5>}>
+                              <IconButton style={{ cursor: "pointer" }}>
+                                {/* cancel btn */}
+                                <DoDisturbOnIcon
+                                  onClick={() =>
+                                    dispatch(cancelDoctorOrder(order._id)).then(
+                                      () => {
+                                        dispatch(
+                                          getAllOrdersByStatus({
+                                            orderStatus,
+                                          })
+                                        );
+                                      }
+                                    )
+                                  }
+                                />
+                              </IconButton>
+                              </Tooltip>
+                            </>
+                          )}
+
+                        {order.orderStatus === "delivered" || order.orderStatus === "pending" || (
+                          <Tooltip title={<h5>Remove</h5>}>
+                          <IconButton className="btn-delete">
+                            <DeleteForeverIcon
+                              onClick={() =>
+                                dispatch(deleteOrder(order._id)).then(() => {
+                                  dispatch(
+                                    getAllOrdersByStatus({
+                                      orderStatus,
+                                    })
+                                  );
+                                })
+                              }
+                            />
+                          </IconButton>
+                          </Tooltip>
                         )}
-                        <span className="btn-delete">
-                          <DeleteForeverIcon
-                          // onClick={() =>
-                          //  // dispatch(
-                          //   //   deleteSupCategory({
-                          //   //     id: order._id,
-                          //   //   })
-                          //   // ).then(() =>
-                          //   //   dispatch()
-                          //   // )
-                          // // }
-                          />
-                        </span>
                       </td>
                     </tr>
                   ))}

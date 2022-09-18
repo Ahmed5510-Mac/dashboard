@@ -5,7 +5,7 @@ import Widget from "../../components/widget/Widget";
 import Featured from '../../components/Featured/Featured'
 import style from './Home.module.css'
 import OrderPeandingDoctor from "../../components/order/orderpeanding-doctor/orderpeandingdoctor"
-import OrderPeandingPharmacist from "../../components/order/orderpeanding-pharmasesst/Orderpeanding-pharmasesst"
+import OrderPeandingPharmacist from "../../components/order/orderpeanding-pharmasist/Orderpeanding-pharmasesst"
 import { NavLink } from "react-router-dom";
 
 export default function Home() {
