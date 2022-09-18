@@ -29,6 +29,7 @@ export const addImageToProduct = createAsyncThunk(
       const res = await axios.post(baseAPI + `/products/addimage/${data.id}`, data.data, {
         headers: {
           Authorization: `Bearer ` + localStorage.getItem("token"),
+          "Content-Type": `multipart/form-data; boundary=${data.data._boundary}`
         },
       });
 

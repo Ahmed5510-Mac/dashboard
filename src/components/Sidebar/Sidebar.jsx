@@ -170,9 +170,9 @@ const Sidebar = () => {
                   </ul>
                 </li>
 
-                <NavLink to="/ordered" className="sidebarListItem">
+                <NavLink to="/orders" className="sidebarListItem">
                   <i className="fa-solid fa-arrow-down-short-wide"></i>
-                  <span>ordered</span>
+                  <span>Orders</span>
                 </NavLink>
                 <NavLink to="/supliers" className="sidebarListItem">
                   <i className="fa-solid fa-arrow-down-short-wide"></i>

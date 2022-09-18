@@ -32,6 +32,7 @@ import BrandsPage from "./pages/brands/Brands.page";
 import Product_page from "./pages/products/Product_page";
 import SubCategories from "./pages/SubCategories/SubCategories.page";
 import Suppliers from './pages/suppliers/suppliers';
+import Order from "./pages/Order/Order";
 
 const App = () => {
   const { isLogedIn } = useSelector((state) => state.loginSlice);
@@ -106,6 +107,7 @@ const App = () => {
                     <Route path="/subcategory/:id" element={<SubCategories />} />
                     <Route path="/brand" element={<BrandsPage />} />
                     <Route path="/products" element={<Product_page />} />
+                    <Route path="/orders" element={<Order />} />
                     <Route path="/supliers" element={<Suppliers/>} />
                     <Route path="*" element={<NotFound />} />
                   </Routes>

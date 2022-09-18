@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 // import "./orderpeandingdoctor.css";
 import { CircularProgress } from "@material-ui/core";
-import { getPendingDoctorOrder } from "../../../store/order/orderSlice";
+import { getAllOrdersByStatus } from "../../../store/order/orderSlice";
 import { changeStatus } from "./../../../store/userShared/userSharedSlice";
 import Swal from "sweetalert2";
 import { useNavigate } from "react-router-dom";
@@ -10,10 +10,10 @@ function OrderPeandingPharmasesst() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   useEffect(() => {
-    dispatch(getPendingDoctorOrder());
+    dispatch(getAllOrdersByStatus({orderStatus: 'pending'}));
   }, [dispatch]);
-  const { pendingDoctorOrderList, isLoading, error } = useSelector(
-    (state) => state.doctorOrderSlice
+  const { orders, isLoading, error } = useSelector(
+    (state) => state.orderSlice
   );
   //let x=document.getElementByID()
   // -------------chang status function---------------------
@@ -25,8 +25,8 @@ function OrderPeandingPharmasesst() {
       type: "doctor",
     };
     dispatch(changeStatus(newData));
-    dispatch(getPendingDoctorOrder());
-    dispatch(getPendingDoctorOrder());
+    dispatch(getAllOrdersByStatus({orderStatus: 'pending'}));
+    dispatch(getAllOrdersByStatus({orderStatus: 'pending'}));
 
     Swal.fire({
       position: "center",
@@ -57,16 +57,16 @@ function OrderPeandingPharmasesst() {
       if (result.isConfirmed) {
         Swal.fire("rejected!", "Your file has been rejected.", "success");
         dispatch(changeStatus(newData));
-        dispatch(getPendingDoctorOrder());
-        dispatch(getPendingDoctorOrder());
+        dispatch(getAllOrdersByStatus({orderStatus: 'pending'}));
+        dispatch(getAllOrdersByStatus({orderStatus: 'pending'}));
         navigate("/blockedDoctors");
       }
     });
   };
 
   const pendingDoctorList =
-    pendingDoctorOrderList.length > 0 &&
-    pendingDoctorOrderList.map((item) => (
+    orders.length > 0 &&
+    orders.map((item) => (
       <tr className="" key={item._id}>
         <td>{item.fullName}</td>
         <td>{item.phoneNumber}</td>
@@ -106,7 +106,7 @@ function OrderPeandingPharmasesst() {
             {" "}
             <CircularProgress /> Loadein ......
           </h1>
-        ) : pendingDoctorOrderList.length > 0 ? (
+        ) : orders.length > 0 ? (
           <>
             <div className="tableContainer">
               <table className="table tableUsers table-light table-striped mx-auto mt-5 col-7 text-center ">

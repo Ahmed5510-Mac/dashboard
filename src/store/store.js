@@ -10,7 +10,8 @@ import subCategorySlice from "./supCategories/supcategoriesSlice";
 import brandSlice from "./brand/brand.slice";
 import productSlice from "./product/productSlice";
 import supplierSlice from "./supplier/supplierSlice";
-import doctorOrderSlice from './order/orderSlice'
+import orderSlice from "./order/orderSlice";
+
 export const store = configureStore({
   middleware: (applyMiddleware) =>
     applyMiddleware({
@@ -28,6 +29,6 @@ export const store = configureStore({
     brandSlice,
     productSlice,
     supplierSlice,
-    doctorOrderSlice,
+    orderSlice
   },
 });
