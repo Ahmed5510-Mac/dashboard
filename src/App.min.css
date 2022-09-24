@@ -9,17 +9,17 @@
   flex: 0 0 20%;
   max-width: 20%;
 }
-.layaout .right-side {
+.layaout .top-nav {
   flex: 0 0 80%;
   max-width: 80%;
   position: relative;
   z-index: 33;
 }
-.layaout .right-side .topbarWrapper {
+.layaout .top-nav .topbarWrapper {
   width: 100%;
   border: 2px solid orange;
 }
-.layaout .right-side .topbarWrapper .navbar {
+.layaout .top-nav .topbarWrapper .navbar {
   width: 100%;
   margin: 0;
 }
