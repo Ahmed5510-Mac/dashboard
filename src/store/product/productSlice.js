@@ -26,12 +26,16 @@ export const addImageToProduct = createAsyncThunk(
   async (data, thunkAPI) => {
     const { rejectWithValue } = thunkAPI;
     try {
-      const res = await axios.post(baseAPI + `/products/addimage/${data.id}`, data.data, {
-        headers: {
-          Authorization: `Bearer ` + localStorage.getItem("token"),
-          "Content-Type": `multipart/form-data; boundary=${data.data._boundary}`
-        },
-      });
+      const res = await axios.post(
+        baseAPI + `/products/addimage/${data.id}`,
+        data.data,
+        {
+          headers: {
+            Authorization: `Bearer ` + localStorage.getItem("token"),
+            "Content-Type": `multipart/form-data; boundary=${data.data._boundary}`,
+          },
+        }
+      );
 
       console.log(res);
       return res.data;
@@ -43,14 +47,17 @@ export const addImageToProduct = createAsyncThunk(
 
 export const getAllProduct = createAsyncThunk(
   "productSlice/getAllProductsByType",
-  async (_, thunkAPI) => {
+  async ({ categoryType, page }, thunkAPI) => {
     const { rejectWithValue } = thunkAPI;
     try {
-      const res = await axios.get(baseAPI + `/products/random`, {
-        headers: {
-          Authorization: `Bearer ` + localStorage.getItem("token"),
-        },
-      });
+      const res = await axios.get(
+        baseAPI + `/products/all/${categoryType}/${page || 1}`,
+        {
+          headers: {
+            Authorization: `Bearer ` + localStorage.getItem("token"),
+          },
+        }
+      );
       console.log(res);
       return res.data;
     } catch (error) {
@@ -101,6 +108,7 @@ export const deleteProduct = createAsyncThunk(
 // initial state
 const initialState = {
   products: [],
+  categoryType: "product",
   editableProduct: null,
   error: false,
   isLoading: false,
@@ -111,10 +119,15 @@ const productSlice = createSlice({
   initialState,
   reducers: {
     setEditableProduct: (state, action) => {
+      console.log(action.payload);
       state.editableProduct = action.payload;
     },
     resetEditableProduct: (state, action) => {
       state.editableProduct = action.payload;
+    },
+    // -------------- setCategory Type ----------
+    setCategoryType: (state, action) => {
+      state.categoryType = action.payload;
     },
   },
   extraReducers: {
@@ -169,6 +182,6 @@ const productSlice = createSlice({
   },
 });
 
-export const { setEditableProduct, resetEditableProduct } =
+export const { setEditableProduct, resetEditableProduct, setCategoryType } =
   productSlice.actions;
 export default productSlice.reducer;

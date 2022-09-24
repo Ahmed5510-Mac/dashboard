@@ -1,31 +1,31 @@
 .layaout {
-    border: 5px solid blue;
-    display: flex;
-    justify-content: space-between;
-    gap: 10px;
+  border: 5px solid blue;
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
 }
 .layaout .left-side {
-    border: 3px solid green;
-    flex: 0 0 20%;
-    max-width: 20%;
+  border: 3px solid green;
+  flex: 0 0 20%;
+  max-width: 20%;
 }
 .layaout .right-side {
-    flex: 0 0 80%;
-    max-width: 80%;
-    position: relative;
-    z-index: 33;
+  flex: 0 0 80%;
+  max-width: 80%;
+  position: relative;
+  z-index: 33;
 }
 .layaout .right-side .topbarWrapper {
-    width: 100%;
-    border: 2px solid orange;
+  width: 100%;
+  border: 2px solid orange;
 }
 .layaout .right-side .topbarWrapper .navbar {
-    width: 100%;
-    margin: 0;
+  width: 100%;
+  margin: 0;
 }
 .layaout .container {
-    display: flex;
-    height: 100vh;
-    overflow-y: auto !important;
-    padding-bottom: 30px;
+  display: flex;
+  height: 100vh;
+  overflow-y: auto !important;
+  padding-bottom: 30px;
 }

@@ -13,11 +13,13 @@ import {
   FormControlLabel,
   FormLabel,
   IconButton,
+  Modal,
   Radio,
   RadioGroup,
   Stack,
   TextField,
   Tooltip,
+  Typography,
 } from "@mui/material";
 import DoDisturbOnIcon from "@mui/icons-material/DoDisturbOn";
 import {
@@ -25,7 +27,9 @@ import {
   deleteOrder,
   deliverDoctorOrder,
   getAllOrdersByStatus,
+  getDoctorOrderDetails,
   getOrdersByDate,
+  shipDoctorOrder,
 } from "../../../store/order/orderSlice";
 import { useEffect } from "react";
 // import "./supcategories.scss";
@@ -34,14 +38,37 @@ import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
+import LocalShippingIcon from "@mui/icons-material/LocalShipping";
+import dayjs from "dayjs";
+import VisibilityIcon from "@mui/icons-material/Visibility";
+
+const style = {
+  position: "absolute",
+  top: "50%",
+  left: "50%",
+  transform: "translate(-50%, -50%)",
+  width: "65vw",
+  bgcolor: "background.paper",
+  border: "2px solid #000",
+  boxShadow: 24,
+  p: 4,
+};
 
 function OrderList() {
-  const { orders } = useSelector((state) => state.orderSlice);
+  const { orders, orderDetails } = useSelector((state) => state.orderSlice);
   const dispatch = useDispatch();
   const [orderStatus, setOrderStatus] = useState("pending");
   const [orderType, setOrderType] = useState("doctor");
-  const [startDate, setStartDate] = useState(null);
-  const [endDate, setEndDate] = useState(null);
+  const [startDate, setStartDate] = useState(
+    dayjs(new Date(new Date().getFullYear(), new Date().getMonth(), 1))
+  );
+  const [endDate, setEndDate] = useState(dayjs(new Date()));
+  const [open, setOpen] = React.useState(false);
+
+  const handleOpenDetails = (id) => {
+    dispatch(getDoctorOrderDetails(id)).then(() => setOpen(true));
+  };
+  const handleCloseDetails = () => setOpen(false);
 
   const formateDate = (MaterialDate) => {
     return `${MaterialDate.$M + 1}-${MaterialDate.$D}-${MaterialDate.$y}`;
@@ -52,13 +79,23 @@ function OrderList() {
       getOrdersByDate({
         from: formateDate(startDate),
         to: formateDate(endDate),
+        status: orderStatus,
         page: 1,
       })
     );
   };
 
   useEffect(() => {
-    dispatch(getAllOrdersByStatus({ orderStatus: orderStatus }));
+    if (startDate && endDate)
+      dispatch(
+        getOrdersByDate({
+          from: formateDate(startDate),
+          to: formateDate(endDate),
+          status: orderStatus,
+          page: 1,
+        })
+      );
+    else dispatch(getAllOrdersByStatus({ orderStatus: orderStatus }));
   }, [orderStatus]);
 
   const orderStatusColorMap = {
@@ -159,15 +196,15 @@ function OrderList() {
                     label="pending"
                   />
                   <FormControlLabel
+                    value="shipped"
+                    control={<Radio />}
+                    label="shipped"
+                  />
+                  <FormControlLabel
                     value="delivered"
                     control={<Radio />}
                     label="delivered"
                   />
-                  {/* <FormControlLabel
-                  value="shipped"
-                  control={<Radio />}
-                  label="shipped"
-                /> */}
                   <FormControlLabel
                     value="cancelled"
                     control={<Radio />}
@@ -214,31 +251,73 @@ function OrderList() {
                         {order.orderStatus === "delivered" ||
                           order.orderStatus === "cancelled" || (
                             <>
-                            <Tooltip title={<h5>Delivered</h5>}>
-                              <IconButton style={{ cursor: "pointer" }}>
-                                {/* deliver btn */}
-                                <CheckCircleIcon
-                                  color="success"
-                                  onClick={() =>
-                                    dispatch(
-                                      deliverDoctorOrder(order._id)
-                                    ).then(() => {
+                              <Tooltip title={<h5>Shipped</h5>}>
+                                <IconButton style={{ cursor: "pointer" }}>
+                                  {/* deliver btn */}
+                                  <LocalShippingIcon
+                                    color="info"
+                                    onClick={() =>
+                                      dispatch(shipDoctorOrder(order._id)).then(
+                                        () => {
+                                          dispatch(
+                                            getAllOrdersByStatus({
+                                              orderStatus,
+                                            })
+                                          );
+                                        }
+                                      )
+                                    }
+                                  />
+                                </IconButton>
+                              </Tooltip>
+
+                              <Tooltip title={<h5>Delivered</h5>}>
+                                <IconButton style={{ cursor: "pointer" }}>
+                                  {/* deliver btn */}
+                                  <CheckCircleIcon
+                                    color="success"
+                                    onClick={() =>
                                       dispatch(
-                                        getAllOrdersByStatus({
-                                          orderStatus,
-                                        })
-                                      );
-                                    })
-                                  }
-                                />
-                              </IconButton>
+                                        deliverDoctorOrder(order._id)
+                                      ).then(() => {
+                                        dispatch(
+                                          getAllOrdersByStatus({
+                                            orderStatus,
+                                          })
+                                        );
+                                      })
+                                    }
+                                  />
+                                </IconButton>
                               </Tooltip>
                               <Tooltip title={<h5>Cancel</h5>}>
-                              <IconButton style={{ cursor: "pointer" }}>
-                                {/* cancel btn */}
-                                <DoDisturbOnIcon
+                                <IconButton style={{ cursor: "pointer" }}>
+                                  {/* cancel btn */}
+                                  <DoDisturbOnIcon
+                                    onClick={() =>
+                                      dispatch(
+                                        cancelDoctorOrder(order._id)
+                                      ).then(() => {
+                                        dispatch(
+                                          getAllOrdersByStatus({
+                                            orderStatus,
+                                          })
+                                        );
+                                      })
+                                    }
+                                  />
+                                </IconButton>
+                              </Tooltip>
+                            </>
+                          )}
+
+                        {order.orderStatus === "delivered" ||
+                          order.orderStatus === "pending" || (
+                            <Tooltip title={<h5>Remove</h5>}>
+                              <IconButton className="btn-delete">
+                                <DeleteForeverIcon
                                   onClick={() =>
-                                    dispatch(cancelDoctorOrder(order._id)).then(
+                                    dispatch(deleteOrder(order._id)).then(
                                       () => {
                                         dispatch(
                                           getAllOrdersByStatus({
@@ -250,27 +329,16 @@ function OrderList() {
                                   }
                                 />
                               </IconButton>
-                              </Tooltip>
-                            </>
+                            </Tooltip>
                           )}
 
-                        {order.orderStatus === "delivered" || order.orderStatus === "pending" || (
-                          <Tooltip title={<h5>Remove</h5>}>
-                          <IconButton className="btn-delete">
-                            <DeleteForeverIcon
-                              onClick={() =>
-                                dispatch(deleteOrder(order._id)).then(() => {
-                                  dispatch(
-                                    getAllOrdersByStatus({
-                                      orderStatus,
-                                    })
-                                  );
-                                })
-                              }
+                        <Tooltip title={<h5>Details</h5>}>
+                          <IconButton style={{ cursor: "pointer" }}>
+                            <VisibilityIcon
+                              onClick={() => handleOpenDetails(order._id)}
                             />
                           </IconButton>
-                          </Tooltip>
-                        )}
+                        </Tooltip>
                       </td>
                     </tr>
                   ))}
@@ -278,6 +346,141 @@ function OrderList() {
               </table>
             </div>
           </>
+        </div>
+
+        <div>
+          <Modal
+            open={open}
+            onClose={handleCloseDetails}
+            aria-labelledby="modal-modal-title"
+            aria-describedby="modal-modal-description"
+          >
+            <Box sx={style}>
+              <Typography id="modal-modal-title" variant="h4" component="h2">
+                Order Details
+              </Typography>
+              <Typography id="modal-modal-description" sx={{ mt: 2 }}>
+                Order Date : {orderDetails?.orderDate}
+              </Typography>
+
+              <Typography id="modal-modal-description" sx={{ mt: 2 }}>
+                Order Status : {orderDetails?.orderStatus}
+              </Typography>
+
+              <Typography id="modal-modal-description" sx={{ mt: 2 }}>
+                Total Price : {orderDetails?.totalPrice}
+              </Typography>
+
+              {/* <Typography id="modal-modal-description" sx={{ mt: 2 }}>
+                Products : {orderDetails?.products.map((p) => )}
+              </Typography> */}
+
+              <div style={{ display: "flex", gap: "18px" }}>
+                <Typography id="modal-modal-description" sx={{ mt: 2 }}>
+                  Deliver Info :
+                </Typography>
+
+                <div style={{ flexGrow: 1 }}>
+                  <Typography id="modal-modal-description" sx={{ mt: 2 }}>
+                    <span
+                      style={{
+                        background: "#0d6efd",
+                        minWidth: "150px",
+                        display: "inline-block",
+                        color: "#fff",
+                        padding: "2px 6px",
+                        marginRight: "8px",
+                        fontWeight: "bold",
+                      }}
+                    >
+                      Name:
+                    </span>
+                    {orderDetails?.deliverInfo?.address?.addressName}
+                  </Typography>
+                  <Typography id="modal-modal-description" sx={{ mt: 2 }}>
+                    <span
+                      style={{
+                        background: "#0d6efd",
+                        minWidth: "150px",
+                        display: "inline-block",
+                        color: "#fff",
+                        padding: "2px 6px",
+                        marginRight: "8px",
+                        fontWeight: "bold",
+                      }}
+                    >
+                      governorate:
+                    </span>
+                    {orderDetails?.deliverInfo?.address?.governorate}
+                  </Typography>
+                  <Typography id="modal-modal-description" sx={{ mt: 2 }}>
+                    <span
+                      style={{
+                        background: "#0d6efd",
+                        minWidth: "150px",
+                        display: "inline-block",
+                        color: "#fff",
+                        padding: "2px 6px",
+                        marginRight: "8px",
+                        fontWeight: "bold",
+                      }}
+                    >
+                      city:
+                    </span>
+                    {orderDetails?.deliverInfo?.address?.city}
+                  </Typography>
+                  <Typography id="modal-modal-description" sx={{ mt: 2 }}>
+                    <span
+                      style={{
+                        background: "#0d6efd",
+                        minWidth: "150px",
+                        display: "inline-block",
+                        color: "#fff",
+                        padding: "2px 6px",
+                        marginRight: "8px",
+                        fontWeight: "bold",
+                      }}
+                    >
+                      street:
+                    </span>
+                    {orderDetails?.deliverInfo?.address?.street}
+                  </Typography>
+                  <Typography id="modal-modal-description" sx={{ mt: 2 }}>
+                    <span
+                      style={{
+                        background: "#0d6efd",
+                        minWidth: "150px",
+                        display: "inline-block",
+                        color: "#fff",
+                        padding: "2px 6px",
+                        marginRight: "8px",
+                        fontWeight: "bold",
+                      }}
+                    >
+                      building:
+                    </span>
+                    {orderDetails?.deliverInfo?.address?.building}
+                  </Typography>
+                  <Typography id="modal-modal-description" sx={{ mt: 2 }}>
+                    <span
+                      style={{
+                        background: "#0d6efd",
+                        minWidth: "150px",
+                        display: "inline-block",
+                        color: "#fff",
+                        padding: "2px 6px",
+                        marginRight: "8px",
+                        fontWeight: "bold",
+                      }}
+                    >
+                      details:
+                    </span>
+                    {orderDetails?.deliverInfo?.address?.details}
+                  </Typography>
+                </div>
+              </div>
+            </Box>
+          </Modal>
         </div>
       </>
     </div>

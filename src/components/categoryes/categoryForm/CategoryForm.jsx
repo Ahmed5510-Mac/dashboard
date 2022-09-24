@@ -9,9 +9,16 @@ import {
   MenuItem,
   Select,
 } from "@material-ui/core";
+// Import React FilePond
+import { FilePond, File, registerPlugin } from "react-filepond";
+import "filepond/dist/filepond.min.css";
+import FilePondPluginImageExifOrientation from "filepond-plugin-image-exif-orientation";
+import FilePondPluginImagePreview from "filepond-plugin-image-preview";
+import "filepond-plugin-image-preview/dist/filepond-plugin-image-preview.css";
 import { useDispatch, useSelector } from "react-redux";
 import {
   addCategory,
+  addImageToCategory,
   editCategory,
   getAllCategoriesByType,
   resetEditableCategory,
@@ -20,6 +27,7 @@ import {
 import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 
 function CategoryForm() {
+  const [files, setFiles] = useState([]);
   const { editableCategory } = useSelector((state) => state.categorySlice);
   const dispatch = useDispatch();
 
@@ -34,7 +42,12 @@ function CategoryForm() {
       (editableCategory
         ? dispatch(editCategory(values))
         : dispatch(addCategory(values))
-      ).then(() => {
+      ).then((res) => {
+        const data = new FormData();
+        data.set('image', files[0].file)
+
+        dispatch(addImageToCategory({id: res.payload._id, data}))
+
         dispatch(getAllCategoriesByType(values.category_type));
         dispatch(resetEditableCategory(null));
         dispatch(setCategoryType(values.category_type));
@@ -106,6 +119,15 @@ function CategoryForm() {
             <MenuItem value={"accessories"}>accessories</MenuItem>
           </Select>
         </FormControl>
+
+        <FilePond
+          files={files}
+          onupdatefiles={setFiles}
+          allowMultiple={true}
+          maxFiles={1}
+          name="files"
+          labelIdle='Drag & Drop your image or <span class="filepond--label-action">Browse</span>'
+        />
 
         <Button type="submit">{editableCategory ? "Edit" : "save"}</Button>
       </form>

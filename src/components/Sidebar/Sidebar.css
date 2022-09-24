@@ -22,7 +22,7 @@
 
 .lodgname {
   font-size: 30px;
-  font-family: 'Lobster', cursive;
+  font-family: "Lobster", cursive;
 }
 
 /* ------------------------End logo------------------------- */
@@ -34,8 +34,7 @@
 
 /* ------------------------ Sidebar Items  $submenue Items  ( links) ------------------------- */
 .sidebarListItem,
-.sidebarListItemsubMenue
-.active {
+.sidebarListItemsubMenue .active {
   cursor: pointer;
   width: 100%;
   display: flex;
@@ -155,7 +154,7 @@
 .sidebarListItem.hovered,
 .active {
   background-color: var(--white);
-  color: #00BED6;
+  color: #00bed6;
 }
 
 /* ------------------------ icone Sidebar item have submenue ------------------------- */
@@ -187,7 +186,7 @@ itemcontainsubmenueEmployee:hover .legend {
 .SubmenuUsers,
 .SubmenuUsersEmployee {
   background-color: rgba(255, 255, 255, 0.575);
-  overflow: hidden;
+  /* overflow: hidden; */
   transition: all 0.5s !important;
   width: 280px;
   margin-left: -20px;

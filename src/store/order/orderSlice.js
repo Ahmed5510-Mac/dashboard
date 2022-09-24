@@ -4,14 +4,17 @@ const baseAPI = "https://fathomless-hollows-91408.herokuapp.com";
 
 export const getAllOrdersByStatus = createAsyncThunk(
   "orderSlice/getAllOrdersByStatus",
-  async ({orderStatus, page}, thunkAPI) => {
+  async ({ orderStatus, page }, thunkAPI) => {
     const { rejectWithValue } = thunkAPI;
     try {
-      const res = await axios.get(baseAPI + `/orders/admin/ordersBystatus/${orderStatus}/${page || 1}`, {
-        headers: {
-          Authorization: `Bearer ` + localStorage.getItem("token")
-        },
-      });
+      const res = await axios.get(
+        baseAPI + `/orders/admin/ordersBystatus/${orderStatus}/${page || 1}`,
+        {
+          headers: {
+            Authorization: `Bearer ` + localStorage.getItem("token"),
+          },
+        }
+      );
       console.log(res);
       return res.data;
     } catch (error) {
@@ -25,11 +28,14 @@ export const getDoctorOrderDetails = createAsyncThunk(
   async (id, thunkAPI) => {
     const { rejectWithValue } = thunkAPI;
     try {
-      const res = await axios.get(baseAPI + `/orders/doctor/orderDetails/${id}`, {
-        headers: {
-          Authorization: `Bearer ` + localStorage.getItem("token"),
-        },
-      });
+      const res = await axios.get(
+        baseAPI + `/orders/doctor/orderDetails/${id}`,
+        {
+          headers: {
+            Authorization: `Bearer ` + localStorage.getItem("token"),
+          },
+        }
+      );
 
       console.log(res);
       return res.data;
@@ -44,11 +50,14 @@ export const getDoctorOrderTrackInfo = createAsyncThunk(
   async (orderId, thunkAPI) => {
     const { rejectWithValue } = thunkAPI;
     try {
-      const res = await axios.get(baseAPI + `/orders/doctor/trackorder/${orderId}`, {
-        headers: {
-          Authorization: `Bearer ` + localStorage.getItem("token"),
-        },
-      });
+      const res = await axios.get(
+        baseAPI + `/orders/doctor/trackorder/${orderId}`,
+        {
+          headers: {
+            Authorization: `Bearer ` + localStorage.getItem("token"),
+          },
+        }
+      );
 
       console.log(res);
       return res.data;
@@ -60,14 +69,18 @@ export const getDoctorOrderTrackInfo = createAsyncThunk(
 
 export const getOrdersByDate = createAsyncThunk(
   "orderSlice/getOrdersByDate",
-  async ({from, to, page}, thunkAPI) => {
+  async ({ from, to, status, page }, thunkAPI) => {
     const { rejectWithValue } = thunkAPI;
     try {
-      const res = await axios.get(baseAPI + `/orders/admin/searchDate/${from}/${to}/${page || 1}`, {
-        headers: {
-          Authorization: `Bearer ` + localStorage.getItem("token"),
-        },
-      });
+      const res = await axios.get(
+        baseAPI +
+          `/orders/admin/searchDate/${from}/${to}/${status}/${page || 1}`,
+        {
+          headers: {
+            Authorization: `Bearer ` + localStorage.getItem("token"),
+          },
+        }
+      );
 
       console.log(res);
       return res.data;
@@ -82,11 +95,38 @@ export const cancelDoctorOrder = createAsyncThunk(
   async (orderId, thunkAPI) => {
     const { rejectWithValue } = thunkAPI;
     try {
-      const res = await axios.put(baseAPI + `/orders/doctor/cancelOrder`, {orderId} , {
-        headers: {
-          Authorization: `Bearer ` + localStorage.getItem("token"),
-        },
-      });
+      const res = await axios.put(
+        baseAPI + `/orders/doctor/cancelOrder`,
+        { orderId },
+        {
+          headers: {
+            Authorization: `Bearer ` + localStorage.getItem("token"),
+          },
+        }
+      );
+
+      console.log(res);
+      return res.data;
+    } catch (error) {
+      return rejectWithValue(error.message);
+    }
+  }
+);
+
+export const shipDoctorOrder = createAsyncThunk(
+  "orderSlice/shipDoctorOrder",
+  async (orderId, thunkAPI) => {
+    const { rejectWithValue } = thunkAPI;
+    try {
+      const res = await axios.put(
+        baseAPI + `/orders/admin/shipOrder`,
+        { orderId },
+        {
+          headers: {
+            Authorization: `Bearer ` + localStorage.getItem("token"),
+          },
+        }
+      );
 
       console.log(res);
       return res.data;
@@ -101,11 +141,15 @@ export const deliverDoctorOrder = createAsyncThunk(
   async (orderId, thunkAPI) => {
     const { rejectWithValue } = thunkAPI;
     try {
-      const res = await axios.put(baseAPI + `/orders/doctor/deliverOrder`, {orderId} , {
-        headers: {
-          Authorization: `Bearer ` + localStorage.getItem("token"),
-        },
-      });
+      const res = await axios.put(
+        baseAPI + `/orders/doctor/deliverOrder`,
+        { orderId },
+        {
+          headers: {
+            Authorization: `Bearer ` + localStorage.getItem("token"),
+          },
+        }
+      );
 
       console.log(res);
       return res.data;
@@ -124,7 +168,7 @@ export const deleteOrder = createAsyncThunk(
         headers: {
           Authorization: `Bearer ` + localStorage.getItem("token"),
         },
-        data:{orderId}
+        data: { orderId },
       });
 
       console.log(res);
@@ -139,6 +183,7 @@ export const deleteOrder = createAsyncThunk(
 const initialState = {
   orders: [],
   editableOrder: null,
+  orderDetails: null,
   orderType: "product",
   error: false,
   isLoading: false,
@@ -157,7 +202,6 @@ const orderSlice = createSlice({
     },
   },
   extraReducers: {
-
     // ---------------- get Orders By Status ---------------------
     [getAllOrdersByStatus.pending]: (state, action) => {
       state.isLoading = true;
@@ -184,12 +228,14 @@ const orderSlice = createSlice({
       state.error = action.payload;
     },
 
-    // ---------------- edit categories ---------------------
+    // ---------------- get Doctor Order Details ---------------------
     [getDoctorOrderDetails.pending]: (state, action) => {
       state.isLoading = true;
     },
     [getDoctorOrderDetails.fulfilled]: (state, action) => {
       state.isLoading = false;
+      console.log(action.payload);
+      state.orderDetails = action.payload;
     },
     [getDoctorOrderDetails.rejected]: (state, action) => {
       state.isLoading = false;

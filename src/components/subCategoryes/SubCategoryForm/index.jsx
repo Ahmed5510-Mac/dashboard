@@ -15,11 +15,20 @@ import {
   editSubCategory,
   getAllSubCategories,
   setSubCategoryType,
+  addImageToSubCategory,
 } from "../../../store/supCategories/supcategoriesSlice";
+// Import React FilePond
+import { FilePond, File, registerPlugin } from "react-filepond";
+import "filepond/dist/filepond.min.css";
+import FilePondPluginImageExifOrientation from "filepond-plugin-image-exif-orientation";
+import FilePondPluginImagePreview from "filepond-plugin-image-preview";
+import "filepond-plugin-image-preview/dist/filepond-plugin-image-preview.css";
 import { useDispatch, useSelector } from "react-redux";
 import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 import { useParams } from "react-router-dom";
+
 function SubCategoryForm() {
+  const [files, setFiles] = useState([]);
   const { editableSubCategory } = useSelector(
     (state) => state.subCategorySlice
   );
@@ -38,7 +47,12 @@ function SubCategoryForm() {
       (editableSubCategory
         ? dispatch(editSubCategory(values))
         : dispatch(addSubCategory(values))
-      ).then(() => {
+      ).then((res) => {
+        const data = new FormData();
+        data.set('image', files[0].file)
+
+        dispatch(addImageToSubCategory({id: res.payload._id, data}))
+
         dispatch(getAllSubCategories(values.category));
         dispatch(resetEditableSubCategory(null));
         dispatch(setSubCategoryType(values.category));
@@ -108,6 +122,15 @@ function SubCategoryForm() {
             ))}
           </Select>
         </FormControl>
+
+        <FilePond
+          files={files}
+          onupdatefiles={setFiles}
+          allowMultiple={true}
+          maxFiles={1}
+          name="files"
+          labelIdle='Drag & Drop your image or <span class="filepond--label-action">Browse</span>'
+        />
 
         <Button type="submit">{editableSubCategory ? "Edit" : "save"}</Button>
       </form>

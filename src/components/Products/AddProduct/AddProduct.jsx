@@ -34,6 +34,10 @@ import {
 } from "../../../store/category/categorySlice";
 import { getAllSubCategories } from "../../../store/supCategories/supcategoriesSlice";
 import { getAllBrand } from "../../../store/brand/brand.slice";
+import { useNavigate } from "react-router-dom";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import { file } from "fontawesome";
 registerPlugin(FilePondPluginImageExifOrientation, FilePondPluginImagePreview);
 
 function AddProduct() {
@@ -48,6 +52,7 @@ function AddProduct() {
 
   const [files, setFiles] = useState([]);
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const formik = useFormik({
     initialValues: {
@@ -73,19 +78,21 @@ function AddProduct() {
         ? dispatch(editProduct(values))
         : dispatch(addProduct(values))
       ).then((res) => {
-        console.log(res)
+        console.log(res);
+        toast("Product Added Successfully");
 
-        const data = new FormData();
-        data.set('image', files[0].file)
+        if (files.length) {
+          const data = new FormData();
+          data.set("image", files[0]?.file);
 
-        dispatch(addImageToProduct({id: res.payload._id, data}))
-        dispatch(getAllProduct());
+          dispatch(addImageToProduct({ id: res.payload._id, data }));
+        }
+        // dispatch(getAllProduct());
         dispatch(resetEditableProduct(null));
+        // navigate("/products");
       });
     },
   });
-
-
 
   useEffect(() => {
     if (!editableProduct) formik.handleReset();
@@ -119,6 +126,18 @@ function AddProduct() {
 
   return (
     <div className="AddProduct-container">
+      <ToastContainer
+        position="top-right"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+      />
+
       <h2>
         <span>{editableProduct ? "Edit" : "Add"} New Product </span>
         {editableProduct ? (
@@ -201,7 +220,7 @@ function AddProduct() {
                 labelId="subCategory-label"
                 id="subCategory"
                 required
-                label="type"
+                label="Sub Category"
                 name="subCategory"
                 value={formik.values.subCategory}
                 onChange={formik.handleChange}

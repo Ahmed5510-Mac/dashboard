@@ -28,11 +28,12 @@ import Categores from "./pages/categoryes/categores";
 import BrandsPage from "./pages/brands/Brands.page";
 import Product_page from "./pages/products/Product_page";
 import SubCategories from "./pages/SubCategories/SubCategories.page";
-import Suppliers from './pages/suppliers/suppliers';
+import Suppliers from "./pages/suppliers/suppliers";
 import Order from "./pages/Order/Order";
 import PendingPharmacists from "./pages/pharmacist/pendingPharmacist/PendingPharmacists";
 import ConfirmedPharmacists from "./pages/pharmacist/confirmedPharmacist/ConfirmedPharmacists";
 import BlacklistPharmacists from "./pages/pharmacist/blacklistPharmacist/BlacklistPharmacists";
+import ProductForm from "./pages/products/ProductForm";
 
 const App = () => {
   const { isLogedIn } = useSelector((state) => state.loginSlice);
@@ -54,64 +55,59 @@ const App = () => {
               </div>
             </div>
             {/* ================right================ */}
-            <div className="right-side">
-              <div className="topbarWrapper">
-                <Navbar className="navbar" />
-              </div>
-              <div className="container">
-                <div className="mainSection">
-                  <Routes>
-                    <Route path="/" element={<Home />} />
-                    <Route
-                      path="/login"
-                      element={<Navigate to="/" replace />}
-                    />
-                    {/* <Route path="/home" element={<Home />} /> */}
+            <div className="top-nav">
+              <Navbar />
+            </div>
 
-                    {/* Doctor Routes */}
-                    <Route
-                      path="/pendingDoctors"
-                      element={<PendingDoctors />}
-                    />
-                    <Route
-                      path="/confirmedDoctors"
-                      element={<ConfirmedDoctors />}
-                    />
-                    <Route
-                      path="/blockedDoctors"
-                      element={<BlacklistDoctors />}
-                    />
-                    {/* pharmasict Routes */}
-                    {/* Pharmacist Routes */}
-                    <Route
-                      path="/pendingPharmacists"
-                      element={<PendingPharmacists />}
-                    />
-                    <Route
-                      path="/confirmedPharmacists"
-                      element={<ConfirmedPharmacists />}
-                    />
-                    <Route
-                      path="/blockedPharmacists"
-                      element={<BlacklistPharmacists />}
-                    />
-                    <Route path="/userView" element={<UserEditOrAdd />} />
-                    <Route path="/userView" element={<task />} />
-                    {/*  e  */}
-                    <Route path="/newUser" element={<NewUser />} />
-                    <Route path="/singleuser" element={<Singleuser />} />
-                    <Route path="/flayBoyeList" element={<FlayBoy />} />
-                    <Route path="/casherList" element={<Casher />} />
-                    <Route path="/users" element={<Datatable />} />
-                    <Route path="/categorey" element={<Categores />} />
-                    <Route path="/subcategory/:id" element={<SubCategories />} />
-                    <Route path="/brand" element={<BrandsPage />} />
-                    <Route path="/products" element={<Product_page />} />
-                    <Route path="/orders" element={<Order />} />
-                    <Route path="/supliers" element={<Suppliers/>} />
-                    <Route path="*" element={<NotFound />} />
-                  </Routes>
-                </div>
+            <div className="content">
+              <div className="mainSection">
+                <Routes>
+                  <Route path="/" element={<Home />} />
+                  <Route path="/login" element={<Navigate to="/" replace />} />
+                  {/* <Route path="/home" element={<Home />} /> */}
+
+                  {/* Doctor Routes */}
+                  <Route path="/pendingDoctors" element={<PendingDoctors />} />
+                  <Route
+                    path="/confirmedDoctors"
+                    element={<ConfirmedDoctors />}
+                  />
+                  <Route
+                    path="/blockedDoctors"
+                    element={<BlacklistDoctors />}
+                  />
+                  {/* pharmasict Routes */}
+                  {/* Pharmacist Routes */}
+                  <Route
+                    path="/pendingPharmacists"
+                    element={<PendingPharmacists />}
+                  />
+                  <Route
+                    path="/confirmedPharmacists"
+                    element={<ConfirmedPharmacists />}
+                  />
+                  <Route
+                    path="/blockedPharmacists"
+                    element={<BlacklistPharmacists />}
+                  />
+                  <Route path="/userView" element={<UserEditOrAdd />} />
+                  <Route path="/userView" element={<task />} />
+                  {/*  e  */}
+                  <Route path="/newUser" element={<NewUser />} />
+                  <Route path="/singleuser" element={<Singleuser />} />
+                  <Route path="/flayBoyeList" element={<FlayBoy />} />
+                  <Route path="/casherList" element={<Casher />} />
+                  <Route path="/users" element={<Datatable />} />
+                  <Route path="/categorey" element={<Categores />} />
+                  <Route path="/subcategory/:id" element={<SubCategories />} />
+                  <Route path="/brand" element={<BrandsPage />} />
+                  <Route path="/products" element={<Product_page />} />
+                  <Route path="/productForm" element={<ProductForm />} />
+
+                  <Route path="/orders" element={<Order />} />
+                  <Route path="/supliers" element={<Suppliers />} />
+                  <Route path="*" element={<NotFound />} />
+                </Routes>
               </div>
             </div>
           </div>

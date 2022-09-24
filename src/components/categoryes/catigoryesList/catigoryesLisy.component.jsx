@@ -12,6 +12,7 @@ import "./catigoryesLisy.component";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
 import {
+  Avatar,
   FormControl,
   FormControlLabel,
   FormLabel,
@@ -70,6 +71,7 @@ function CatigoryesLisy() {
                   <tr>
                     <th>index</th>
                     <th>Category Name</th>
+                    <th>Image</th>
                     <th>Action</th>
                   </tr>
                 </thead>
@@ -79,6 +81,13 @@ function CatigoryesLisy() {
                     <tr key={cat._id} className="rowtable">
                       <td>{index + 1}</td>
                       <td>{cat.name}</td>
+                      <td>
+                        <Avatar
+                            alt={cat.name}
+                            src={cat?.image?.url}
+                            sx={{ width: 56, height: 56 }}
+                          />
+                      </td>
                       <td>
                         <span className="btn-edite">
                           <EditIcon

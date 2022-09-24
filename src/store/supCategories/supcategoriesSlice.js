@@ -58,6 +58,26 @@ export const editSubCategory = createAsyncThunk(
   }
 );
 
+export const addImageToSubCategory = createAsyncThunk(
+  "subCategorySlice/addImageToSubCategory",
+  async (data, thunkAPI) => {
+    const { rejectWithValue } = thunkAPI;
+    try {
+      const res = await axios.post(baseAPI + `/subcategories/addimage/${data.id}`, data.data, {
+        headers: {
+          Authorization: `Bearer ` + localStorage.getItem("token"),
+          "Content-Type": `multipart/form-data; boundary=${data.data._boundary}`
+        },
+      });
+
+      console.log(res);
+      return res.data;
+    } catch (error) {
+      return rejectWithValue(error.message);
+    }
+  }
+);
+
 export const deleteSubCategory = createAsyncThunk(
   "subCategorySlice/deleteSubCategory",
   async (data, thunkAPI) => {

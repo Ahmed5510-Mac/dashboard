@@ -11,6 +11,7 @@ import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
 // } from "../../../store/supCategories/supcategoriesSlice.js";
 import EditIcon from "@mui/icons-material/Edit";
 import {
+  Avatar,
   FormControl,
   FormControlLabel,
   FormLabel,
@@ -44,6 +45,7 @@ function SubCategories() {
                   <tr>
                     <th>index</th>
                     <th>subSupCategory Name</th>
+                    <th>Image</th>
                     <th>Action</th>
                   </tr>
                 </thead>
@@ -53,6 +55,13 @@ function SubCategories() {
                     <tr key={subcat._id} className="rowtable">
                       <td>{index + 1}</td>
                       <td>{subcat.name}</td>
+                      <td>
+                        <Avatar
+                            alt={subcat.name}
+                            src={subcat?.image?.url}
+                            sx={{ width: 56, height: 56 }}
+                          />
+                      </td>
                       <td>
                         <span className="btn-edite">
                           <EditIcon
