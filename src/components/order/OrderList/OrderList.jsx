@@ -14,6 +14,7 @@ import {
   FormLabel,
   IconButton,
   Modal,
+  Pagination,
   Radio,
   RadioGroup,
   Stack,
@@ -41,6 +42,8 @@ import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 import LocalShippingIcon from "@mui/icons-material/LocalShipping";
 import dayjs from "dayjs";
 import VisibilityIcon from "@mui/icons-material/Visibility";
+import { useFormik } from "formik";
+import { DesktopTimePicker } from "@mui/x-date-pickers";
 
 const style = {
   position: "absolute",
@@ -49,9 +52,10 @@ const style = {
   transform: "translate(-50%, -50%)",
   width: "65vw",
   bgcolor: "background.paper",
-  border: "2px solid #000",
+  // border: "2px solid #000",
+  borderRadius: "8px",
   boxShadow: 24,
-  p: 4,
+  // p: 4,
 };
 
 function OrderList() {
@@ -64,11 +68,16 @@ function OrderList() {
   );
   const [endDate, setEndDate] = useState(dayjs(new Date()));
   const [open, setOpen] = React.useState(false);
+  const [openShip, setOpenShip] = React.useState(false);
+  const [selectedOrderIdToShip, setSelectedOrderIdToShip] = useState();
+  const [page, setpage] = useState(1);
 
   const handleOpenDetails = (id) => {
     dispatch(getDoctorOrderDetails(id)).then(() => setOpen(true));
   };
   const handleCloseDetails = () => setOpen(false);
+
+  const handleCloseShip = () => setOpenShip(false);
 
   const formateDate = (MaterialDate) => {
     return `${MaterialDate.$M + 1}-${MaterialDate.$D}-${MaterialDate.$y}`;
@@ -85,6 +94,35 @@ function OrderList() {
     );
   };
 
+  const formik = useFormik({
+    initialValues: {
+      date: dayjs(new Date()),
+      time: "12:00 PM",
+    },
+    onSubmit: (values) => {
+      dispatch(
+        shipDoctorOrder({
+          orderId: selectedOrderIdToShip,
+          date: dayjs(values.date).format('MM/DD/YYYY'),
+          time: dayjs(values.time).format("HH:MM A"),
+        })
+      ).then((res) => {
+        console.log(res);
+        setOpenShip(false);
+        if (startDate && endDate)
+          dispatch(
+            getOrdersByDate({
+              from: formateDate(startDate),
+              to: formateDate(endDate),
+              status: orderStatus,
+              page: page,
+            })
+          );
+        else dispatch(getAllOrdersByStatus({ orderStatus: orderStatus }));
+      });
+    },
+  });
+
   useEffect(() => {
     if (startDate && endDate)
       dispatch(
@@ -92,11 +130,11 @@ function OrderList() {
           from: formateDate(startDate),
           to: formateDate(endDate),
           status: orderStatus,
-          page: 1,
+          page: page,
         })
       );
     else dispatch(getAllOrdersByStatus({ orderStatus: orderStatus }));
-  }, [orderStatus]);
+  }, [orderStatus, page]);
 
   const orderStatusColorMap = {
     pending: "info",
@@ -256,17 +294,10 @@ function OrderList() {
                                   {/* deliver btn */}
                                   <LocalShippingIcon
                                     color="info"
-                                    onClick={() =>
-                                      dispatch(shipDoctorOrder(order._id)).then(
-                                        () => {
-                                          dispatch(
-                                            getAllOrdersByStatus({
-                                              orderStatus,
-                                            })
-                                          );
-                                        }
-                                      )
-                                    }
+                                    onClick={() => {
+                                      setOpenShip(true);
+                                      setSelectedOrderIdToShip(order._id);
+                                    }}
                                   />
                                 </IconButton>
                               </Tooltip>
@@ -344,11 +375,19 @@ function OrderList() {
                   ))}
                 </tbody>
               </table>
+
+              {/* -----pgination-----  */}
+              <Pagination
+                count={10}
+                page={page}
+                onChange={(_, page) => setpage(page)}
+              />
             </div>
           </>
         </div>
 
         <div>
+          {/* order details */}
           <Modal
             open={open}
             onClose={handleCloseDetails}
@@ -356,128 +395,253 @@ function OrderList() {
             aria-describedby="modal-modal-description"
           >
             <Box sx={style}>
-              <Typography id="modal-modal-title" variant="h4" component="h2">
+              <Typography
+                style={{
+                  padding: "18px",
+                  borderRadius: "8px 8px 0 0",
+                  color: "#fff",
+                  textAlign: "center",
+                  background: "black",
+                }}
+                id="modal-modal-title"
+                variant="h4"
+                component="h2"
+              >
                 Order Details
               </Typography>
-              <Typography id="modal-modal-description" sx={{ mt: 2 }}>
-                Order Date : {orderDetails?.orderDate}
-              </Typography>
+              <div
+                style={{
+                  padding: "32px",
+                }}
+              >
+                <Typography id="modal-modal-description" sx={{ mt: 2 }}>
+                  <span
+                    style={{
+                      display: "inline-block",
+                      marginRight: "8px",
+                      fontWeight: "bold",
+                    }}
+                  >
+                    {" "}
+                    Order Date :{" "}
+                  </span>{" "}
+                  {orderDetails?.orderDate}
+                </Typography>
 
-              <Typography id="modal-modal-description" sx={{ mt: 2 }}>
-                Order Status : {orderDetails?.orderStatus}
-              </Typography>
+                <Typography id="modal-modal-description" sx={{ mt: 2 }}>
+                  <span
+                    style={{
+                      display: "inline-block",
+                      marginRight: "8px",
+                      fontWeight: "bold",
+                    }}
+                  >
+                    Order Status :{" "}
+                  </span>
 
-              <Typography id="modal-modal-description" sx={{ mt: 2 }}>
-                Total Price : {orderDetails?.totalPrice}
-              </Typography>
+                  {orderDetails?.orderStatus}
+                </Typography>
 
-              {/* <Typography id="modal-modal-description" sx={{ mt: 2 }}>
+                <Typography id="modal-modal-description" sx={{ mt: 2 }}>
+                  <span
+                    style={{
+                      display: "inline-block",
+                      marginRight: "8px",
+                      fontWeight: "bold",
+                    }}
+                  >
+                    Total Price :{" "}
+                  </span>
+                  {orderDetails?.totalPrice}
+                </Typography>
+
+                {/* <Typography id="modal-modal-description" sx={{ mt: 2 }}>
                 Products : {orderDetails?.products.map((p) => )}
               </Typography> */}
 
-              <div style={{ display: "flex", gap: "18px" }}>
-                <Typography id="modal-modal-description" sx={{ mt: 2 }}>
-                  Deliver Info :
-                </Typography>
+                <div style={{ display: "flex", gap: "18px" }}>
+                  <Typography id="modal-modal-description" sx={{ mt: 2 }}>
+                    <span
+                      style={{
+                        display: "inline-block",
+                        marginRight: "8px",
+                        fontWeight: "bold",
+                      }}
+                    >
+                      Address :{" "}
+                    </span>
+                  </Typography>
 
-                <div style={{ flexGrow: 1 }}>
-                  <Typography id="modal-modal-description" sx={{ mt: 2 }}>
-                    <span
-                      style={{
-                        background: "#0d6efd",
-                        minWidth: "150px",
-                        display: "inline-block",
-                        color: "#fff",
-                        padding: "2px 6px",
-                        marginRight: "8px",
-                        fontWeight: "bold",
-                      }}
-                    >
-                      Name:
-                    </span>
-                    {orderDetails?.deliverInfo?.address?.addressName}
-                  </Typography>
-                  <Typography id="modal-modal-description" sx={{ mt: 2 }}>
-                    <span
-                      style={{
-                        background: "#0d6efd",
-                        minWidth: "150px",
-                        display: "inline-block",
-                        color: "#fff",
-                        padding: "2px 6px",
-                        marginRight: "8px",
-                        fontWeight: "bold",
-                      }}
-                    >
-                      governorate:
-                    </span>
-                    {orderDetails?.deliverInfo?.address?.governorate}
-                  </Typography>
-                  <Typography id="modal-modal-description" sx={{ mt: 2 }}>
-                    <span
-                      style={{
-                        background: "#0d6efd",
-                        minWidth: "150px",
-                        display: "inline-block",
-                        color: "#fff",
-                        padding: "2px 6px",
-                        marginRight: "8px",
-                        fontWeight: "bold",
-                      }}
-                    >
-                      city:
-                    </span>
-                    {orderDetails?.deliverInfo?.address?.city}
-                  </Typography>
-                  <Typography id="modal-modal-description" sx={{ mt: 2 }}>
-                    <span
-                      style={{
-                        background: "#0d6efd",
-                        minWidth: "150px",
-                        display: "inline-block",
-                        color: "#fff",
-                        padding: "2px 6px",
-                        marginRight: "8px",
-                        fontWeight: "bold",
-                      }}
-                    >
-                      street:
-                    </span>
-                    {orderDetails?.deliverInfo?.address?.street}
-                  </Typography>
-                  <Typography id="modal-modal-description" sx={{ mt: 2 }}>
-                    <span
-                      style={{
-                        background: "#0d6efd",
-                        minWidth: "150px",
-                        display: "inline-block",
-                        color: "#fff",
-                        padding: "2px 6px",
-                        marginRight: "8px",
-                        fontWeight: "bold",
-                      }}
-                    >
-                      building:
-                    </span>
-                    {orderDetails?.deliverInfo?.address?.building}
-                  </Typography>
-                  <Typography id="modal-modal-description" sx={{ mt: 2 }}>
-                    <span
-                      style={{
-                        background: "#0d6efd",
-                        minWidth: "150px",
-                        display: "inline-block",
-                        color: "#fff",
-                        padding: "2px 6px",
-                        marginRight: "8px",
-                        fontWeight: "bold",
-                      }}
-                    >
-                      details:
-                    </span>
-                    {orderDetails?.deliverInfo?.address?.details}
-                  </Typography>
+                  <div style={{ flexGrow: 1 }}>
+                    <Typography id="modal-modal-description" sx={{ mt: 2 }}>
+                      <span
+                        style={{
+                          background: "#0d6efd",
+                          minWidth: "150px",
+                          display: "inline-block",
+                          color: "#fff",
+                          padding: "2px 6px",
+                          marginRight: "8px",
+                          fontWeight: "bold",
+                        }}
+                      >
+                        Name:
+                      </span>
+                      {orderDetails?.deliverInfo?.address?.addressName}
+                    </Typography>
+                    <Typography id="modal-modal-description" sx={{ mt: 2 }}>
+                      <span
+                        style={{
+                          background: "#0d6efd",
+                          minWidth: "150px",
+                          display: "inline-block",
+                          color: "#fff",
+                          padding: "2px 6px",
+                          marginRight: "8px",
+                          fontWeight: "bold",
+                        }}
+                      >
+                        governorate:
+                      </span>
+                      {orderDetails?.deliverInfo?.address?.governorate}
+                    </Typography>
+                    <Typography id="modal-modal-description" sx={{ mt: 2 }}>
+                      <span
+                        style={{
+                          background: "#0d6efd",
+                          minWidth: "150px",
+                          display: "inline-block",
+                          color: "#fff",
+                          padding: "2px 6px",
+                          marginRight: "8px",
+                          fontWeight: "bold",
+                        }}
+                      >
+                        city:
+                      </span>
+                      {orderDetails?.deliverInfo?.address?.city}
+                    </Typography>
+                    <Typography id="modal-modal-description" sx={{ mt: 2 }}>
+                      <span
+                        style={{
+                          background: "#0d6efd",
+                          minWidth: "150px",
+                          display: "inline-block",
+                          color: "#fff",
+                          padding: "2px 6px",
+                          marginRight: "8px",
+                          fontWeight: "bold",
+                        }}
+                      >
+                        street:
+                      </span>
+                      {orderDetails?.deliverInfo?.address?.street}
+                    </Typography>
+                    <Typography id="modal-modal-description" sx={{ mt: 2 }}>
+                      <span
+                        style={{
+                          background: "#0d6efd",
+                          minWidth: "150px",
+                          display: "inline-block",
+                          color: "#fff",
+                          padding: "2px 6px",
+                          marginRight: "8px",
+                          fontWeight: "bold",
+                        }}
+                      >
+                        building:
+                      </span>
+                      {orderDetails?.deliverInfo?.address?.building}
+                    </Typography>
+                    <Typography id="modal-modal-description" sx={{ mt: 2 }}>
+                      <span
+                        style={{
+                          background: "#0d6efd",
+                          minWidth: "150px",
+                          display: "inline-block",
+                          color: "#fff",
+                          padding: "2px 6px",
+                          marginRight: "8px",
+                          fontWeight: "bold",
+                        }}
+                      >
+                        details:
+                      </span>
+                      {orderDetails?.deliverInfo?.address?.details}
+                    </Typography>
+                  </div>
                 </div>
+              </div>
+            </Box>
+          </Modal>
+
+          {/* order shipping */}
+          <Modal
+            open={openShip}
+            onClose={handleCloseShip}
+            aria-labelledby="modal-modal-title"
+            aria-describedby="modal-modal-description"
+          >
+            <Box sx={style}>
+              <Typography
+                style={{
+                  padding: "18px",
+                  borderRadius: "8px 8px 0 0",
+                  color: "#fff",
+                  textAlign: "center",
+                  background: "black",
+                }}
+                id="modal-modal-title"
+                variant="h4"
+                component="h2"
+              >
+                Order Shipping Info
+              </Typography>
+              <div
+                style={{
+                  padding: "32px",
+                }}
+              >
+                <form
+                  onSubmit={formik.handleSubmit}
+                  style={{
+                    display: "flex",
+                    justifyContent: "center",
+                    width: "60%",
+                    margin: "0 auto",
+                    gap: "18px",
+                  }}
+                >
+                  <div style={{ display: "flex" }}>
+                    <LocalizationProvider dateAdapter={AdapterDayjs}>
+                      <DatePicker
+                        label="date"
+                        name="date"
+                        onChange={(value) =>
+                          formik.setFieldValue("date", value)
+                        }
+                        value={formik.values.date}
+                        renderInput={(params) => (
+                          <TextField name="date" {...params} />
+                        )}
+                      />
+
+                      <DesktopTimePicker
+                        label="Time"
+                        name='time'
+                        onChange={(value) =>
+                          formik.setFieldValue("time", value)
+                        }
+                        value={formik.values.time}
+                        renderInput={(params) => <TextField name="time" {...params} />}
+                      />
+                    </LocalizationProvider>
+                  </div>
+
+                  <Button type="submit" variant="contained" color="success">
+                    Ship
+                  </Button>
+                </form>
               </div>
             </Box>
           </Modal>

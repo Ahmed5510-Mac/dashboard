@@ -115,12 +115,12 @@ export const cancelDoctorOrder = createAsyncThunk(
 
 export const shipDoctorOrder = createAsyncThunk(
   "orderSlice/shipDoctorOrder",
-  async (orderId, thunkAPI) => {
+  async ({orderId, date, time}, thunkAPI) => {
     const { rejectWithValue } = thunkAPI;
     try {
       const res = await axios.put(
-        baseAPI + `/orders/admin/shipOrder`,
-        { orderId },
+        baseAPI + `/orders/admin/shipporder`,
+        { orderId, date, time },
         {
           headers: {
             Authorization: `Bearer ` + localStorage.getItem("token"),
