@@ -34,6 +34,9 @@ import PendingPharmacists from "./pages/pharmacist/pendingPharmacist/PendingPhar
 import ConfirmedPharmacists from "./pages/pharmacist/confirmedPharmacist/ConfirmedPharmacists";
 import BlacklistPharmacists from "./pages/pharmacist/blacklistPharmacist/BlacklistPharmacists";
 import ProductForm from "./pages/products/ProductForm";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+
 
 const App = () => {
   const { isLogedIn } = useSelector((state) => state.loginSlice);
@@ -113,6 +116,19 @@ const App = () => {
           </div>
         )}
       </BrowserRouter>
+
+      <ToastContainer
+        position="top-right"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="dark"
+      />
     </div>
   );
 };

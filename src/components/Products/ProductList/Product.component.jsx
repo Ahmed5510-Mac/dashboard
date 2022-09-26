@@ -5,31 +5,65 @@ import { useDispatch, useSelector } from "react-redux";
 import {
   deleteProduct,
   getAllProduct,
+  searchProductsByName,
   setCategoryType,
   setEditableProduct,
 } from "../../../store/product/productSlice";
 import "./Product.component.scss";
 import {
   Avatar,
+  Button,
   FormControl,
   FormControlLabel,
   FormLabel,
+  InputLabel,
+  MenuItem,
   Pagination,
   Radio,
   RadioGroup,
+  Select,
+  TextField,
 } from "@mui/material";
 import { useNavigate } from "react-router-dom";
+import { useFormik } from "formik";
+import { getAllCategoriesByType } from "../../../store/category/categorySlice";
 
 function ProductList() {
   const { products, categoryType } = useSelector((state) => state.productSlice);
+  const { categories } = useSelector((state) => state.categorySlice);
   const [page, setpage] = useState(1);
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
+  const formik = useFormik({
+    initialValues: {
+      name: "",
+      categoryId: "",
+    },
+    onSubmit: (values) => {
+      console.log(values);
+
+      dispatch(
+        searchProductsByName({
+          categoryId: values.categoryId,
+          name: values.name,
+        })
+      ).then((res) => {
+        console.log(res);
+
+        // dispatch(getAllProduct());
+      });
+    },
+  });
+
   useEffect(() => {
     dispatch(getAllProduct({ categoryType, page }));
   }, [categoryType, page]);
+
+  useEffect(() => {
+    dispatch(getAllCategoriesByType(categoryType));
+  }, [categoryType]);
 
   console.log(products);
   return (
@@ -64,6 +98,54 @@ function ProductList() {
             />
           </RadioGroup>
         </FormControl>
+
+        <form
+          onSubmit={formik.handleSubmit}
+          style={{
+            display: "flex",
+            justifyContent: "center",
+            width: "60%",
+            margin: "0 auto",
+            gap: '18px'
+          }}
+        >
+          <div style={{display: 'flex'}}>
+            <TextField
+              id="search"
+              label="Search"
+              variant="outlined"
+              name="name"
+              value={formik.values.name}
+              onChange={formik.handleChange}
+              error={
+                formik.touched.name && Boolean(formik.errors.name)
+              }
+              style={{flexGrow: 1, width: '500px'}}
+            />
+            <FormControl style={{width: '120px'}}>
+              <InputLabel id="category-label">category</InputLabel>
+              <Select
+                labelId="category-label"
+                id="category"
+                label="Category"
+                name="categoryId"
+                value={formik.values.categoryId}
+                onChange={formik.handleChange}
+                error={
+                  formik.touched.categoryId && Boolean(formik.errors.categoryId)
+                }
+              >
+                {categories.map((cat) => (
+                  <MenuItem value={`${cat?._id}`}>{cat.name}</MenuItem>
+                ))}
+              </Select>
+            </FormControl>
+          </div>
+
+          <Button type="submit" variant="contained" color="success">
+            Search
+          </Button>
+        </form>
         <div className="tableContainer">
           <table className="table tableUsers table-light table-striped mx-auto mt-5 col-7 text-center ">
             <thead className="">
@@ -106,11 +188,13 @@ function ProductList() {
                     <span className="btn-delete">
                       <DeleteForeverIcon
                         onClick={() =>
-                          dispatch(
+                          // eslint-disable-next-line no-restricted-globals
+                          confirm('are you sure you want to delete this product ?') ?
+                           dispatch(
                             deleteProduct({
                               id: product._id,
                             })
-                          ).then(() => dispatch(getAllProduct()))
+                          ).then(() => dispatch(getAllProduct())) : null
                         }
                       />
                     </span>
@@ -119,8 +203,9 @@ function ProductList() {
               ))}
             </tbody>
           </table>
+
           {/* -----pgination-----  */}
-          <Pagination page={page} setpage={setpage} array={products} />
+          <Pagination count={10} page={page} onChange={(_, page) => setpage(page)} />
         </div>
       </div>
     </>
