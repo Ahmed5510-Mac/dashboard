@@ -24,7 +24,7 @@ const Sidebar = () => {
         {/* =============================== Logo ================================ */}
         <div className="sidebarMenu">
           {/* ----------logo---------- */}
-          <NavLink to="/" className="loogo">
+          <NavLink to="/home" className="loogo">
             <img className="loogo" src={logo} alt="logo" />
             <span className="lodgname"> Life</span>
           </NavLink>

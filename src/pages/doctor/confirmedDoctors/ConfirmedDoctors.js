@@ -8,10 +8,6 @@ import { changeStatus } from './../../../store/userShared/userSharedSlice';
 import ConfirmedDoctorsComponent from './../../../components/doctor/confirmedDoctors/ConfirmedDoctors'
 
 function ConfirmedDoctors() {
-
-   
-
-
     return (
         <>
             <ConfirmedDoctorsComponent/>

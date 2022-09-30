@@ -1,4 +1,4 @@
-import React, { useEffect, useState ,useRef } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import styles from "./confrimedDoctor.module.css";
 import { CircularProgress } from "@material-ui/core";
 import { useSelector, useDispatch } from "react-redux";
@@ -11,18 +11,41 @@ import { changeStatus } from "./../../../store/userShared/userSharedSlice";
 import { useNavigate } from "react-router-dom";
 import Pagination from "../../Pagination/Pagination";
 import Swal from "sweetalert2";
-
+import VisibilityIcon from "@mui/icons-material/Visibility";
+import EditIcon from "@mui/icons-material/Edit";
+import {
+  Autocomplete,
+  Box,
+  Button,
+  Chip,
+  FormControl,
+  FormControlLabel,
+  FormLabel,
+  IconButton,
+  Modal,
+  Radio,
+  RadioGroup,
+  Stack,
+  TextField,
+  Tooltip,
+  Typography,
+} from "@mui/material";
+import { AltRoute } from "@mui/icons-material";
+import { blue } from "@material-ui/core/colors";
 function ConfirmedDoctorsComponent() {
-  const search=useRef();
-   const { isLoading, error, confirmedDoctorsList } = useSelector(
+  const search = useRef();
+  const { isLoading, error, confirmedDoctorsList } = useSelector(
     (state) => state.doctorSlice
   );
   let [page, setpage] = useState(1); //hook
-
-
-  const changeWidthsearch=()=>{
-   search.current.classList.toggle("widthSearch300")
+  let [editMode, seteditMode] = useState(false); //hook
+  function changeEditeStatus(){
+    seteditMode(!editMode);
+  
   }
+  const changeWidthsearch = () => {
+    search.current.classList.toggle("widthSearch300");
+  };
   const navigate = useNavigate();
 
   const dispatch = useDispatch();
@@ -56,8 +79,25 @@ function ConfirmedDoctorsComponent() {
     });
   };
   const handelEdie = () => {
-    navigate('/userView')
+    navigate("/userView");
   };
+  const style = {
+    position: "absolute",
+    top: "50%",
+    left: "50%",
+    transform: "translate(-50%, -50%)",
+    width:"60%",
+    minHeight:"50vh",
+    bgcolor: "background.paper",
+    borderRadius:"20px",
+    border: "2px solid #gray",
+    boxShadow: 24,
+    p: 4,
+  };
+  const [open, setOpen] = React.useState(false);
+  const handleOpen = () => setOpen(true);
+  const handleClose = () => setOpen(false);
+
   const confirmedDoctorList =
     confirmedDoctorsList.length > 0 &&
     confirmedDoctorsList.map((item) => (
@@ -73,39 +113,37 @@ function ConfirmedDoctorsComponent() {
           <button className="blockBtn" onClick={() => handelReject(item)}>
             <i className="fa-solid fa-user-slash"></i>
           </button>
+          <Tooltip title={<h5>Details</h5>}>
+            <IconButton style={{ cursor: "pointer" }}>
+              <VisibilityIcon onClick={handleOpen} />
+            </IconButton>
+          </Tooltip>
         </td>
       </tr>
     ));
   return (
     <>
-
-      <div className="uppernav" >
+      <div className="uppernav">
         <h3 className="text-center table-hover  text-primary my-co2">
           Confirmed Doctors
         </h3>
 
         {/* search */}
-        <div className="search" ref={search} >
+        <div className="search" ref={search}>
           <input
             className={styles.inputSearch}
             id="inputSearch"
             type="text"
             placeholder="Search..."
           />
-          <i className="fa-solid fa-magnifying-glass" onClick={()=>changeWidthsearch()}></i>
+          <i
+            className="fa-solid fa-magnifying-glass"
+            onClick={() => changeWidthsearch()}
+          ></i>
         </div>
       </div>
-
-
-      {/* SHA256:htiEHoVhiksMaXQN3k9Bja4LhtF9OBWhroRLr11Jen8
-
-
-      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 */}
-
       <div className={styles.tableu}>
-
         <>
-         
           {error && (
             <div className="alert alert-danger mb-0" role="alert">
               {error}
@@ -132,7 +170,6 @@ function ConfirmedDoctorsComponent() {
                 </thead>
                 <tbody>{confirmedDoctorList}</tbody>
               </table>
-              
             </>
           ) : (
             <div
@@ -155,10 +192,49 @@ function ConfirmedDoctorsComponent() {
             </div>
           )}
         </>
+        {/* ==============================|details|==================================== */}
+        <Modal
+          open={open}
+          onClose={handleClose}
+          aria-labelledby="modal-modal-title"
+          aria-describedby="modal-modal-description"
+        >
+          <Box sx={style}>
+            <Typography id="modal-modal-title" variant="h6" component="h2">
+              Doctor Details{" "}
+              <EditIcon onClick={changeEditeStatus} style={{ cursor: "pointer", color: "darkblue" }} />
+            </Typography>
+            <Typography id="modal-modal-description" sx={{ mt: 3 }}>
+              <div className="formgroup">
+                <span className="title"> Name:</span>
+                <h5>Ahmed mohmed Darwish</h5>
+              </div>
+              <div className="formgroup">
+                <span className="title"> mobile Number:</span>
+                <h5>01011773739</h5>
+              </div>
+              <div className="formgroup">
+                <span className="title"> Address:</span>
+                {!editMode && <h5>كفر الشيخ الشيخ - شارغ الاوقاف مبنى4 </h5>}
+                {editMode && (
+                  <input
+                    type="text"
+                    value={"كفر الشيخ - شارع الاوقاف مبنى 4"}
+                    style={{ width: "90%", marginLeft: "30px" }}
+                  />
+                )}
+              </div>
+              <div className="formgroup">
+                <span className="title"> status:</span>
+                <h5> Active</h5>
+              </div>
+              {editMode && <button onClick={changeEditeStatus}> Update</button>}
+            </Typography>
+          </Box>
+        </Modal>
       </div>
-       {/* -----pgination-----  */}
-          <Pagination  page={page} setpage={setpage} array={confirmedDoctorsList}/>
-         
+      {/* -----pgination-----  */}
+      <Pagination page={page} setpage={setpage} array={confirmedDoctorsList} />
     </>
   );
 }

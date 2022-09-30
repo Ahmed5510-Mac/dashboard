@@ -72,7 +72,7 @@ function OrderPeandingDoctor() {
   const [selectedOrderIdToShip, setSelectedOrderIdToShip] = useState();
   const [page, setpage] = useState(1);
 
-  const handleOpenDetails = (id) => {
+  const  handleOpenDetails = (id) => {
     dispatch(getDoctorOrderDetails(id)).then(() => setOpen(true));
   };
   const handleCloseDetails = () => setOpen(false);
