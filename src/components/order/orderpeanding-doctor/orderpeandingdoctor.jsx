@@ -1,148 +1,551 @@
-import React, { useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import "./orderpeandingdoctor.css";
-import { CircularProgress } from "@material-ui/core";
-import { getPendingDoctor } from "../../../store/doctor/doctorSlice";
-import { changeStatus } from "./../../../store/userShared/userSharedSlice";
-import Swal from "sweetalert2";
-import { useNavigate } from "react-router-dom";
+import React, { useState } from "react";
+import { useDispatch } from "react-redux";
+import { useSelector } from "react-redux";
+import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
+
+import EditIcon from "@mui/icons-material/Edit";
+import {
+  Autocomplete,
+  Box,
+  Button,
+  Chip,
+  FormControl,
+  FormControlLabel,
+  FormLabel,
+  IconButton,
+  Modal,
+  Pagination,
+  Radio,
+  RadioGroup,
+  Stack,
+  TextField,
+  Tooltip,
+  Typography,
+} from "@mui/material";
+import DoDisturbOnIcon from "@mui/icons-material/DoDisturbOn";
+import {
+  cancelDoctorOrder,
+  deleteOrder,
+  deliverDoctorOrder,
+  getAllOrdersByStatus,
+  getDoctorOrderDetails,
+  getOrdersByDate,
+  shipDoctorOrder,
+} from "../../../store/order/orderSlice";
+import { useEffect } from "react";
+// import "./supcategories.scss";
+import { useParams } from "react-router-dom";
+import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
+import { DatePicker } from "@mui/x-date-pickers/DatePicker";
+import CheckCircleIcon from "@mui/icons-material/CheckCircle";
+import LocalShippingIcon from "@mui/icons-material/LocalShipping";
+import dayjs from "dayjs";
+import VisibilityIcon from "@mui/icons-material/Visibility";
+import { useFormik } from "formik";
+import { DesktopTimePicker } from "@mui/x-date-pickers";
+
+const style = {
+  position: "absolute",
+  top: "50%",
+  left: "50%",
+  transform: "translate(-50%, -50%)",
+  width: "65vw",
+  bgcolor: "background.paper",
+  // border: "2px solid #000",
+  borderRadius: "8px",
+  boxShadow: 24,
+  // p: 4,
+};
+
 function OrderPeandingDoctor() {
-  const navigate = useNavigate();
+  const { orders, orderDetails } = useSelector((state) => state.orderSlice);
   const dispatch = useDispatch();
-  useEffect(() => {
-    dispatch(getPendingDoctor());
-  }, [dispatch]);
-  const { pendingDoctorsList, isLoading, error } = useSelector(
-    (state) => state.doctorSlice
+  const [orderStatus, setOrderStatus] = useState("pending");
+  const [orderType, setOrderType] = useState("doctor");
+  const [startDate, setStartDate] = useState(
+    dayjs(new Date(new Date().getFullYear(), new Date().getMonth(), 1))
   );
-  //let x=document.getElementByID()
-  // -------------chang status function---------------------
-  const handelConfirm = (doctor) => {
-    console.log("done");
-    const newData = {
-      id: doctor._id,
-      status: "active",
-      type: "doctor",
-    };
-    dispatch(changeStatus(newData));
-    dispatch(getPendingDoctor());
-    dispatch(getPendingDoctor());
+  const [endDate, setEndDate] = useState(dayjs(new Date()));
+  const [open, setOpen] = React.useState(false);
+  const [openShip, setOpenShip] = React.useState(false);
+  const [selectedOrderIdToShip, setSelectedOrderIdToShip] = useState();
+  const [page, setpage] = useState(1);
 
-    Swal.fire({
-      position: "center",
-      icon: "success",
-      title: "Your work has been actived",
-      showConfirmButton: false,
-      timer: 1500,
-      // nav: navigate("/confirmedDoctors"),
-    });
+  const handleOpenDetails = (id) => {
+    dispatch(getDoctorOrderDetails(id)).then(() => setOpen(true));
   };
-  // -------------chang status function---------------------
+  const handleCloseDetails = () => setOpen(false);
 
-  const handelReject = (doctor) => {
-    const newData = {
-      id: doctor._id,
-      status: "blocked",
-      type: "doctor",
-    };
-    Swal.fire({
-      title: "Are you sure?",
-      text: "You won't be able to revert this!",
-      icon: "warning",
-      showCancelButton: true,
-      confirmButtonColor: "#3085d6",
-      cancelButtonColor: "#d33",
-      confirmButtonText: "Yes, reject it!",
-    }).then((result) => {
-      if (result.isConfirmed) {
-        Swal.fire("rejected!", "Your file has been rejected.", "success");
-        dispatch(changeStatus(newData));
-        dispatch(getPendingDoctor());
-        dispatch(getPendingDoctor());
-        navigate("/blockedDoctors");
-      }
-    });
+  const handleCloseShip = () => setOpenShip(false);
+
+  const formateDate = (MaterialDate) => {
+    return `${MaterialDate.$M + 1}-${MaterialDate.$D}-${MaterialDate.$y}`;
   };
 
-  const pendingDoctorList =
-    pendingDoctorsList.length > 0 &&
-    pendingDoctorsList.map((item) => (
-      <tr className=""key={item._id}>
-        <td>{item.fullName}</td>
-        <td>{item.phoneNumber}</td>
-        <td>{item.accountStatus}</td>
-        <td>
-          <button
-            className="acceptBtn mx-2"
-            onClick={() => handelConfirm(item)}
-          >
-            <i className="fa-solid fa-user-check"></i>
-          </button>
-          <button
-            className="blockBtn "
-            onClick={() => {
-              handelReject(item);
-            }}
-          >
-            <i className="fa-solid fa-user-slash"></i>
-          </button>
-        </td>
-      </tr>
-    ));
+  const onDateSearch = () => {
+    dispatch(
+      getOrdersByDate({
+        from: formateDate(startDate),
+        to: formateDate(endDate),
+        status: orderStatus,
+        page: 1,
+      })
+    );
+  };
+
+  const formik = useFormik({
+    initialValues: {
+      date: dayjs(new Date()),
+      time: "12:00 PM",
+    },
+    onSubmit: (values) => {
+      dispatch(
+        shipDoctorOrder({
+          orderId: selectedOrderIdToShip,
+          date: dayjs(values.date).format("MM/DD/YYYY"),
+          time: dayjs(values.time).format("HH:MM A"),
+        })
+      ).then((res) => {
+        console.log(res);
+        setOpenShip(false);
+        if (startDate && endDate)
+          dispatch(
+            getOrdersByDate({
+              from: formateDate(startDate),
+              to: formateDate(endDate),
+              status: orderStatus,
+              page: page,
+            })
+          );
+        else dispatch(getAllOrdersByStatus({ orderStatus: orderStatus }));
+      });
+    },
+  });
+
+  useEffect(() => {
+    if (startDate && endDate)
+      dispatch(
+        getOrdersByDate({
+          from: formateDate(startDate),
+          to: formateDate(endDate),
+          status: orderStatus,
+          page: page,
+        })
+      );
+    else dispatch(getAllOrdersByStatus({ orderStatus: orderStatus }));
+  }, [orderStatus, page]);
+
+  const orderStatusColorMap = {
+    pending: "info",
+    delivered: "success",
+    cancelled: "error",
+  };
 
   return (
-    <>
-      <h5 className="text-center text-primary my-2">Pending Doctors order</h5>
-      <div className="">
-        {error && (
-          <div className="alert alert-danger mb-0" role="alert">
-            {error}
-          </div>
-        )}
-        {isLoading ? (
-          <h1 className="isloading">
-            {" "}
-            <CircularProgress /> Loadein ......
-          </h1>
-        ) : pendingDoctorsList.length > 0 ? (
+    <div>
+      <>
+        <h2 className="text-center text-primary my-4"> Pending Doctor Orders</h2>
+        <div className="">
           <>
             <div className="tableContainer">
               <table className="table tableUsers table-light table-striped mx-auto mt-5 col-7 text-center ">
                 <thead className="">
                   <tr>
-                    <th>user Name </th>
-                    <th>Mobile</th>
-                    <th>status</th>
+                    <th>index</th>
+                    <th>Order Status</th>
+                    <th>Order Date</th>
+                    <th>Payment Method</th>
+                    <th>Total Price</th>
                     <th>Action</th>
                   </tr>
                 </thead>
                 {/* ------body------- */}
-                <tbody>{pendingDoctorList}</tbody>
+                <tbody>
+                  {orders?.map((order, index) => (
+                    <tr key={order._id} className="rowtable">
+                      <td>{index + 1}</td>
+                      <td>
+                        <Chip
+                          label={order.orderStatus}
+                          color={orderStatusColorMap[order.orderStatus]}
+                        />
+                      </td>
+                      <td>{order.orderDate}</td>
+                      <td> {order.payment.method}</td>
+                      <td>{order.totalPrice}</td>
+                      <td>
+                        {/* <span className="btn-edite">
+                          <EditIcon
+                            onClick={() =>
+                              dispat1ch(setEditableOrder(order))
+                            }
+                          />
+                        </span> */}
+                        {order.orderStatus === "delivered" ||
+                          order.orderStatus === "cancelled" || (
+                            <>
+                              <Tooltip title={<h5>Shipped</h5>}>
+                                <IconButton style={{ cursor: "pointer" }}>
+                                  {/* deliver btn */}
+                                  <LocalShippingIcon
+                                    color="info"
+                                    onClick={() => {
+                                      setOpenShip(true);
+                                      setSelectedOrderIdToShip(order._id);
+                                    }}
+                                  />
+                                </IconButton>
+                              </Tooltip>
+
+                              <Tooltip title={<h5>Delivered</h5>}>
+                                <IconButton style={{ cursor: "pointer" }}>
+                                  {/* deliver btn */}
+                                  <CheckCircleIcon
+                                    color="success"
+                                    onClick={() =>
+                                      dispatch(
+                                        deliverDoctorOrder(order._id)
+                                      ).then(() => {
+                                        dispatch(
+                                          getAllOrdersByStatus({
+                                            orderStatus,
+                                          })
+                                        );
+                                      })
+                                    }
+                                  />
+                                </IconButton>
+                              </Tooltip>
+                              <Tooltip title={<h5>Cancel</h5>}>
+                                <IconButton style={{ cursor: "pointer" }}>
+                                  {/* cancel btn */}
+                                  <DoDisturbOnIcon
+                                    onClick={() =>
+                                      dispatch(
+                                        cancelDoctorOrder(order._id)
+                                      ).then(() => {
+                                        dispatch(
+                                          getAllOrdersByStatus({
+                                            orderStatus,
+                                          })
+                                        );
+                                      })
+                                    }
+                                  />
+                                </IconButton>
+                              </Tooltip>
+                            </>
+                          )}
+
+                        {order.orderStatus === "delivered" ||
+                          order.orderStatus === "pending" || (
+                            <Tooltip title={<h5>Remove</h5>}>
+                              <IconButton className="btn-delete">
+                                <DeleteForeverIcon
+                                  onClick={() =>
+                                    dispatch(deleteOrder(order._id)).then(
+                                      () => {
+                                        dispatch(
+                                          getAllOrdersByStatus({
+                                            orderStatus,
+                                          })
+                                        );
+                                      }
+                                    )
+                                  }
+                                />
+                              </IconButton>
+                            </Tooltip>
+                          )}
+
+                        <Tooltip title={<h5>Details</h5>}>
+                          <IconButton style={{ cursor: "pointer" }}>
+                            <VisibilityIcon
+                              onClick={() => handleOpenDetails(order._id)}
+                            />
+                          </IconButton>
+                        </Tooltip>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
               </table>
+
+              {/* -----pgination-----  */}
+              <Pagination
+                count={10}
+                page={page}
+                onChange={(_, page) => setpage(page)}
+              />
             </div>
           </>
-        ) : (
-          <div
-            className="alert alert-primary d-flex align-items-center"
-            role="alert"
+        </div>
+
+        <div>
+          {/* order details */}
+          <Modal
+            open={open}
+            onClose={handleCloseDetails}
+            aria-labelledby="modal-modal-title"
+            aria-describedby="modal-modal-description"
           >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="24"
-              height="24"
-              fill="currentColor"
-              className="bi bi-exclamation-triangle-fill flex-shrink-0 me-2"
-              viewBox="0 0 16 16"
-              role="img"
-              aria-label="Warning:"
-            >
-              <path d="M8.982 1.566a1.13 1.13 0 0 0-1.96 0L.165 13.233c-.457.778.091 1.767.98 1.767h13.713c.889 0 1.438-.99.98-1.767L8.982 1.566zM8 5c.535 0 .954.462.9.995l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 5.995A.905.905 0 0 1 8 5zm.002 6a1 1 0 1 1 0 2 1 1 0 0 1 0-2z" />
-            </svg>
-            <div>There is No pending Doctors</div>
-          </div>
-        )}
-      </div>
-    </>
+            <Box sx={style}>
+              <Typography
+                style={{
+                  padding: "18px",
+                  borderRadius: "8px 8px 0 0",
+                  color: "#fff",
+                  textAlign: "center",
+                  background: "black",
+                }}
+                id="modal-modal-title"
+                variant="h4"
+                component="h2"
+              >
+                Order Details
+              </Typography>
+              <div
+                style={{
+                  padding: "32px",
+                }}
+              >
+                <Typography id="modal-modal-description" sx={{ mt: 2 }}>
+                  <span
+                    style={{
+                      display: "inline-block",
+                      marginRight: "8px",
+                      fontWeight: "bold",
+                    }}
+                  >
+                    {" "}
+                    Order Date :{" "}
+                  </span>{" "}
+                  {orderDetails?.orderDate}
+                </Typography>
+
+                <Typography id="modal-modal-description" sx={{ mt: 2 }}>
+                  <span
+                    style={{
+                      display: "inline-block",
+                      marginRight: "8px",
+                      fontWeight: "bold",
+                    }}
+                  >
+                    Order Status :{" "}
+                  </span>
+
+                  {orderDetails?.orderStatus}
+                </Typography>
+
+                <Typography id="modal-modal-description" sx={{ mt: 2 }}>
+                  <span
+                    style={{
+                      display: "inline-block",
+                      marginRight: "8px",
+                      fontWeight: "bold",
+                    }}
+                  >
+                    Total Price :{" "}
+                  </span>
+                  {orderDetails?.totalPrice}
+                </Typography>
+
+                {/* <Typography id="modal-modal-description" sx={{ mt: 2 }}>
+                Products : {orderDetails?.products.map((p) => )}
+              </Typography> */}
+
+                <div style={{ display: "flex", gap: "18px" }}>
+                  <Typography id="modal-modal-description" sx={{ mt: 2 }}>
+                    <span
+                      style={{
+                        display: "inline-block",
+                        marginRight: "8px",
+                        fontWeight: "bold",
+                      }}
+                    >
+                      Address :{" "}
+                    </span>
+                  </Typography>
+
+                  <div style={{ flexGrow: 1 }}>
+                    <Typography id="modal-modal-description" sx={{ mt: 2 }}>
+                      <span
+                        style={{
+                          background: "#0d6efd",
+                          minWidth: "150px",
+                          display: "inline-block",
+                          color: "#fff",
+                          padding: "2px 6px",
+                          marginRight: "8px",
+                          fontWeight: "bold",
+                        }}
+                      >
+                        Name:
+                      </span>
+                      {orderDetails?.deliverInfo?.address?.addressName}
+                    </Typography>
+                    <Typography id="modal-modal-description" sx={{ mt: 2 }}>
+                      <span
+                        style={{
+                          background: "#0d6efd",
+                          minWidth: "150px",
+                          display: "inline-block",
+                          color: "#fff",
+                          padding: "2px 6px",
+                          marginRight: "8px",
+                          fontWeight: "bold",
+                        }}
+                      >
+                        governorate:
+                      </span>
+                      {orderDetails?.deliverInfo?.address?.governorate}
+                    </Typography>
+                    <Typography id="modal-modal-description" sx={{ mt: 2 }}>
+                      <span
+                        style={{
+                          background: "#0d6efd",
+                          minWidth: "150px",
+                          display: "inline-block",
+                          color: "#fff",
+                          padding: "2px 6px",
+                          marginRight: "8px",
+                          fontWeight: "bold",
+                        }}
+                      >
+                        city:
+                      </span>
+                      {orderDetails?.deliverInfo?.address?.city}
+                    </Typography>
+                    <Typography id="modal-modal-description" sx={{ mt: 2 }}>
+                      <span
+                        style={{
+                          background: "#0d6efd",
+                          minWidth: "150px",
+                          display: "inline-block",
+                          color: "#fff",
+                          padding: "2px 6px",
+                          marginRight: "8px",
+                          fontWeight: "bold",
+                        }}
+                      >
+                        street:
+                      </span>
+                      {orderDetails?.deliverInfo?.address?.street}
+                    </Typography>
+                    <Typography id="modal-modal-description" sx={{ mt: 2 }}>
+                      <span
+                        style={{
+                          background: "#0d6efd",
+                          minWidth: "150px",
+                          display: "inline-block",
+                          color: "#fff",
+                          padding: "2px 6px",
+                          marginRight: "8px",
+                          fontWeight: "bold",
+                        }}
+                      >
+                        building:
+                      </span>
+                      {orderDetails?.deliverInfo?.address?.building}
+                    </Typography>
+                    <Typography id="modal-modal-description" sx={{ mt: 2 }}>
+                      <span
+                        style={{
+                          background: "#0d6efd",
+                          minWidth: "150px",
+                          display: "inline-block",
+                          color: "#fff",
+                          padding: "2px 6px",
+                          marginRight: "8px",
+                          fontWeight: "bold",
+                        }}
+                      >
+                        details:
+                      </span>
+                      {orderDetails?.deliverInfo?.address?.details}
+                    </Typography>
+                  </div>
+                </div>
+              </div>
+            </Box>
+          </Modal>
+
+          {/* order shipping */}
+          <Modal
+            open={openShip}
+            onClose={handleCloseShip}
+            aria-labelledby="modal-modal-title"
+            aria-describedby="modal-modal-description"
+          >
+            <Box sx={style}>
+              <Typography
+                style={{
+                  padding: "18px",
+                  borderRadius: "8px 8px 0 0",
+                  color: "#fff",
+                  textAlign: "center",
+                  background: "black",
+                }}
+                id="modal-modal-title"
+                variant="h4"
+                component="h2"
+              >
+                Order Shipping Info
+              </Typography>
+              <div
+                style={{
+                  padding: "32px",
+                }}
+              >
+                <form
+                  onSubmit={formik.handleSubmit}
+                  style={{
+                    display: "flex",
+                    justifyContent: "center",
+                    width: "60%",
+                    margin: "0 auto",
+                    gap: "18px",
+                  }}
+                >
+                  <div style={{ display: "flex" }}>
+                    <LocalizationProvider dateAdapter={AdapterDayjs}>
+                      <DatePicker
+                        label="date"
+                        name="date"
+                        onChange={(value) =>
+                          formik.setFieldValue("date", value)
+                        }
+                        value={formik.values.date}
+                        renderInput={(params) => (
+                          <TextField name="date" {...params} />
+                        )}
+                      />
+
+                      <DesktopTimePicker
+                        label="Time"
+                        name="time"
+                        onChange={(value) =>
+                          formik.setFieldValue("time", value)
+                        }
+                        value={formik.values.time}
+                        renderInput={(params) => (
+                          <TextField name="time" {...params} />
+                        )}
+                      />
+                    </LocalizationProvider>
+                  </div>
+
+                  <Button type="submit" variant="contained" color="success">
+                    Ship
+                  </Button>
+                </form>
+              </div>
+            </Box>
+          </Modal>
+        </div>
+      </>
+    </div>
   );
 }
 

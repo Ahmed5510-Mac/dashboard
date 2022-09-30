@@ -41,11 +41,11 @@ export default function Home() {
       </div>
             <div className={style.transitionTitle}> 
             {/* <h1>order</h1> */}
-                <div className={style.pendingDoctorOrder}>
-                <OrderPeandingDoctor/>      
-                </div>
                 <div className={style.pendingPharmacistOrder}>
                   <OrderPeandingPharmacist/>
+                </div>
+                <div className={style.pendingDoctorOrder}>
+                <OrderPeandingDoctor/>      
                 </div>
                 </div>
           </div>

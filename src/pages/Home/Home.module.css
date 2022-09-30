@@ -1,80 +1,67 @@
-.home{
-    flex: 4;
-
+.home {
+  flex: 4;
 }
-.homeWidgets{
-    display: flex;
-    margin: 20px;
-    flex-wrap: wrap;
-    gap: 20px;
-  
-    
+.homeWidgets {
+  display: flex;
+  margin: 20px;
+  flex-wrap: wrap;
+  gap: 20px;
 }
-.widgetDoctor
-{
-flex: 1;   
-box-shadow: 2px 4px 10px 1px rgba(201,201,201,0.47);
-
+.widgetDoctor {
+  flex: 1;
+  box-shadow: 2px 4px 10px 1px rgba(201, 201, 201, 0.47);
 }
-.widgetpharmacist
-{
-    flex: 1;
-    box-shadow: 2px 4px 10px 1px rgba(201,201,201,0.47);
-
+.widgetpharmacist {
+  flex: 1;
+  box-shadow: 2px 4px 10px 1px rgba(201, 201, 201, 0.47);
 }
-.widgets
-{
-    display: flex;
-    padding-inline:10px;
-    gap:20px;
-    border: 1px solid red;
-    width: 100%;
-    overflow: auto;
-
+.widgets {
+  display: flex;
+  padding-inline: 10px;
+  gap: 20px;
+  width: 100%;
+  overflow: auto;
+  /* border:1px solid blue; */
+  padding: 20px;
 }
-.charts
-{
-    display: flex;
-    margin-top: 10px;
-    padding-inline: 10px;
-    align-items: flex-start;
-    gap: 10px;
+.charts {
+  display: flex;
+  margin-top: 10px;
+  padding-inline: 10px;
+  align-items: flex-start;
+  gap: 10px;
 }
-.Featured
-{
-    flex: 1;
+.Featured {
+  flex: 1;
 }
-.chart{
-flex: 1;
-
+.chart {
+  flex: 1;
 }
-.listContainer
-{
-    -webkit-box-shadow: 0px 0px 15px -10px rgba(0, 0, 0, 0.75);
+.listContainer {
+  -webkit-box-shadow: 0px 0px 15px -10px rgba(0, 0, 0, 0.75);
   box-shadow: 0px 0px 15px -10px rgba(0, 0, 0, 0.75);
   padding: 20px;
   margin: 20px;
 }
-.transitionTitle
-{
-    font-weight: 500;
-    color: gray;
-    margin-bottom: 15px;
-    display: flex;
-    border: 1px solid red;
-    justify-content: center;
+.transitionTitle {
+  font-weight: 500;
+  color: gray;
+  margin-bottom: 15px;
+  display: flex;
+  justify-content: center;
 }
-.NavLink{
-    width: 100%;
-    text-decoration: none;
+.NavLink {
+  width: 100%;
+  text-decoration: none;
 }
-.pendingDoctorOrder{
-    border: 1px solid blueviolet;
-    padding: 0 !important;
-    width: 50%;
+.pendingDoctorOrder {
+  padding: 0 !important;
+  width: 50%;
+  border-left: 2px solid #444;
 }
-.pendingPharmacistOrder{
-    border: 1px solid yellow;
-    padding: 0 !important;
-    width: 50%;
+.pendingPharmacistOrder {
+  padding: 0 !important;
+  width: 50%;
+  border-right: 2px solid #444;
+
 }

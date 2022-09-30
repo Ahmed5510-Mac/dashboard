@@ -3,6 +3,7 @@ import { DataGrid } from "@mui/x-data-grid";
 import { usercolumns, userRows } from "../../datatable";
 import { NavLink } from "react-router-dom";
 import { CssBaseline, Typography } from "@material-ui/core";
+import ConfirmedDoctorsComponent from "../../components/doctor/confirmedDoctors/ConfirmedDoctors"
 
 const Datatable = () => {
   const actionColumn = [
@@ -43,7 +44,8 @@ const Datatable = () => {
           pageSize={9}
           rowsPerPageOptions={[9]}
           checkboxSelection
-        />
+          />
+          <ConfirmedDoctorsComponent/>
 
         <Typography component="h2" variant="h4" style={{ marginTop: 8 }}>
           Pharmacists
